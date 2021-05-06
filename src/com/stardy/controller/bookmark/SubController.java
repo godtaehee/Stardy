@@ -11,19 +11,18 @@ import javax.servlet.http.HttpServletResponse;
 import com.stardy.service.BookmarkService;
 
 @WebServlet("/sub/*")
-public class BookmarkController extends HttpServlet{
+public class SubController extends HttpServlet{
 
 	static BookmarkService service = new BookmarkService();
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String pathInfo = request.getPathInfo(); /* /sub/add/{bid} */
-		System.out.println(pathInfo);
+		String pathInfo = request.getPathInfo(); /* /sub/{bid} */
 		String[] vals = pathInfo.split("/");
 		
-		String email = request.getParameter("email");
-		int bid = Integer.parseInt(vals[0]);
+		String email = (String) request.getSession().getAttribute("email");
+		int bid = Integer.parseInt(vals[1]);
 		
 		service.add(email, bid);
 	}
@@ -31,6 +30,13 @@ public class BookmarkController extends HttpServlet{
 	@Override
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		String pathInfo = request.getPathInfo(); /* /sub/{bid} */
+		String[] vals = pathInfo.split("/");
+		
+		String email = (String) request.getSession().getAttribute("email");
+		int bid = Integer.parseInt(vals[1]);
+		
+		service.remove(email, bid);
 	}
 	
 }

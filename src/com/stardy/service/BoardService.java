@@ -28,6 +28,10 @@ public class BoardService {
 			while(rs.next()) {
 				next = rs.getInt("BID");
 			}
+			
+			rs.close();
+			ptst.close();
+			con.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -52,6 +56,10 @@ public class BoardService {
 			while(rs.next()) {
 				prev = rs.getInt("BID");
 			}
+			
+			rs.close();
+			ptst.close();
+			con.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -88,6 +96,10 @@ public class BoardService {
 				//파일은 추후
 			}
 			System.out.println(board);
+			
+			rs.close();
+			ptst.close();
+			con.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

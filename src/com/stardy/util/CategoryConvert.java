@@ -1,6 +1,7 @@
 package com.stardy.util;
 
 public class CategoryConvert {
+	
     public static String convert(int category) {
         if(category == 1) {
             return "IT";

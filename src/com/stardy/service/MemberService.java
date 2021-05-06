@@ -28,6 +28,9 @@ public class MemberService {
 				if(pw.equals(password))
 					result = true;
 			}
+			rs.close();
+			ptst.close();
+			con.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -42,25 +45,25 @@ public class MemberService {
 	   
       String sql ="INSERT INTO MEMBER(NICKNAME, EMAIL, PASSWORD) values (?, ?, ?)";
       Connection con=null;
-      PreparedStatement pstmt = null;
+      PreparedStatement ptst = null;
       boolean flag=false;
 
       try {
          con = DatabaseUtil.getConnection();
-         pstmt =con.prepareStatement(sql);
-         pstmt.setString(1, user.getNickname());
-         pstmt.setString(2, user.getEmail());
-         pstmt.setString(3, user.getPassword());
+         ptst =con.prepareStatement(sql);
+         ptst.setString(1, user.getNickname());
+         ptst.setString(2, user.getEmail());
+         ptst.setString(3, user.getPassword());
          
          
-         if(pstmt.executeUpdate()==1)
+         if(ptst.executeUpdate()==1)
             flag=true;
          
       } catch (Exception e) {
          e.printStackTrace();
       }finally {
          try {if(con !=null)con.close();}catch (Exception e) {e.printStackTrace();}
-         try {if(pstmt !=null)con.close();}catch (Exception e) {e.printStackTrace();}
+         try {if(ptst !=null)con.close();}catch (Exception e) {e.printStackTrace();}
       }
       return flag;
       

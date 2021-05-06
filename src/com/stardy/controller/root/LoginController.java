@@ -9,11 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.stardy.service.MemberService;
+import com.stardy.util.Logger;
 
 @WebServlet("/login")
 public class LoginController extends HttpServlet{
 	
 	static MemberService service = new MemberService();
+	static Logger log = new Logger();
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -37,6 +39,7 @@ public class LoginController extends HttpServlet{
 		boolean result = service.login(email, password);
 		
 		if(result) {
+			log.info("로그인 성공");
 			request.getSession().setAttribute("email", email);
 			request.setAttribute("msg", "success");
 			response.sendRedirect("/index2.jsp");

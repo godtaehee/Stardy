@@ -1,3 +1,4 @@
+<%@page import="com.stardy.service.BookmarkService"%>
 <%@page import="com.stardy.service.BoardService"%>
 <%@page import="com.stardy.entity.Board"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -29,6 +30,7 @@
 
 <%
 	BoardService boardService = new BoardService();
+	BookmarkService bookmarkService = new BookmarkService();
 
 	String bid_ = request.getParameter("bid");
 	int bid = 0;
@@ -37,8 +39,12 @@
 		bid = Integer.parseInt(bid_);
 		
 	Board board = boardService.read(bid);
+	
 	int next = boardService.getNext(bid);
 	int prev = boardService.getPrev(bid);
+	String email = (String) request.getSession().getAttribute("email");
+	
+	boolean isSub = bookmarkService.isSub(email, bid);
 %>
 
     <div class="container-only body__container">
@@ -52,8 +58,8 @@
                     <h1 class="hide">게시글 상세</h1>
                     
                     <input type="hidden" value="bno" name="bno">
-
-                    <button class="bookmark icon-bookmark-off button-img"></button>
+                    
+                    <button class="bookmark button-img <%=isSub? "icon-bookmark":"icon-bookmark-off" %>"></button>
                     <div class="input-box">
                         <input type="text" class="input-item title" value="<%=board.getTitle() %>" readonly>
                     </div>
@@ -70,6 +76,7 @@
 
                     <nav class="util-box">
                         <div class="pager-box">
+                        
                             <h1 class="hide">게시글 페이저</h1>
                             <%if(next > 0) {%>
                             <a href="read.jsp?bid=<%=next %>" class="btn button"><i class="fas fa-2x fa-angle-up"></i><!-- &nbsp다음 글 --></a>
@@ -78,6 +85,7 @@
                             <%if(prev > 0) {%>
                             <a href="read.jsp?bid=<%=prev %>" class="btn button"><i class="fas fa-2x fa-angle-down"></i><!-- &nbsp이전 글 --></a>
                             <%} %>
+                            
                         </div>
                         <div class="button-box">
                             <h1 class="hide">버튼 박스</h1>
@@ -108,38 +116,7 @@
                                     <span class="span regdate">2021-04-22</span>
                                 </div>
                             </div>
-                            <div class="replies">
-                                <div>
-                                    <p class="reply">댓글댓글댓글2</p>
-                                    <span class="span reply-writer">gorany</span>
-                                    <span class="span">/</span>
-                                    <span class="span regdate">2021-04-22</span>
-                                </div>
-                            </div>
-                            <div class="replies">
-                                <div>
-                                    <p class="reply">댓글댓글댓글3</p>
-                                    <span class="span reply-writer">gorany</span>
-                                    <span class="span">/</span>
-                                    <span class="span regdate">2021-04-22</span>
-                                </div>
-                            </div>
-                            <div class="replies">
-                                <div>
-                                    <p class="reply">댓글댓글댓글4</p>
-                                    <span class="span reply-writer">gorany</span>
-                                    <span class="span">/</span>
-                                    <span class="span regdate">2021-04-22</span>
-                                </div>
-                            </div>
-                            <div class="replies">
-                                <div>
-                                    <p class="reply">댓글댓글댓글5</p>
-                                    <span class="span reply-writer">gorany</span>
-                                    <span class="span">/</span>
-                                    <span class="span regdate">2021-04-22</span>
-                                </div>
-                            </div>
+                            
                         </div>
                         <div class="more-box">
                             <i class="fas fa-2x fa-plus-circle button-more"></i>
@@ -179,7 +156,12 @@
 <!-- Modal -->
 
 <!-- Javascript -->
+<script>
+	window.bid = <%=board.getBid() %>;
+	window.isSub = <%=isSub%>;
+</script>
 <script src="../js/modal.js"></script>
 <script src="../js/board/read.js"></script>
+<script src="../js/board/replyModule.js"></script>
 </body>
 </html>

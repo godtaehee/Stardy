@@ -24,7 +24,7 @@
 
 <body>
     <div class="container-only body__container">
-        <%@include file="/header.jsp" %>
+        <%@include file="/layout/header.jsp" %>
 
         <main class="main-only">
 
