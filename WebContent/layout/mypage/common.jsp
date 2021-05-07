@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%
+String paths = request.getServletPath();
+
+String current = paths.substring(paths.lastIndexOf('/') + 1, paths.lastIndexOf('.'));
+%>
 			<h1 class="hide">마이페이지</h1>
                 <div class="profile-box">
                     <h1 class="hide">프로필 박스</h1>
@@ -24,13 +30,13 @@
                     <h1 class="hide">컨텐츠 박스</h1>
                     <nav class="content-menu">
                         <ul>
-                            <li class="nav-item menu-underline">
+                            <li class="nav-item <%= current.equals("friends")? "menu-underline":"" %>">
                                 <a href="friends.jsp" class="friend-list">친구목록</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item <%= current.equals("bookmark")? "menu-underline":"" %>">
                                 <a href="bookmark.jsp" class="my-bookmark">즐겨찾기</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item <%= current.equals("modify")? "menu-underline":"" %>">
                                 <a href="modify.jsp" class="my-modify">회원 정보 수정</a>
                             </li>
                         </ul>

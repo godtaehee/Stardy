@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.stardy.entity.Member;
 import com.stardy.service.MemberService;
 import com.stardy.util.Logger;
 
@@ -36,10 +37,11 @@ public class LoginController extends HttpServlet{
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		
-		boolean result = service.login(email, password);
+		Member result = service.login(email, password);
 		
-		if(result) {
+		if(result != null) {
 			log.info("로그인 성공");
+			request.getSession().setAttribute("nickname", result.getNickname());
 			request.getSession().setAttribute("email", email);
 			request.setAttribute("msg", "success");
 			response.sendRedirect("/index2.jsp");
@@ -47,6 +49,7 @@ public class LoginController extends HttpServlet{
 		else {
 			request.setAttribute("msg", "fail");
 			response.sendRedirect("/login.jsp");
+			
 		}
 	}
 }

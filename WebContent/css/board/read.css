@@ -19,24 +19,52 @@
         .board-box :nth-child(4){
             padding: 0;
         }
-    .bookmark{
-        height: 30px;
-        width: 30px;
-        cursor: pointer;
-        padding: 0;
-        margin-top: 20px;
+        
+    .pager-box :last-child{
+    	margin-left: 5px;
     }
-    .bookmark:hover{
-        background-color: rgb(233, 233, 233);
+    .info-box{
+    	align-items: center;
+    	padding-left: 10px;
     }
-    .icon-bookmark{
-        background: url("../../img/bookmark.svg") no-repeat center;
-        background-size: contain;
-    }
-    .icon-bookmark-off{
-        background: url("../../img/bookMark_off.svg") no-repeat center;
-        background-size: contain;
-    }
+    	.likes{
+    		font-size: 18px;
+    		font-weight: 400;
+    		margin-left: 10px;
+    	}
+	    .button-like{
+	    	height: 30px;
+	        width: 30px;
+	        cursor: pointer;
+	        padding: 0;
+	        opacity: 0.8;
+	    }
+	    .like{
+	    	background: url("../../img/icon-like.svg") no-repeat center;
+	    	background-size: contain;
+	    }    
+	    .unlike{
+	    	background: url("../../img/icon-unlike.svg") no-repeat center;
+	    	background-size: contain;
+	    }    
+	    .bookmark{
+	        height: 28px;
+	        width: 28px;
+	        cursor: pointer;
+	        padding: 0;
+	        opacity: 0.8;
+	    }
+	    .bookmark:hover{
+	        background-color: rgb(233, 233, 233);
+	    }
+	    .icon-bookmark{
+	        background: url("../../img/bookmark.svg") no-repeat center;
+	        background-size: contain;
+	    }
+	    .icon-bookmark-off{
+	        background: url("../../img/bookMark_off.svg") no-repeat center;
+	        background-size: contain;
+	    }
         .board-box .title{
             /* Mobile Title size 20px */
             font-size: 20px;
@@ -83,7 +111,8 @@
             
             margin-top: 30px;
             padding-bottom: 10px;
-            width: 90%;
+            padding-right:10px;
+            width: 100%;
             
         }
             .util-box > *{
@@ -103,12 +132,21 @@
     
     /* Reply List Box */
     .reply-list-box{
+    	position: relative;
         margin-top: 30px;
         border-radius: 10px;
     }
+    	.button-register{
+    		margin-top: 5px;
+    	}
         .reply-list-box .reply-box-title{
             font-weight: bold;
             font-size: 20px;
+        }
+        .reply-list-box .reply-count{
+        	font-weight: bold;
+		    font-size: 17px;
+		    margin-left: 5px;
         }
         .reply-list-box .reply-list{
             margin-top: 15px;

@@ -14,6 +14,7 @@ public class Study {
 	private int sid;
 	private String title;
 	private String leader;
+	private String email;
 	private String intro;
 	private int category;
 	private int limit;

@@ -1,88 +1,175 @@
+var moreBox = document.querySelector('.more-box');
+var replyList = document.querySelector('.reply-list');
+var replyCount = document.querySelector('.reply-count');
+
 var replyModule = {
-	showList: function(page) {
+	page: 0,
+	showList: function() {
 		
-		var btnMore = document.querySelector('.button-more');
-        var spinner = document.querySelector('.spinner');
-
-        btnMore.classList.toggle('hide');
-        spinner.classList.toggle('hide');
-
-		var p = 0;
+		var p = this.page;
+		this.page++;
 		
-		if(page)
-			p = page;
+		ajax({
+			url: `/replies/${bid}/${p}`,
+			method: 'GET',
+			loadend: (result) => {
+				//debug
+				//console.dir(result);
 			
-		var url = `/replies/${bid}/${p}`;
-		var request = new XMLHttpRequest();
-		
-		request.onloadend = () => {
-			console.dir(request.responseText);
-			
-			var parentNode = document.querySelector('.replies');
-			var replies = JSON.parse(request.responseText);
-			
-			if(replies.length == 0){
-				console.log('empty');
-				document.querySelector('.more-box').classList.add('hide');
+				var parentNode = replyList;
+				var replies = JSON.parse(result);
+				
+				if(replies.length == 0){
+					console.log('empty');
+					moreBox.classList.add('hide');
+				}
+				
+				var html = '';
+				replies.forEach((reply, idx) => {
+					html += `<div class="replies" data-rid="${reply.rid}" data-email="${reply.email}">
+								<div>
+				                    <p class="reply">${reply.content}</p>
+				                    <span class="span reply-writer">${reply.writer}</span>
+				                    <span class="span">/</span>
+				                    <span class="span regdate">${reply.regDate}</span>
+				                </div>
+							</div>`;
+				});
+				
+				parentNode.insertAdjacentHTML('beforeend', html);
+			},
+			progress: () => {
+				console.log('댓글 요청이 진행 중 입니다.');
+			},
+			load: () => {
+				console.log('댓글 요청이 완료되었습니다.');
+				discover();
+			},
+			abort: () => {
+				console.log('댓글 요청이 중지되었습니다.');
+				discover();
+			},
+			loadstart: (xhr) => {
+				console.log('댓글 요청이 시작되었습니다.');
+				cover(replyList.parentElement, xhr);
+			},
+			error: (xhr, status, text) => {
+				console.log('댓글 에러가 발생 되었습니다.');
+				console.log(status + ' , ' + text);
 			}
-			
-			var html = '';
-			replies.forEach((reply, idx) => {
-				html += `<div class="replies" data-rid="${reply.rid}">
-							<div>
-			                    <p class="reply">${reply.content}</p>
-			                    <span class="span reply-writer">${reply.writer}</span>
-			                    <span class="span">/</span>
-			                    <span class="span regdate">${reply.regDate}</span>
-			                </div>
-						</div>`;
-			});
-			
-			parentNode.insertAdjacentHTML('beforeend', html);
-		}
-		
-        request.addEventListener('loadend', function(e) {
-
-            btnMore.classList.toggle('hide');
-            spinner.classList.toggle('hide');
-            spinner.style.transform = 'rotate(0deg)';
-        });
-
-        request.addEventListener('progress', function(e) {
-            spinner.style.transform = 'rotate(1080deg)';
-        });
-		
-		request.open('GET', url, true);
-		request.send(null);
+		});
 	},
-	addReply: function() {
-		var url = '/replies/add';
-		var content = document.querySelector('textarea[name="reply-content"]');
+	addReply: function(reply) {
 		
-		const request = new XMLHttpRequest();
+		ajax({
+			url: '/replies/add',
+			method: 'POST',
+			contentType: 'application/json; charset=UTF-8',
+			data: JSON.stringify(reply),
+			loadend: (result) => {
+				
+				//debug
+				console.log(result);
+				console.log(reply);
+				console.log('Registed an reply');
+			},
+			load: () => {
+				
+				this.getReplyCount();
+				this.initList();
+			},
+			error: (xhr, status, statusText) => {
+				console.log('Encountered an Error during sending data');
+				console.log(status);
+			}
+		});
+	},
+	removeReply: function(rid) {
 		
-		var reply = {
-			content: content.value,
-			bid: bid
-		};
+		ajax({
+			url: `/replies/${rid}`,
+			method: 'DELETE',
+			loadend: (result) => {
+				console.log(rid + '번 댓글을 삭제했습니다.');
+				
+				this.getReplyCount();
+				this.initList();
+			}
+		});
+	},
+	modifyReply: function(reply) {
 		
-		request.onloadend = () => {
-			console.log(reply);
-			console.log('Registed an reply');
-		}
-		request.onerror = () => {
-			console.log('Encountered an Error during sending data');
-		}
-		request.onload = () => {
-			content.value = '';
-			
-			document.querySelector('.replies').innerHTML = '';
-			document.querySelector('.more-box').classList.remove('hide');
-			this.showList();
-		}
+		console.log(reply);
 		
-		request.open('POST', url, true);
-		request.setRequestHeader("Content-Type", 'application/json; charset=UTF-8');
-		request.send(JSON.stringify(reply));
+		ajax({
+			url: `/replies/${reply.rid}`,
+			method: `PUT`,
+			data: JSON.stringify(reply),
+			loadend: (result) => {
+				
+				//debug
+				console.log(`${reply.rid}번 댓글을 수정했습니다.`);
+				console.log('result : ' + result);
+				
+				this.initList();
+			}
+		});
+	},
+	initList: function() {
+		replyList.innerHTML = '';
+		moreBox.classList.remove('hide');
+		this.page = 0;
+		this.showList();
+	},
+	getReplyCount: () => {
+		
+		ajax({
+			url: `/replies/get/${bid}`,
+			method: 'GET',
+			loadend: (count) => {
+				console.log('댓글의 개수 : ' + count);
+				
+				replyCount.innerHTML = count;
+			}
+		});
 	}
 };
+
+/* ------------------- */
+
+var screen;
+function cover(target, xhr) {
+	screen = document.createElement('div');
+	
+	screen.classList.add('screen');
+	
+	screen.style.opacity = '0.7';
+	screen.style.height = '100%';
+	screen.style.width = '100%';
+	screen.style.background = '#e9e9e9 url("../img/ajax-loader.gif") no-repeat center';
+	screen.style.position = 'absolute';
+	screen.style.top = '0';
+	screen.style.zIndex = '100';
+	
+	var btnClose = document.createElement('button');
+	btnClose.style.height = '20px';
+	btnClose.style.width = '20px';
+	btnClose.style.position = 'absolute';
+	btnClose.style.right = '20px';
+	btnClose.style.top = '20px';
+	btnClose.style.border = 'none';
+	btnClose.style.background = 'url("../img/icon-close.svg") no-repeat center';
+	btnClose.style.cursor = 'pointer';
+
+	btnClose.addEventListener('click', function (e) {
+		console.log('click');
+		xhr.abort();
+	});
+
+	screen.append(btnClose);
+	target.append(screen);
+}
+function discover() {
+	
+	screen.remove();
+}
