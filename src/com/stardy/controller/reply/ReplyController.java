@@ -1,0 +1,155 @@
+package com.stardy.controller.reply;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import com.google.gson.Gson;
+import com.stardy.entity.Reply;
+import com.stardy.service.ReplyService;
+import com.stardy.util.Logger;
+
+import lombok.extern.log4j.Log4j;
+
+@WebServlet("/replies/*")
+public class ReplyController extends HttpServlet{
+
+	ReplyService replyService = new ReplyService();
+	Logger log = new Logger();
+	
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		response.setContentType("application/json; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		
+		String[] paths = request.getPathInfo().split("/");
+		
+		//댓글의 개수 조회
+		if(paths[1].equals("get")) {
+			
+			int bid = Integer.parseInt(paths[2]);
+			
+			int count = replyService.count(bid);
+			out.println(count);
+		}
+		//게시글의 댓글 조회 (page와 bid)
+		else {
+			int bid = Integer.parseInt(paths[1]);
+			int page = Integer.parseInt(paths[2]);
+			
+			log.info("bid : " + bid + ", page : " + page);
+			
+			List<Reply> list = replyService.getList(bid, page);
+			
+//		JSONArray array = new JSONArray();
+//		
+//		list.stream().forEach(reply -> {
+//			JSONObject obj = new JSONObject();
+//			obj.put("content", reply.getContent());
+//			obj.put("writer", reply.getWriter());
+//			obj.put("rid", reply.getRid());
+//			obj.put("bid", reply.getBid());
+//			obj.put("regDate", reply.getRegDate().toString());
+//			obj.put("email", reply.getEmail());
+//			
+//			array.add(obj);
+//		});
+			
+			Gson gson = new Gson();
+			String json = gson.toJson(list);
+			
+			out.println(json);
+		}
+	}
+	
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		
+		log.info(request.getPathInfo());
+		
+		
+		if(request.getPathInfo().split("/") [1].equals("add")) {
+		
+			/* JSON 데이터 받아오는 과정 */
+			StringBuffer sb = new StringBuffer();
+			BufferedReader br = request.getReader();
+			String line = null;
+			
+			while((line = br.readLine()) != null) {
+				sb.append(line);
+			}
+			log.info(sb.toString());
+			/* JSON 데이터 받아오는 과정 */
+			
+			JSONParser parser = new JSONParser();
+			try {
+				JSONObject obj = (JSONObject) parser.parse(sb.toString());
+				String content = (String) obj.get("content");
+				String email = (String) request.getSession().getAttribute("email");
+				String writer = (String) request.getSession().getAttribute("nickname");
+				int bid = Integer.parseInt(String.valueOf(obj.get("bid")));
+				
+				Reply reply = new Reply(email, writer, content, bid);
+				
+				replyService.register(reply);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	@Override
+	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		response.setContentType("text/html; charset=UTF-8");
+		
+		BufferedReader br = request.getReader();
+		StringBuilder sb = new StringBuilder();
+		String line = "";
+		
+		while( (line = br.readLine()) != null )
+			sb.append(line);
+		
+		System.out.println(sb); //{"rid":"39","content":"ㅎㅇㅎㅇawda"}
+		
+		try {
+			JSONParser parser = new JSONParser();
+			JSONObject obj = (JSONObject) parser.parse(sb.toString());
+			String content = (String) obj.get("content");
+			int rid = Integer.parseInt(String.valueOf(obj.get("rid")));
+			
+			int result = replyService.modify(rid, content);
+			
+			response.getWriter().println(result == 1? "success":"failure");
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String[] paths = request.getPathInfo().split("/");
+	
+		int rid = Integer.parseInt(paths[1]);
+		
+		log.info(rid + "번 댓글을 삭제했습니다. 요청자 : " + (String) request.getSession().getAttribute("email"));
+		replyService.remove(rid);
+	}
+}
