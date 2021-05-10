@@ -1,5 +1,35 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8"%>
+<%@page import="com.stardy.service.StudyService" %>
+<%@ page import="com.stardy.entity.Study" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.stardy.util.CategoryConvert" %>
+<%@ page import="com.stardy.controller.study.StudyController" %>
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="com.stardy.service.BoardService" %>
+<%@ page import="com.stardy.entity.Board" %>
+
+<%
+    Study study = null;
+    StudyController studyController = null;
+    BoardService boardService = null;
+    List<Board> board = null;
+    int id= 0;
+
+    try {
+        id = Integer.parseInt(request.getParameter("sid"));
+        studyController = new StudyController();
+        boardService = new BoardService();
+        study = studyController.getStudy(id);
+        board = boardService.getList(id);
+
+    } catch (SQLException throwables) {
+        throwables.printStackTrace();
+    }
+
+
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,10 +60,10 @@
             <h1 class="hide">jumbo</h1>
             <div class="jumbotron-text">
                 <div class="title-container">
-                    <div class="jumbo-title">모각모각 JSP 스터디</div>
+                    <div class="jumbo-title"><%=study.getTitle()%></div>
                     <div class="jumbo-study-date">
                         <div class="jumbo-icon"></div>
-                        <div class="jumbo-date-text">123 일째 스터디 중</div>
+                        <div class="jumbo-date-text"> <%= studyController.getDuringTime(id) %> 일째 스터디 중</div>
                     </div>
                 </div>
                 <div class="jumbo-menu">
@@ -63,10 +93,10 @@
                     <div class="about-study">
                         <div class="about-study-header">About Study</div>
                         <div class="about-main">
-                            <div class="about-study-content">모여서 JSP "JSP BOOK"을 공부하는 스터디 입니다. 하루에 JSP 책을 공부하면서 같이 스터디하는 그런 그렇고 그런 스터디입니다. 다들 열심히 잘해봐요 매주 출석확인합니다.</div>
+                            <div class="about-study-content"><%=study.getIntro()%></div>
                             <div class="about-study-info">
                                 <div class="about-member">
-                                    <div class="member-cnt">13</div>
+                                    <div class="member-cnt"><%=study.getCrnt()%>></div>
                                     <div class="member-txt">Members</div>
                                 </div>
                                 <div class="about-posts">
@@ -97,21 +127,23 @@
                 <div class="pencil"></div>
                 <input class="write-section" type="text" value="게시글을 작성해주세요.">
             </div>
+
             <ul class="card-list">
+                <% for(int i = 0; i < board.size(); i++) {%>
                 <li class="card">
                     <div class="up-and-down">
                         <div class="up"></div>
-                        <div class="recommend-cnt">2</div>
+                        <div class="recommend-cnt"><%=board.get(i).getLikes()%></div>
                         <div class="down"></div>
                     </div>
                     <div class="card-content">
                         <div class="profile">
                             <div class="profile-picture"></div>
-                            <div class="profile-name">왕밤빵</div>
+                            <div class="profile-name"><%=board.get(i).getWriter()%>></div>
                             <div class="date">1h 20m ago</div>
                         </div>
-                        <div class="title">CSS 적용이 왜 안될까요?</div>
-                        <div class="content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto culpa error eum, exercitationem, magni molestiae nam natus ratione repellendus sapiente sint temporibus unde! Culpa distinctio exercitationem facilis ipsa maiores odio, possimus quam quis recusandae repudiandae saepe sapiente similique sunt suscipit ut. Dolores excepturi incidunt porro quaerat quidem? Alias cumque cupiditate dolores iusto magnam magni recusandae, sit totam ullam. A doloremque eos labore libero maiores molestias nihil nulla quas rerum sed!</div>
+                        <div class="title"><%=board.get(i).getTitle()%></div>
+                        <div class="content"><%=board.get(i).getContent()%></div>
                         <div class="etc">
                             <div class="comment">
                                 <div class="comment-img"></div>
@@ -124,266 +156,7 @@
                         </div>
                     </div>
                 </li>
-                <li class="card">
-                    <div class="up-and-down">
-                        <div class="up"></div>
-                        <div class="recommend-cnt">2</div>
-                        <div class="down"></div>
-                    </div>
-                    <div class="card-content">
-                        <div class="profile">
-                            <div class="profile-picture"></div>
-                            <div class="profile-name">왕밤빵</div>
-                            <div class="date">1h 20m ago</div>
-                        </div>
-                        <div class="title">아닌데 될텐데 ???</div>
-                        <div class="content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam, ullam.</div>
-                        <div class="etc">
-                            <div class="comment">
-                                <div class="comment-img"></div>
-                                <div class="comment-cnt">2 comments</div>
-                            </div>
-                            <div class="save">
-                                <div class="save-img"></div>
-                                <div class="save-txt">save</div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="card">
-                    <div class="up-and-down">
-                        <div class="up"></div>
-                        <div class="recommend-cnt">2</div>
-                        <div class="down"></div>
-                    </div>
-                    <div class="card-content">
-                        <div class="profile">
-                            <div class="profile-picture"></div>
-                            <div class="profile-name">왕밤빵</div>
-                            <div class="date">1h 20m ago</div>
-                        </div>
-                        <div class="title">메이플스토리 에반 1~200 육성법</div>
-                        <div class="content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aspernatur esse hic laborum quisquam repellendus?</div>
-                        <div class="etc">
-                            <div class="comment">
-                                <div class="comment-img"></div>
-                                <div class="comment-cnt">2 comments</div>
-                            </div>
-                            <div class="save">
-                                <div class="save-img"></div>
-                                <div class="save-txt">save</div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="card">
-                    <div class="up-and-down">
-                        <div class="up"></div>
-                        <div class="recommend-cnt">2</div>
-                        <div class="down"></div>
-                    </div>
-                    <div class="card-content">
-                        <div class="profile">
-                            <div class="profile-picture"></div>
-                            <div class="profile-name">왕밤빵</div>
-                            <div class="date">1h 20m ago</div>
-                        </div>
-                        <div class="title">CSS 적용이 왜 안될까요?</div>
-                        <div class="content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aperiam, aspernatur atque beatae corporis distinctio dolorem dolores ea eaque earum est, et ex expedita ipsum laboriosam maxime, minima minus nobis numquam pariatur perferendis perspiciatis porro ratione repellat reprehenderit saepe sit soluta! Autem, cupiditate dolor enim illum incidunt itaque laudantium nostrum perferendis perspiciatis placeat qui quibusdam quo repellat rerum soluta temporibus voluptas. Ad corporis dolorem est hic ipsam molestias mollitia necessitatibus quis quisquam, quos similique sit suscipit, voluptate? Exercitationem molestiae possimus sequi vel voluptatem. Accusantium cum dolorem eligendi nam quae quod tenetur! A at, cum dolore doloremque enim est et explicabo facere facilis illo in maiores minus nemo quaerat quos reiciendis rem suscipit. Consequatur enim fuga id ipsum officia rerum temporibus voluptatibus voluptatum? A assumenda cupiditate esse et illo laudantium molestiae nam placeat porro, tempora veritatis voluptatem! Ab accusamus aspernatur beatae commodi deserunt dolor, dolore earum eligendi error esse expedita fugiat id inventore laborum molestiae necessitatibus nihil nisi nobis obcaecati odit optio placeat praesentium quae quaerat quas quis ratione recusandae rerum sequi sit veritatis vero vitae voluptates. Assumenda blanditiis cupiditate delectus dolorum eveniet, maiores natus quasi qui quos repellat tempora tenetur unde. Adipisci cumque dolorem eligendi eos hic inventore laborum, maxime natus nesciunt quia quidem quos sequi veritatis? Adipisci alias animi aspernatur beatae consectetur dolorem dolorum ducimus, ex fuga illo incidunt inventore ipsum laborum, libero maiores maxime nemo odit possimus quidem sapiente sed sequi similique soluta suscipit vitae voluptas voluptate? Alias animi architecto, asperiores at corporis cum dolorem eum excepturi expedita illum impedit, laborum minus nesciunt nihil obcaecati quisquam quos repellendus soluta ut veniam? Ab blanditiis consectetur, cumque hic mollitia odit quia sequi. Aliquid, consequuntur distinctio dolor eligendi error est eum hic incidunt iure maxime modi, numquam praesentium, quaerat quibusdam quo similique sit tempora vero voluptas voluptate. A alias, aliquid architecto, consectetur delectus eligendi error expedita fuga id illo in laborum magnam maxime, minus modi molestiae nemo nesciunt nisi nulla perspiciatis quam sapiente similique temporibus ullam vel vero voluptatem? A aliquid, at dolore eius esse excepturi itaque laudantium neque nisi quae quidem quis repellendus tempore totam unde vitae, voluptates. Alias et excepturi exercitationem ipsum non! At beatae consequuntur cum eligendi eveniet ex exercitationem facilis nemo non officiis omnis quibusdam reprehenderit, sed temporibus totam. Ab ad aliquid animi aperiam architecto blanditiis consequatur dignissimos exercitationem facilis in incidunt labore nulla odit officiis quia reiciendis repellat sequi suscipit velit, veniam. Accusamus aspernatur dolorem ea eaque eius esse est ex excepturi ipsum iste iusto minima minus molestias, mollitia nam nostrum officiis pariatur placeat provident quas ratione reprehenderit rerum temporibus totam voluptas voluptates voluptatum? Ab ad asperiores, exercitationem ipsum natus neque nobis quae? Accusamus adipisci blanditiis cupiditate error eum explicabo labore magnam, minus nobis nulla officia pariatur. Odio, ullam, voluptatem. Illo impedit natus nulla obcaecati praesentium qui reiciendis. Accusantium, debitis delectus dolor dolores error hic natus necessitatibus nulla porro quidem repellat repellendus saepe tenetur veritatis voluptas? Amet, aut deserunt dignissimos dolor dolorum eius impedit in incidunt nobis non omnis, perferendis rem sapiente velit veniam. Aliquam distinctio laboriosam numquam porro quo, sed ut voluptatem? A ab ad aliquid amet aperiam architecto aspernatur at beatae commodi corporis delectus deserunt dolorum earum esse eveniet exercitationem facere hic in iste itaque iure, laudantium magni maiores nisi porro quam qui quidem reprehenderit repudiandae sit soluta sunt tempore tenetur vel vero voluptate voluptatem! Atque blanditiis eos nisi nulla qui repellat sequi ullam vel vitae. Alias animi architecto, aut dolorem dolorum eos eum ipsa iusto minima molestiae nesciunt qui, quis repudiandae saepe sint? Assumenda commodi consequatur corporis cumque deleniti doloremque eaque enim in, incidunt ipsa laborum libero, nesciunt nihil quae qui quo quod recusandae suscipit veniam voluptatibus. Aliquam cupiditate dicta est excepturi iste iusto maxime nemo, odit quo recusandae sed sit ut? Aperiam aut dolore eaque error eveniet illo, in ipsam iure laborum pariatur quibusdam saepe tempora tenetur ullam vel velit voluptate. Aliquid aut consectetur consequatur deserunt distinctio doloribus earum eligendi esse eum fuga hic inventore, ipsum maiores molestiae numquam omnis placeat praesentium quasi, rerum sequi sint sit temporibus? Consequuntur delectus eaque enim minus quas repellat repudiandae tempore temporibus vero voluptates! Beatae consequatur culpa delectus deserunt doloremque, doloribus ducimus ea eaque eligendi esse fuga libero magni maiores numquam, officia omnis quaerat quia quisquam quo saepe tempore ullam vitae? Animi cumque cupiditate ducimus eveniet fugiat hic inventore, ipsum, itaque iure magni molestiae nihil numquam odio officiis perspiciatis provident quaerat, quidem quis reprehenderit sint soluta temporibus vel vero. Amet animi beatae consectetur, cupiditate dolorem eos impedit inventore iusto neque non placeat possimus quam quibusdam quidem reprehenderit unde velit veritatis. Ad adipisci aliquam animi aspernatur at atque, consectetur consequatur, dicta dolor dolorem earum eligendi est excepturi expedita facilis fugiat fugit inventore iure laboriosam laborum, molestias mollitia nesciunt nostrum numquam officia officiis perferendis quaerat qui quia repellendus reprehenderit saepe sed similique sint suscipit tempora vero! Alias aliquam assumenda beatae blanditiis consectetur culpa cumque deleniti distinctio dolor doloremque doloribus ducimus esse incidunt inventore ipsam iste iusto magnam modi molestiae, nobis odio odit placeat possimus praesentium quae quam quod quos repellat sapiente sint sunt tempore voluptas voluptatem? Ad beatae odio quo sint. Aliquam assumenda at atque beatae consectetur cupiditate delectus dolore doloremque ducimus enim esse et exercitationem explicabo fugiat harum illo iusto molestias nesciunt nisi odit officia officiis possimus praesentium, quibusdam recusandae rem repellat saepe sed soluta suscipit tempora totam ullam unde voluptatem voluptates voluptatibus voluptatum. Accusamus adipisci, aperiam blanditiis culpa dicta, eaque eligendi enim error et explicabo fugiat ipsa iste itaque molestias nisi numquam officia optio perferendis qui recusandae reiciendis repellat repellendus sit soluta ut vel veritatis voluptate. Assumenda atque beatae consequuntur delectus dolore esse facere, hic id odio officia perferendis sit veniam voluptatibus. Aliquam amet assumenda delectus doloribus eaque, eum impedit itaque, labore laboriosam laudantium minima odio officia praesentium, quibusdam recusandae repellat voluptas. Beatae eveniet expedita modi necessitatibus quam! A blanditiis culpa dolores fugiat impedit officia officiis possimus, repellendus sequi tempore? In incidunt nihil optio saepe! Amet atque beatae, maiores quia quidem ut voluptates. A consequuntur delectus, enim fugiat laudantium natus neque, non pariatur quaerat rem veniam? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto culpa error eum, exercitationem, magni molestiae nam natus ratione repellendus sapiente sint temporibus unde! Culpa distinctio exercitationem facilis ipsa maiores odio, possimus quam quis recusandae repudiandae saepe sapiente similique sunt suscipit ut. Dolores excepturi incidunt porro quaerat quidem? Alias cumque cupiditate dolores iusto magnam magni recusandae, sit totam ullam. A doloremque eos labore libero maiores molestias nihil nulla quas rerum sed!</div>
-                        <div class="etc">
-                            <div class="comment">
-                                <div class="comment-img"></div>
-                                <div class="comment-cnt">2 comments</div>
-                            </div>
-                            <div class="save">
-                                <div class="save-img"></div>
-                                <div class="save-txt">save</div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="card">
-                    <div class="up-and-down">
-                        <div class="up"></div>
-                        <div class="recommend-cnt">2</div>
-                        <div class="down"></div>
-                    </div>
-                    <div class="card-content">
-                        <div class="profile">
-                            <div class="profile-picture"></div>
-                            <div class="profile-name">왕밤빵</div>
-                            <div class="date">1h 20m ago</div>
-                        </div>
-                        <div class="title">CSS 적용이 왜 안될까요?</div>
-                        <div class="content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aperiam, aspernatur atque beatae corporis distinctio dolorem dolores ea eaque earum est, et ex expedita ipsum laboriosam maxime, minima minus nobis numquam pariatur perferendis perspiciatis porro ratione repellat reprehenderit saepe sit soluta! Autem, cupiditate dolor enim illum incidunt itaque laudantium nostrum perferendis perspiciatis placeat qui quibusdam quo repellat rerum soluta temporibus voluptas. Ad corporis dolorem est hic ipsam molestias mollitia necessitatibus quis quisquam, quos similique sit suscipit, voluptate? Exercitationem molestiae possimus sequi vel voluptatem. Accusantium cum dolorem eligendi nam quae quod tenetur! A at, cum dolore doloremque enim est et explicabo facere facilis illo in maiores minus nemo quaerat quos reiciendis rem suscipit. Consequatur enim fuga id ipsum officia rerum temporibus voluptatibus voluptatum? A assumenda cupiditate esse et illo laudantium molestiae nam placeat porro, tempora veritatis voluptatem! Ab accusamus aspernatur beatae commodi deserunt dolor, dolore earum eligendi error esse expedita fugiat id inventore laborum molestiae necessitatibus nihil nisi nobis obcaecati odit optio placeat praesentium quae quaerat quas quis ratione recusandae rerum sequi sit veritatis vero vitae voluptates. Assumenda blanditiis cupiditate delectus dolorum eveniet, maiores natus quasi qui quos repellat tempora tenetur unde. Adipisci cumque dolorem eligendi eos hic inventore laborum, maxime natus nesciunt quia quidem quos sequi veritatis? Adipisci alias animi aspernatur beatae consectetur dolorem dolorum ducimus, ex fuga illo incidunt inventore ipsum laborum, libero maiores maxime nemo odit possimus quidem sapiente sed sequi similique soluta suscipit vitae voluptas voluptate? Alias animi architecto, asperiores at corporis cum dolorem eum excepturi expedita illum impedit, laborum minus nesciunt nihil obcaecati quisquam quos repellendus soluta ut veniam? Ab blanditiis consectetur, cumque hic mollitia odit quia sequi. Aliquid, consequuntur distinctio dolor eligendi error est eum hic incidunt iure maxime modi, numquam praesentium, quaerat quibusdam quo similique sit tempora vero voluptas voluptate. A alias, aliquid architecto, consectetur delectus eligendi error expedita fuga id illo in laborum magnam maxime, minus modi molestiae nemo nesciunt nisi nulla perspiciatis quam sapiente similique temporibus ullam vel vero voluptatem? A aliquid, at dolore eius esse excepturi itaque laudantium neque nisi quae quidem quis repellendus tempore totam unde vitae, voluptates. Alias et excepturi exercitationem ipsum non! At beatae consequuntur cum eligendi eveniet ex exercitationem facilis nemo non officiis omnis quibusdam reprehenderit, sed temporibus totam. Ab ad aliquid animi aperiam architecto blanditiis consequatur dignissimos exercitationem facilis in incidunt labore nulla odit officiis quia reiciendis repellat sequi suscipit velit, veniam. Accusamus aspernatur dolorem ea eaque eius esse est ex excepturi ipsum iste iusto minima minus molestias, mollitia nam nostrum officiis pariatur placeat provident quas ratione reprehenderit rerum temporibus totam voluptas voluptates voluptatum? Ab ad asperiores, exercitationem ipsum natus neque nobis quae? Accusamus adipisci blanditiis cupiditate error eum explicabo labore magnam, minus nobis nulla officia pariatur. Odio, ullam, voluptatem. Illo impedit natus nulla obcaecati praesentium qui reiciendis. Accusantium, debitis delectus dolor dolores error hic natus necessitatibus nulla porro quidem repellat repellendus saepe tenetur veritatis voluptas? Amet, aut deserunt dignissimos dolor dolorum eius impedit in incidunt nobis non omnis, perferendis rem sapiente velit veniam. Aliquam distinctio laboriosam numquam porro quo, sed ut voluptatem? A ab ad aliquid amet aperiam architecto aspernatur at beatae commodi corporis delectus deserunt dolorum earum esse eveniet exercitationem facere hic in iste itaque iure, laudantium magni maiores nisi porro quam qui quidem reprehenderit repudiandae sit soluta sunt tempore tenetur vel vero voluptate voluptatem! Atque blanditiis eos nisi nulla qui repellat sequi ullam vel vitae. Alias animi architecto, aut dolorem dolorum eos eum ipsa iusto minima molestiae nesciunt qui, quis repudiandae saepe sint? Assumenda commodi consequatur corporis cumque deleniti doloremque eaque enim in, incidunt ipsa laborum libero, nesciunt nihil quae qui quo quod recusandae suscipit veniam voluptatibus. Aliquam cupiditate dicta est excepturi iste iusto maxime nemo, odit quo recusandae sed sit ut? Aperiam aut dolore eaque error eveniet illo, in ipsam iure laborum pariatur quibusdam saepe tempora tenetur ullam vel velit voluptate. Aliquid aut consectetur consequatur deserunt distinctio doloribus earum eligendi esse eum fuga hic inventore, ipsum maiores molestiae numquam omnis placeat praesentium quasi, rerum sequi sint sit temporibus? Consequuntur delectus eaque enim minus quas repellat repudiandae tempore temporibus vero voluptates! Beatae consequatur culpa delectus deserunt doloremque, doloribus ducimus ea eaque eligendi esse fuga libero magni maiores numquam, officia omnis quaerat quia quisquam quo saepe tempore ullam vitae? Animi cumque cupiditate ducimus eveniet fugiat hic inventore, ipsum, itaque iure magni molestiae nihil numquam odio officiis perspiciatis provident quaerat, quidem quis reprehenderit sint soluta temporibus vel vero. Amet animi beatae consectetur, cupiditate dolorem eos impedit inventore iusto neque non placeat possimus quam quibusdam quidem reprehenderit unde velit veritatis. Ad adipisci aliquam animi aspernatur at atque, consectetur consequatur, dicta dolor dolorem earum eligendi est excepturi expedita facilis fugiat fugit inventore iure laboriosam laborum, molestias mollitia nesciunt nostrum numquam officia officiis perferendis quaerat qui quia repellendus reprehenderit saepe sed similique sint suscipit tempora vero! Alias aliquam assumenda beatae blanditiis consectetur culpa cumque deleniti distinctio dolor doloremque doloribus ducimus esse incidunt inventore ipsam iste iusto magnam modi molestiae, nobis odio odit placeat possimus praesentium quae quam quod quos repellat sapiente sint sunt tempore voluptas voluptatem? Ad beatae odio quo sint. Aliquam assumenda at atque beatae consectetur cupiditate delectus dolore doloremque ducimus enim esse et exercitationem explicabo fugiat harum illo iusto molestias nesciunt nisi odit officia officiis possimus praesentium, quibusdam recusandae rem repellat saepe sed soluta suscipit tempora totam ullam unde voluptatem voluptates voluptatibus voluptatum. Accusamus adipisci, aperiam blanditiis culpa dicta, eaque eligendi enim error et explicabo fugiat ipsa iste itaque molestias nisi numquam officia optio perferendis qui recusandae reiciendis repellat repellendus sit soluta ut vel veritatis voluptate. Assumenda atque beatae consequuntur delectus dolore esse facere, hic id odio officia perferendis sit veniam voluptatibus. Aliquam amet assumenda delectus doloribus eaque, eum impedit itaque, labore laboriosam laudantium minima odio officia praesentium, quibusdam recusandae repellat voluptas. Beatae eveniet expedita modi necessitatibus quam! A blanditiis culpa dolores fugiat impedit officia officiis possimus, repellendus sequi tempore? In incidunt nihil optio saepe! Amet atque beatae, maiores quia quidem ut voluptates. A consequuntur delectus, enim fugiat laudantium natus neque, non pariatur quaerat rem veniam? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto culpa error eum, exercitationem, magni molestiae nam natus ratione repellendus sapiente sint temporibus unde! Culpa distinctio exercitationem facilis ipsa maiores odio, possimus quam quis recusandae repudiandae saepe sapiente similique sunt suscipit ut. Dolores excepturi incidunt porro quaerat quidem? Alias cumque cupiditate dolores iusto magnam magni recusandae, sit totam ullam. A doloremque eos labore libero maiores molestias nihil nulla quas rerum sed!</div>
-                        <div class="etc">
-                            <div class="comment">
-                                <div class="comment-img"></div>
-                                <div class="comment-cnt">2 comments</div>
-                            </div>
-                            <div class="save">
-                                <div class="save-img"></div>
-                                <div class="save-txt">save</div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="card">
-                    <div class="up-and-down">
-                        <div class="up"></div>
-                        <div class="recommend-cnt">2</div>
-                        <div class="down"></div>
-                    </div>
-                    <div class="card-content">
-                        <div class="profile">
-                            <div class="profile-picture"></div>
-                            <div class="profile-name">왕밤빵</div>
-                            <div class="date">1h 20m ago</div>
-                        </div>
-                        <div class="title">CSS 적용이 왜 안될까요?</div>
-                        <div class="content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aperiam, aspernatur atque beatae corporis distinctio dolorem dolores ea eaque earum est, et ex expedita ipsum laboriosam maxime, minima minus nobis numquam pariatur perferendis perspiciatis porro ratione repellat reprehenderit saepe sit soluta! Autem, cupiditate dolor enim illum incidunt itaque laudantium nostrum perferendis perspiciatis placeat qui quibusdam quo repellat rerum soluta temporibus voluptas. Ad corporis dolorem est hic ipsam molestias mollitia necessitatibus quis quisquam, quos similique sit suscipit, voluptate? Exercitationem molestiae possimus sequi vel voluptatem. Accusantium cum dolorem eligendi nam quae quod tenetur! A at, cum dolore doloremque enim est et explicabo facere facilis illo in maiores minus nemo quaerat quos reiciendis rem suscipit. Consequatur enim fuga id ipsum officia rerum temporibus voluptatibus voluptatum? A assumenda cupiditate esse et illo laudantium molestiae nam placeat porro, tempora veritatis voluptatem! Ab accusamus aspernatur beatae commodi deserunt dolor, dolore earum eligendi error esse expedita fugiat id inventore laborum molestiae necessitatibus nihil nisi nobis obcaecati odit optio placeat praesentium quae quaerat quas quis ratione recusandae rerum sequi sit veritatis vero vitae voluptates. Assumenda blanditiis cupiditate delectus dolorum eveniet, maiores natus quasi qui quos repellat tempora tenetur unde. Adipisci cumque dolorem eligendi eos hic inventore laborum, maxime natus nesciunt quia quidem quos sequi veritatis? Adipisci alias animi aspernatur beatae consectetur dolorem dolorum ducimus, ex fuga illo incidunt inventore ipsum laborum, libero maiores maxime nemo odit possimus quidem sapiente sed sequi similique soluta suscipit vitae voluptas voluptate? Alias animi architecto, asperiores at corporis cum dolorem eum excepturi expedita illum impedit, laborum minus nesciunt nihil obcaecati quisquam quos repellendus soluta ut veniam? Ab blanditiis consectetur, cumque hic mollitia odit quia sequi. Aliquid, consequuntur distinctio dolor eligendi error est eum hic incidunt iure maxime modi, numquam praesentium, quaerat quibusdam quo similique sit tempora vero voluptas voluptate. A alias, aliquid architecto, consectetur delectus eligendi error expedita fuga id illo in laborum magnam maxime, minus modi molestiae nemo nesciunt nisi nulla perspiciatis quam sapiente similique temporibus ullam vel vero voluptatem? A aliquid, at dolore eius esse excepturi itaque laudantium neque nisi quae quidem quis repellendus tempore totam unde vitae, voluptates. Alias et excepturi exercitationem ipsum non! At beatae consequuntur cum eligendi eveniet ex exercitationem facilis nemo non officiis omnis quibusdam reprehenderit, sed temporibus totam. Ab ad aliquid animi aperiam architecto blanditiis consequatur dignissimos exercitationem facilis in incidunt labore nulla odit officiis quia reiciendis repellat sequi suscipit velit, veniam. Accusamus aspernatur dolorem ea eaque eius esse est ex excepturi ipsum iste iusto minima minus molestias, mollitia nam nostrum officiis pariatur placeat provident quas ratione reprehenderit rerum temporibus totam voluptas voluptates voluptatum? Ab ad asperiores, exercitationem ipsum natus neque nobis quae? Accusamus adipisci blanditiis cupiditate error eum explicabo labore magnam, minus nobis nulla officia pariatur. Odio, ullam, voluptatem. Illo impedit natus nulla obcaecati praesentium qui reiciendis. Accusantium, debitis delectus dolor dolores error hic natus necessitatibus nulla porro quidem repellat repellendus saepe tenetur veritatis voluptas? Amet, aut deserunt dignissimos dolor dolorum eius impedit in incidunt nobis non omnis, perferendis rem sapiente velit veniam. Aliquam distinctio laboriosam numquam porro quo, sed ut voluptatem? A ab ad aliquid amet aperiam architecto aspernatur at beatae commodi corporis delectus deserunt dolorum earum esse eveniet exercitationem facere hic in iste itaque iure, laudantium magni maiores nisi porro quam qui quidem reprehenderit repudiandae sit soluta sunt tempore tenetur vel vero voluptate voluptatem! Atque blanditiis eos nisi nulla qui repellat sequi ullam vel vitae. Alias animi architecto, aut dolorem dolorum eos eum ipsa iusto minima molestiae nesciunt qui, quis repudiandae saepe sint? Assumenda commodi consequatur corporis cumque deleniti doloremque eaque enim in, incidunt ipsa laborum libero, nesciunt nihil quae qui quo quod recusandae suscipit veniam voluptatibus. Aliquam cupiditate dicta est excepturi iste iusto maxime nemo, odit quo recusandae sed sit ut? Aperiam aut dolore eaque error eveniet illo, in ipsam iure laborum pariatur quibusdam saepe tempora tenetur ullam vel velit voluptate. Aliquid aut consectetur consequatur deserunt distinctio doloribus earum eligendi esse eum fuga hic inventore, ipsum maiores molestiae numquam omnis placeat praesentium quasi, rerum sequi sint sit temporibus? Consequuntur delectus eaque enim minus quas repellat repudiandae tempore temporibus vero voluptates! Beatae consequatur culpa delectus deserunt doloremque, doloribus ducimus ea eaque eligendi esse fuga libero magni maiores numquam, officia omnis quaerat quia quisquam quo saepe tempore ullam vitae? Animi cumque cupiditate ducimus eveniet fugiat hic inventore, ipsum, itaque iure magni molestiae nihil numquam odio officiis perspiciatis provident quaerat, quidem quis reprehenderit sint soluta temporibus vel vero. Amet animi beatae consectetur, cupiditate dolorem eos impedit inventore iusto neque non placeat possimus quam quibusdam quidem reprehenderit unde velit veritatis. Ad adipisci aliquam animi aspernatur at atque, consectetur consequatur, dicta dolor dolorem earum eligendi est excepturi expedita facilis fugiat fugit inventore iure laboriosam laborum, molestias mollitia nesciunt nostrum numquam officia officiis perferendis quaerat qui quia repellendus reprehenderit saepe sed similique sint suscipit tempora vero! Alias aliquam assumenda beatae blanditiis consectetur culpa cumque deleniti distinctio dolor doloremque doloribus ducimus esse incidunt inventore ipsam iste iusto magnam modi molestiae, nobis odio odit placeat possimus praesentium quae quam quod quos repellat sapiente sint sunt tempore voluptas voluptatem? Ad beatae odio quo sint. Aliquam assumenda at atque beatae consectetur cupiditate delectus dolore doloremque ducimus enim esse et exercitationem explicabo fugiat harum illo iusto molestias nesciunt nisi odit officia officiis possimus praesentium, quibusdam recusandae rem repellat saepe sed soluta suscipit tempora totam ullam unde voluptatem voluptates voluptatibus voluptatum. Accusamus adipisci, aperiam blanditiis culpa dicta, eaque eligendi enim error et explicabo fugiat ipsa iste itaque molestias nisi numquam officia optio perferendis qui recusandae reiciendis repellat repellendus sit soluta ut vel veritatis voluptate. Assumenda atque beatae consequuntur delectus dolore esse facere, hic id odio officia perferendis sit veniam voluptatibus. Aliquam amet assumenda delectus doloribus eaque, eum impedit itaque, labore laboriosam laudantium minima odio officia praesentium, quibusdam recusandae repellat voluptas. Beatae eveniet expedita modi necessitatibus quam! A blanditiis culpa dolores fugiat impedit officia officiis possimus, repellendus sequi tempore? In incidunt nihil optio saepe! Amet atque beatae, maiores quia quidem ut voluptates. A consequuntur delectus, enim fugiat laudantium natus neque, non pariatur quaerat rem veniam? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto culpa error eum, exercitationem, magni molestiae nam natus ratione repellendus sapiente sint temporibus unde! Culpa distinctio exercitationem facilis ipsa maiores odio, possimus quam quis recusandae repudiandae saepe sapiente similique sunt suscipit ut. Dolores excepturi incidunt porro quaerat quidem? Alias cumque cupiditate dolores iusto magnam magni recusandae, sit totam ullam. A doloremque eos labore libero maiores molestias nihil nulla quas rerum sed!</div>
-                        <div class="etc">
-                            <div class="comment">
-                                <div class="comment-img"></div>
-                                <div class="comment-cnt">2 comments</div>
-                            </div>
-                            <div class="save">
-                                <div class="save-img"></div>
-                                <div class="save-txt">save</div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="card">
-                    <div class="up-and-down">
-                        <div class="up"></div>
-                        <div class="recommend-cnt">2</div>
-                        <div class="down"></div>
-                    </div>
-                    <div class="card-content">
-                        <div class="profile">
-                            <div class="profile-picture"></div>
-                            <div class="profile-name">왕밤빵</div>
-                            <div class="date">1h 20m ago</div>
-                        </div>
-                        <div class="title">CSS 적용이 왜 안될까요?</div>
-                        <div class="content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aperiam, aspernatur atque beatae corporis distinctio dolorem dolores ea eaque earum est, et ex expedita ipsum laboriosam maxime, minima minus nobis numquam pariatur perferendis perspiciatis porro ratione repellat reprehenderit saepe sit soluta! Autem, cupiditate dolor enim illum incidunt itaque laudantium nostrum perferendis perspiciatis placeat qui quibusdam quo repellat rerum soluta temporibus voluptas. Ad corporis dolorem est hic ipsam molestias mollitia necessitatibus quis quisquam, quos similique sit suscipit, voluptate? Exercitationem molestiae possimus sequi vel voluptatem. Accusantium cum dolorem eligendi nam quae quod tenetur! A at, cum dolore doloremque enim est et explicabo facere facilis illo in maiores minus nemo quaerat quos reiciendis rem suscipit. Consequatur enim fuga id ipsum officia rerum temporibus voluptatibus voluptatum? A assumenda cupiditate esse et illo laudantium molestiae nam placeat porro, tempora veritatis voluptatem! Ab accusamus aspernatur beatae commodi deserunt dolor, dolore earum eligendi error esse expedita fugiat id inventore laborum molestiae necessitatibus nihil nisi nobis obcaecati odit optio placeat praesentium quae quaerat quas quis ratione recusandae rerum sequi sit veritatis vero vitae voluptates. Assumenda blanditiis cupiditate delectus dolorum eveniet, maiores natus quasi qui quos repellat tempora tenetur unde. Adipisci cumque dolorem eligendi eos hic inventore laborum, maxime natus nesciunt quia quidem quos sequi veritatis? Adipisci alias animi aspernatur beatae consectetur dolorem dolorum ducimus, ex fuga illo incidunt inventore ipsum laborum, libero maiores maxime nemo odit possimus quidem sapiente sed sequi similique soluta suscipit vitae voluptas voluptate? Alias animi architecto, asperiores at corporis cum dolorem eum excepturi expedita illum impedit, laborum minus nesciunt nihil obcaecati quisquam quos repellendus soluta ut veniam? Ab blanditiis consectetur, cumque hic mollitia odit quia sequi. Aliquid, consequuntur distinctio dolor eligendi error est eum hic incidunt iure maxime modi, numquam praesentium, quaerat quibusdam quo similique sit tempora vero voluptas voluptate. A alias, aliquid architecto, consectetur delectus eligendi error expedita fuga id illo in laborum magnam maxime, minus modi molestiae nemo nesciunt nisi nulla perspiciatis quam sapiente similique temporibus ullam vel vero voluptatem? A aliquid, at dolore eius esse excepturi itaque laudantium neque nisi quae quidem quis repellendus tempore totam unde vitae, voluptates. Alias et excepturi exercitationem ipsum non! At beatae consequuntur cum eligendi eveniet ex exercitationem facilis nemo non officiis omnis quibusdam reprehenderit, sed temporibus totam. Ab ad aliquid animi aperiam architecto blanditiis consequatur dignissimos exercitationem facilis in incidunt labore nulla odit officiis quia reiciendis repellat sequi suscipit velit, veniam. Accusamus aspernatur dolorem ea eaque eius esse est ex excepturi ipsum iste iusto minima minus molestias, mollitia nam nostrum officiis pariatur placeat provident quas ratione reprehenderit rerum temporibus totam voluptas voluptates voluptatum? Ab ad asperiores, exercitationem ipsum natus neque nobis quae? Accusamus adipisci blanditiis cupiditate error eum explicabo labore magnam, minus nobis nulla officia pariatur. Odio, ullam, voluptatem. Illo impedit natus nulla obcaecati praesentium qui reiciendis. Accusantium, debitis delectus dolor dolores error hic natus necessitatibus nulla porro quidem repellat repellendus saepe tenetur veritatis voluptas? Amet, aut deserunt dignissimos dolor dolorum eius impedit in incidunt nobis non omnis, perferendis rem sapiente velit veniam. Aliquam distinctio laboriosam numquam porro quo, sed ut voluptatem? A ab ad aliquid amet aperiam architecto aspernatur at beatae commodi corporis delectus deserunt dolorum earum esse eveniet exercitationem facere hic in iste itaque iure, laudantium magni maiores nisi porro quam qui quidem reprehenderit repudiandae sit soluta sunt tempore tenetur vel vero voluptate voluptatem! Atque blanditiis eos nisi nulla qui repellat sequi ullam vel vitae. Alias animi architecto, aut dolorem dolorum eos eum ipsa iusto minima molestiae nesciunt qui, quis repudiandae saepe sint? Assumenda commodi consequatur corporis cumque deleniti doloremque eaque enim in, incidunt ipsa laborum libero, nesciunt nihil quae qui quo quod recusandae suscipit veniam voluptatibus. Aliquam cupiditate dicta est excepturi iste iusto maxime nemo, odit quo recusandae sed sit ut? Aperiam aut dolore eaque error eveniet illo, in ipsam iure laborum pariatur quibusdam saepe tempora tenetur ullam vel velit voluptate. Aliquid aut consectetur consequatur deserunt distinctio doloribus earum eligendi esse eum fuga hic inventore, ipsum maiores molestiae numquam omnis placeat praesentium quasi, rerum sequi sint sit temporibus? Consequuntur delectus eaque enim minus quas repellat repudiandae tempore temporibus vero voluptates! Beatae consequatur culpa delectus deserunt doloremque, doloribus ducimus ea eaque eligendi esse fuga libero magni maiores numquam, officia omnis quaerat quia quisquam quo saepe tempore ullam vitae? Animi cumque cupiditate ducimus eveniet fugiat hic inventore, ipsum, itaque iure magni molestiae nihil numquam odio officiis perspiciatis provident quaerat, quidem quis reprehenderit sint soluta temporibus vel vero. Amet animi beatae consectetur, cupiditate dolorem eos impedit inventore iusto neque non placeat possimus quam quibusdam quidem reprehenderit unde velit veritatis. Ad adipisci aliquam animi aspernatur at atque, consectetur consequatur, dicta dolor dolorem earum eligendi est excepturi expedita facilis fugiat fugit inventore iure laboriosam laborum, molestias mollitia nesciunt nostrum numquam officia officiis perferendis quaerat qui quia repellendus reprehenderit saepe sed similique sint suscipit tempora vero! Alias aliquam assumenda beatae blanditiis consectetur culpa cumque deleniti distinctio dolor doloremque doloribus ducimus esse incidunt inventore ipsam iste iusto magnam modi molestiae, nobis odio odit placeat possimus praesentium quae quam quod quos repellat sapiente sint sunt tempore voluptas voluptatem? Ad beatae odio quo sint. Aliquam assumenda at atque beatae consectetur cupiditate delectus dolore doloremque ducimus enim esse et exercitationem explicabo fugiat harum illo iusto molestias nesciunt nisi odit officia officiis possimus praesentium, quibusdam recusandae rem repellat saepe sed soluta suscipit tempora totam ullam unde voluptatem voluptates voluptatibus voluptatum. Accusamus adipisci, aperiam blanditiis culpa dicta, eaque eligendi enim error et explicabo fugiat ipsa iste itaque molestias nisi numquam officia optio perferendis qui recusandae reiciendis repellat repellendus sit soluta ut vel veritatis voluptate. Assumenda atque beatae consequuntur delectus dolore esse facere, hic id odio officia perferendis sit veniam voluptatibus. Aliquam amet assumenda delectus doloribus eaque, eum impedit itaque, labore laboriosam laudantium minima odio officia praesentium, quibusdam recusandae repellat voluptas. Beatae eveniet expedita modi necessitatibus quam! A blanditiis culpa dolores fugiat impedit officia officiis possimus, repellendus sequi tempore? In incidunt nihil optio saepe! Amet atque beatae, maiores quia quidem ut voluptates. A consequuntur delectus, enim fugiat laudantium natus neque, non pariatur quaerat rem veniam? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto culpa error eum, exercitationem, magni molestiae nam natus ratione repellendus sapiente sint temporibus unde! Culpa distinctio exercitationem facilis ipsa maiores odio, possimus quam quis recusandae repudiandae saepe sapiente similique sunt suscipit ut. Dolores excepturi incidunt porro quaerat quidem? Alias cumque cupiditate dolores iusto magnam magni recusandae, sit totam ullam. A doloremque eos labore libero maiores molestias nihil nulla quas rerum sed!</div>
-                        <div class="etc">
-                            <div class="comment">
-                                <div class="comment-img"></div>
-                                <div class="comment-cnt">2 comments</div>
-                            </div>
-                            <div class="save">
-                                <div class="save-img"></div>
-                                <div class="save-txt">save</div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="card">
-                    <div class="up-and-down">
-                        <div class="up"></div>
-                        <div class="recommend-cnt">2</div>
-                        <div class="down"></div>
-                    </div>
-                    <div class="card-content">
-                        <div class="profile">
-                            <div class="profile-picture"></div>
-                            <div class="profile-name">왕밤빵</div>
-                            <div class="date">1h 20m ago</div>
-                        </div>
-                        <div class="title">CSS 적용이 왜 안될까요?</div>
-                        <div class="content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aperiam, aspernatur atque beatae corporis distinctio dolorem dolores ea eaque earum est, et ex expedita ipsum laboriosam maxime, minima minus nobis numquam pariatur perferendis perspiciatis porro ratione repellat reprehenderit saepe sit soluta! Autem, cupiditate dolor enim illum incidunt itaque laudantium nostrum perferendis perspiciatis placeat qui quibusdam quo repellat rerum soluta temporibus voluptas. Ad corporis dolorem est hic ipsam molestias mollitia necessitatibus quis quisquam, quos similique sit suscipit, voluptate? Exercitationem molestiae possimus sequi vel voluptatem. Accusantium cum dolorem eligendi nam quae quod tenetur! A at, cum dolore doloremque enim est et explicabo facere facilis illo in maiores minus nemo quaerat quos reiciendis rem suscipit. Consequatur enim fuga id ipsum officia rerum temporibus voluptatibus voluptatum? A assumenda cupiditate esse et illo laudantium molestiae nam placeat porro, tempora veritatis voluptatem! Ab accusamus aspernatur beatae commodi deserunt dolor, dolore earum eligendi error esse expedita fugiat id inventore laborum molestiae necessitatibus nihil nisi nobis obcaecati odit optio placeat praesentium quae quaerat quas quis ratione recusandae rerum sequi sit veritatis vero vitae voluptates. Assumenda blanditiis cupiditate delectus dolorum eveniet, maiores natus quasi qui quos repellat tempora tenetur unde. Adipisci cumque dolorem eligendi eos hic inventore laborum, maxime natus nesciunt quia quidem quos sequi veritatis? Adipisci alias animi aspernatur beatae consectetur dolorem dolorum ducimus, ex fuga illo incidunt inventore ipsum laborum, libero maiores maxime nemo odit possimus quidem sapiente sed sequi similique soluta suscipit vitae voluptas voluptate? Alias animi architecto, asperiores at corporis cum dolorem eum excepturi expedita illum impedit, laborum minus nesciunt nihil obcaecati quisquam quos repellendus soluta ut veniam? Ab blanditiis consectetur, cumque hic mollitia odit quia sequi. Aliquid, consequuntur distinctio dolor eligendi error est eum hic incidunt iure maxime modi, numquam praesentium, quaerat quibusdam quo similique sit tempora vero voluptas voluptate. A alias, aliquid architecto, consectetur delectus eligendi error expedita fuga id illo in laborum magnam maxime, minus modi molestiae nemo nesciunt nisi nulla perspiciatis quam sapiente similique temporibus ullam vel vero voluptatem? A aliquid, at dolore eius esse excepturi itaque laudantium neque nisi quae quidem quis repellendus tempore totam unde vitae, voluptates. Alias et excepturi exercitationem ipsum non! At beatae consequuntur cum eligendi eveniet ex exercitationem facilis nemo non officiis omnis quibusdam reprehenderit, sed temporibus totam. Ab ad aliquid animi aperiam architecto blanditiis consequatur dignissimos exercitationem facilis in incidunt labore nulla odit officiis quia reiciendis repellat sequi suscipit velit, veniam. Accusamus aspernatur dolorem ea eaque eius esse est ex excepturi ipsum iste iusto minima minus molestias, mollitia nam nostrum officiis pariatur placeat provident quas ratione reprehenderit rerum temporibus totam voluptas voluptates voluptatum? Ab ad asperiores, exercitationem ipsum natus neque nobis quae? Accusamus adipisci blanditiis cupiditate error eum explicabo labore magnam, minus nobis nulla officia pariatur. Odio, ullam, voluptatem. Illo impedit natus nulla obcaecati praesentium qui reiciendis. Accusantium, debitis delectus dolor dolores error hic natus necessitatibus nulla porro quidem repellat repellendus saepe tenetur veritatis voluptas? Amet, aut deserunt dignissimos dolor dolorum eius impedit in incidunt nobis non omnis, perferendis rem sapiente velit veniam. Aliquam distinctio laboriosam numquam porro quo, sed ut voluptatem? A ab ad aliquid amet aperiam architecto aspernatur at beatae commodi corporis delectus deserunt dolorum earum esse eveniet exercitationem facere hic in iste itaque iure, laudantium magni maiores nisi porro quam qui quidem reprehenderit repudiandae sit soluta sunt tempore tenetur vel vero voluptate voluptatem! Atque blanditiis eos nisi nulla qui repellat sequi ullam vel vitae. Alias animi architecto, aut dolorem dolorum eos eum ipsa iusto minima molestiae nesciunt qui, quis repudiandae saepe sint? Assumenda commodi consequatur corporis cumque deleniti doloremque eaque enim in, incidunt ipsa laborum libero, nesciunt nihil quae qui quo quod recusandae suscipit veniam voluptatibus. Aliquam cupiditate dicta est excepturi iste iusto maxime nemo, odit quo recusandae sed sit ut? Aperiam aut dolore eaque error eveniet illo, in ipsam iure laborum pariatur quibusdam saepe tempora tenetur ullam vel velit voluptate. Aliquid aut consectetur consequatur deserunt distinctio doloribus earum eligendi esse eum fuga hic inventore, ipsum maiores molestiae numquam omnis placeat praesentium quasi, rerum sequi sint sit temporibus? Consequuntur delectus eaque enim minus quas repellat repudiandae tempore temporibus vero voluptates! Beatae consequatur culpa delectus deserunt doloremque, doloribus ducimus ea eaque eligendi esse fuga libero magni maiores numquam, officia omnis quaerat quia quisquam quo saepe tempore ullam vitae? Animi cumque cupiditate ducimus eveniet fugiat hic inventore, ipsum, itaque iure magni molestiae nihil numquam odio officiis perspiciatis provident quaerat, quidem quis reprehenderit sint soluta temporibus vel vero. Amet animi beatae consectetur, cupiditate dolorem eos impedit inventore iusto neque non placeat possimus quam quibusdam quidem reprehenderit unde velit veritatis. Ad adipisci aliquam animi aspernatur at atque, consectetur consequatur, dicta dolor dolorem earum eligendi est excepturi expedita facilis fugiat fugit inventore iure laboriosam laborum, molestias mollitia nesciunt nostrum numquam officia officiis perferendis quaerat qui quia repellendus reprehenderit saepe sed similique sint suscipit tempora vero! Alias aliquam assumenda beatae blanditiis consectetur culpa cumque deleniti distinctio dolor doloremque doloribus ducimus esse incidunt inventore ipsam iste iusto magnam modi molestiae, nobis odio odit placeat possimus praesentium quae quam quod quos repellat sapiente sint sunt tempore voluptas voluptatem? Ad beatae odio quo sint. Aliquam assumenda at atque beatae consectetur cupiditate delectus dolore doloremque ducimus enim esse et exercitationem explicabo fugiat harum illo iusto molestias nesciunt nisi odit officia officiis possimus praesentium, quibusdam recusandae rem repellat saepe sed soluta suscipit tempora totam ullam unde voluptatem voluptates voluptatibus voluptatum. Accusamus adipisci, aperiam blanditiis culpa dicta, eaque eligendi enim error et explicabo fugiat ipsa iste itaque molestias nisi numquam officia optio perferendis qui recusandae reiciendis repellat repellendus sit soluta ut vel veritatis voluptate. Assumenda atque beatae consequuntur delectus dolore esse facere, hic id odio officia perferendis sit veniam voluptatibus. Aliquam amet assumenda delectus doloribus eaque, eum impedit itaque, labore laboriosam laudantium minima odio officia praesentium, quibusdam recusandae repellat voluptas. Beatae eveniet expedita modi necessitatibus quam! A blanditiis culpa dolores fugiat impedit officia officiis possimus, repellendus sequi tempore? In incidunt nihil optio saepe! Amet atque beatae, maiores quia quidem ut voluptates. A consequuntur delectus, enim fugiat laudantium natus neque, non pariatur quaerat rem veniam? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto culpa error eum, exercitationem, magni molestiae nam natus ratione repellendus sapiente sint temporibus unde! Culpa distinctio exercitationem facilis ipsa maiores odio, possimus quam quis recusandae repudiandae saepe sapiente similique sunt suscipit ut. Dolores excepturi incidunt porro quaerat quidem? Alias cumque cupiditate dolores iusto magnam magni recusandae, sit totam ullam. A doloremque eos labore libero maiores molestias nihil nulla quas rerum sed!</div>
-                        <div class="etc">
-                            <div class="comment">
-                                <div class="comment-img"></div>
-                                <div class="comment-cnt">2 comments</div>
-                            </div>
-                            <div class="save">
-                                <div class="save-img"></div>
-                                <div class="save-txt">save</div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="card">
-                    <div class="up-and-down">
-                        <div class="up"></div>
-                        <div class="recommend-cnt">2</div>
-                        <div class="down"></div>
-                    </div>
-                    <div class="card-content">
-                        <div class="profile">
-                            <div class="profile-picture"></div>
-                            <div class="profile-name">왕밤빵</div>
-                            <div class="date">1h 20m ago</div>
-                        </div>
-                        <div class="title">CSS 적용이 왜 안될까요?</div>
-                        <div class="content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aperiam, aspernatur atque beatae corporis distinctio dolorem dolores ea eaque earum est, et ex expedita ipsum laboriosam maxime, minima minus nobis numquam pariatur perferendis perspiciatis porro ratione repellat reprehenderit saepe sit soluta! Autem, cupiditate dolor enim illum incidunt itaque laudantium nostrum perferendis perspiciatis placeat qui quibusdam quo repellat rerum soluta temporibus voluptas. Ad corporis dolorem est hic ipsam molestias mollitia necessitatibus quis quisquam, quos similique sit suscipit, voluptate? Exercitationem molestiae possimus sequi vel voluptatem. Accusantium cum dolorem eligendi nam quae quod tenetur! A at, cum dolore doloremque enim est et explicabo facere facilis illo in maiores minus nemo quaerat quos reiciendis rem suscipit. Consequatur enim fuga id ipsum officia rerum temporibus voluptatibus voluptatum? A assumenda cupiditate esse et illo laudantium molestiae nam placeat porro, tempora veritatis voluptatem! Ab accusamus aspernatur beatae commodi deserunt dolor, dolore earum eligendi error esse expedita fugiat id inventore laborum molestiae necessitatibus nihil nisi nobis obcaecati odit optio placeat praesentium quae quaerat quas quis ratione recusandae rerum sequi sit veritatis vero vitae voluptates. Assumenda blanditiis cupiditate delectus dolorum eveniet, maiores natus quasi qui quos repellat tempora tenetur unde. Adipisci cumque dolorem eligendi eos hic inventore laborum, maxime natus nesciunt quia quidem quos sequi veritatis? Adipisci alias animi aspernatur beatae consectetur dolorem dolorum ducimus, ex fuga illo incidunt inventore ipsum laborum, libero maiores maxime nemo odit possimus quidem sapiente sed sequi similique soluta suscipit vitae voluptas voluptate? Alias animi architecto, asperiores at corporis cum dolorem eum excepturi expedita illum impedit, laborum minus nesciunt nihil obcaecati quisquam quos repellendus soluta ut veniam? Ab blanditiis consectetur, cumque hic mollitia odit quia sequi. Aliquid, consequuntur distinctio dolor eligendi error est eum hic incidunt iure maxime modi, numquam praesentium, quaerat quibusdam quo similique sit tempora vero voluptas voluptate. A alias, aliquid architecto, consectetur delectus eligendi error expedita fuga id illo in laborum magnam maxime, minus modi molestiae nemo nesciunt nisi nulla perspiciatis quam sapiente similique temporibus ullam vel vero voluptatem? A aliquid, at dolore eius esse excepturi itaque laudantium neque nisi quae quidem quis repellendus tempore totam unde vitae, voluptates. Alias et excepturi exercitationem ipsum non! At beatae consequuntur cum eligendi eveniet ex exercitationem facilis nemo non officiis omnis quibusdam reprehenderit, sed temporibus totam. Ab ad aliquid animi aperiam architecto blanditiis consequatur dignissimos exercitationem facilis in incidunt labore nulla odit officiis quia reiciendis repellat sequi suscipit velit, veniam. Accusamus aspernatur dolorem ea eaque eius esse est ex excepturi ipsum iste iusto minima minus molestias, mollitia nam nostrum officiis pariatur placeat provident quas ratione reprehenderit rerum temporibus totam voluptas voluptates voluptatum? Ab ad asperiores, exercitationem ipsum natus neque nobis quae? Accusamus adipisci blanditiis cupiditate error eum explicabo labore magnam, minus nobis nulla officia pariatur. Odio, ullam, voluptatem. Illo impedit natus nulla obcaecati praesentium qui reiciendis. Accusantium, debitis delectus dolor dolores error hic natus necessitatibus nulla porro quidem repellat repellendus saepe tenetur veritatis voluptas? Amet, aut deserunt dignissimos dolor dolorum eius impedit in incidunt nobis non omnis, perferendis rem sapiente velit veniam. Aliquam distinctio laboriosam numquam porro quo, sed ut voluptatem? A ab ad aliquid amet aperiam architecto aspernatur at beatae commodi corporis delectus deserunt dolorum earum esse eveniet exercitationem facere hic in iste itaque iure, laudantium magni maiores nisi porro quam qui quidem reprehenderit repudiandae sit soluta sunt tempore tenetur vel vero voluptate voluptatem! Atque blanditiis eos nisi nulla qui repellat sequi ullam vel vitae. Alias animi architecto, aut dolorem dolorum eos eum ipsa iusto minima molestiae nesciunt qui, quis repudiandae saepe sint? Assumenda commodi consequatur corporis cumque deleniti doloremque eaque enim in, incidunt ipsa laborum libero, nesciunt nihil quae qui quo quod recusandae suscipit veniam voluptatibus. Aliquam cupiditate dicta est excepturi iste iusto maxime nemo, odit quo recusandae sed sit ut? Aperiam aut dolore eaque error eveniet illo, in ipsam iure laborum pariatur quibusdam saepe tempora tenetur ullam vel velit voluptate. Aliquid aut consectetur consequatur deserunt distinctio doloribus earum eligendi esse eum fuga hic inventore, ipsum maiores molestiae numquam omnis placeat praesentium quasi, rerum sequi sint sit temporibus? Consequuntur delectus eaque enim minus quas repellat repudiandae tempore temporibus vero voluptates! Beatae consequatur culpa delectus deserunt doloremque, doloribus ducimus ea eaque eligendi esse fuga libero magni maiores numquam, officia omnis quaerat quia quisquam quo saepe tempore ullam vitae? Animi cumque cupiditate ducimus eveniet fugiat hic inventore, ipsum, itaque iure magni molestiae nihil numquam odio officiis perspiciatis provident quaerat, quidem quis reprehenderit sint soluta temporibus vel vero. Amet animi beatae consectetur, cupiditate dolorem eos impedit inventore iusto neque non placeat possimus quam quibusdam quidem reprehenderit unde velit veritatis. Ad adipisci aliquam animi aspernatur at atque, consectetur consequatur, dicta dolor dolorem earum eligendi est excepturi expedita facilis fugiat fugit inventore iure laboriosam laborum, molestias mollitia nesciunt nostrum numquam officia officiis perferendis quaerat qui quia repellendus reprehenderit saepe sed similique sint suscipit tempora vero! Alias aliquam assumenda beatae blanditiis consectetur culpa cumque deleniti distinctio dolor doloremque doloribus ducimus esse incidunt inventore ipsam iste iusto magnam modi molestiae, nobis odio odit placeat possimus praesentium quae quam quod quos repellat sapiente sint sunt tempore voluptas voluptatem? Ad beatae odio quo sint. Aliquam assumenda at atque beatae consectetur cupiditate delectus dolore doloremque ducimus enim esse et exercitationem explicabo fugiat harum illo iusto molestias nesciunt nisi odit officia officiis possimus praesentium, quibusdam recusandae rem repellat saepe sed soluta suscipit tempora totam ullam unde voluptatem voluptates voluptatibus voluptatum. Accusamus adipisci, aperiam blanditiis culpa dicta, eaque eligendi enim error et explicabo fugiat ipsa iste itaque molestias nisi numquam officia optio perferendis qui recusandae reiciendis repellat repellendus sit soluta ut vel veritatis voluptate. Assumenda atque beatae consequuntur delectus dolore esse facere, hic id odio officia perferendis sit veniam voluptatibus. Aliquam amet assumenda delectus doloribus eaque, eum impedit itaque, labore laboriosam laudantium minima odio officia praesentium, quibusdam recusandae repellat voluptas. Beatae eveniet expedita modi necessitatibus quam! A blanditiis culpa dolores fugiat impedit officia officiis possimus, repellendus sequi tempore? In incidunt nihil optio saepe! Amet atque beatae, maiores quia quidem ut voluptates. A consequuntur delectus, enim fugiat laudantium natus neque, non pariatur quaerat rem veniam? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto culpa error eum, exercitationem, magni molestiae nam natus ratione repellendus sapiente sint temporibus unde! Culpa distinctio exercitationem facilis ipsa maiores odio, possimus quam quis recusandae repudiandae saepe sapiente similique sunt suscipit ut. Dolores excepturi incidunt porro quaerat quidem? Alias cumque cupiditate dolores iusto magnam magni recusandae, sit totam ullam. A doloremque eos labore libero maiores molestias nihil nulla quas rerum sed!</div>
-                        <div class="etc">
-                            <div class="comment">
-                                <div class="comment-img"></div>
-                                <div class="comment-cnt">2 comments</div>
-                            </div>
-                            <div class="save">
-                                <div class="save-img"></div>
-                                <div class="save-txt">save</div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="card">
-                    <div class="up-and-down">
-                        <div class="up"></div>
-                        <div class="recommend-cnt">2</div>
-                        <div class="down"></div>
-                    </div>
-                    <div class="card-content">
-                        <div class="profile">
-                            <div class="profile-picture"></div>
-                            <div class="profile-name">왕밤빵</div>
-                            <div class="date">1h 20m ago</div>
-                        </div>
-                        <div class="title">CSS 적용이 왜 안될까요?</div>
-                        <div class="content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto culpa error eum, exercitationem, magni molestiae nam natus ratione repellendus sapiente sint temporibus unde! Culpa distinctio exercitationem facilis ipsa maiores odio, possimus quam quis recusandae repudiandae saepe sapiente similique sunt suscipit ut. Dolores excepturi incidunt porro quaerat quidem? Alias cumque cupiditate dolores iusto magnam magni recusandae, sit totam ullam. A doloremque eos labore libero maiores molestias nihil nulla quas rerum sed!</div>
-                        <div class="etc">
-                            <div class="comment">
-                                <div class="comment-img"></div>
-                                <div class="comment-cnt">2 comments</div>
-                            </div>
-                            <div class="save">
-                                <div class="save-img"></div>
-                                <div class="save-txt">save</div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="card">
-                    <div class="up-and-down">
-                        <div class="up"></div>
-                        <div class="recommend-cnt">2</div>
-                        <div class="down"></div>
-                    </div>
-                    <div class="card-content">
-                        <div class="profile">
-                            <div class="profile-picture"></div>
-                            <div class="profile-name">왕밤빵</div>
-                            <div class="date">1h 20m ago</div>
-                        </div>
-                        <div class="title">CSS 적용이 왜 안될까요?</div>
-                        <div class="content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto culpa error eum, exercitationem, magni molestiae nam natus ratione repellendus sapiente sint temporibus unde! Culpa distinctio exercitationem facilis ipsa maiores odio, possimus quam quis recusandae repudiandae saepe sapiente similique sunt suscipit ut. Dolores excepturi incidunt porro quaerat quidem? Alias cumque cupiditate dolores iusto magnam magni recusandae, sit totam ullam. A doloremque eos labore libero maiores molestias nihil nulla quas rerum sed!</div>
-                        <div class="etc">
-                            <div class="comment">
-                                <div class="comment-img"></div>
-                                <div class="comment-cnt">2 comments</div>
-                            </div>
-                            <div class="save">
-                                <div class="save-img"></div>
-                                <div class="save-txt">save</div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
+                <%}%>
             </ul>
         </main>
 
@@ -391,10 +164,10 @@
             <div class="about-study">
                 <div class="about-study-header">About Study</div>
                 <div class="about-main">
-                    <div class="about-study-content">모여서 JSP "JSP BOOK"을 공부하는 스터디 입니다. 하루에 JSP 책을 공부하면서 같이 스터디하는 그런 그렇고 그런 스터디입니다. 다들 열심히 잘해봐요 매주 출석확인합니다.</div>
+                    <div class="about-study-content"><%=study.getIntro()%></div>
                     <div class="about-study-info">
                         <div class="about-member">
-                            <div class="member-cnt">13</div>
+                            <div class="member-cnt"><%=study.getCrnt()%></div>
                             <div class="member-txt">Members</div>
                         </div>
                         <div class="about-posts">
@@ -408,14 +181,14 @@
                             <div class="calender-img"></div>
                             <div class="calender-txt">Created</div>
                         </div>
-                        <div class="create-date">2021년 3월 31일</div>
+                        <div class="create-date"><%=study.getRegDate()%></div>
                     </div>
                     <div class="about-study-master">
                         <div class="master-img-container">
                             <div class="master-img"></div>
                             <div class="master-txt">스터디 개설자</div>
                         </div>
-                        <div class="master-name">왕밤빵</div>
+                        <div class="master-name"><%=study.getLeader()%></div>
                     </div>
                 </div>
             </div>
@@ -456,21 +229,23 @@
                         <div class="write-hand"></div>
                         <div class="write-content">글을 작성해주세요.</div>
                     </div>
-                    <div class="modal-body">
-                        <input class="modal-title" type="text" placeholder="제목을 입력하세요">
-                        <textarea class="modal-content" cols="30" rows="10"></textarea>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button">작성</button>
-                        <button type="button">취소</button>
-                    </div>
+                    <form class="modal-body" action="../study/write" method="post">
+                        <input class="modal-title" type="text" name="title" placeholder="제목을 입력하세요">
+                        <textarea class="modal-content" cols="30" rows="10" name="content"></textarea>
+                        <div class="modal-footer">
+                            <button type="submit">작성</button>
+                            <button type="button" class="cancelBtn">취소</button>
+                        </div>
+                    </form>
+
                 </div>
             </div>
-
-
         </div>
 
-<%@include file="/layout/footer.jsp" %>
+        <footer class="footer">
+            <h1 class="hide">footer</h1>
+            <!-- <h1>footer</h1> -->
+        </footer>
     </div>
     <script>
         const write = document.querySelector('.write-section');
@@ -479,15 +254,17 @@
             if(modal.classList.contains('hide')){
                 modal.classList.remove('hide');
                 modal.classList.add('flex-show');
-            }else {
-                modal.classList.remove('flex-show');
-                modal.classList.add('hide');
             }
+        });
+
+        modal.addEventListener('click', (e) => {
+           if(e.target.classList.contains('modal') || e.target.classList.contains('cancelBtn')){
+               modal.classList.add('hide');
+               modal.classList.remove('flex-show');
+           }
         });
         window.addEventListener("load", () =>{
             const button = document.querySelector(".btn-show");
-
-
             var flag = true;
             button.addEventListener("click", function(e) {
                 const aside = document.querySelector(".about-study");

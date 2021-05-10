@@ -52,7 +52,7 @@ public class StudyService {
                 study.setUpdateDate(updateDate);
                 study.setBg(bg);
                 study.setPath(path);
-                study.setCurrent(crnt);
+                study.setCrnt(crnt);
                 list.add(study);
             }
 

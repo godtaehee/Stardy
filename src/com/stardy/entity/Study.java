@@ -24,6 +24,6 @@ public class Study {
 	private Date updateDate;
 	private String bg;
 	private String path;
-	private int current;
+	private int crnt;
 	
 }
