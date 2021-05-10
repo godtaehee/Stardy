@@ -8,9 +8,12 @@ import java.util.Date;
 
 import com.stardy.entity.Board;
 import com.stardy.util.DatabaseUtil;
+import com.stardy.util.Logger;
 
 public class BookmarkService {
 
+	Logger log = new  Logger();
+	
 	/* 즐겨찾기 했는지 여부 */
 	public boolean isSub(String email, int bid) {
 		
@@ -87,5 +90,26 @@ public class BookmarkService {
 			e.printStackTrace();
 		}
 	}
-
+	
+	/* 특정 게시글의 모든 즐겨찾기 삭제 */
+	public void removeAll(int bid) {
+		
+		String sql = "DELETE FROM SUB WHERE BID = ?";
+		
+		try {
+			Connection con = DatabaseUtil.getConnection();
+			PreparedStatement ptst = con.prepareStatement(sql);
+			
+			ptst.setInt(1, bid);
+			
+			ptst.executeUpdate();
+			log.info("[" + bid + "]번 게시글의 즐겨찾기가 모두 삭제되었습니다.");
+			
+			ptst.close();
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

@@ -63,6 +63,30 @@ public class ReplyService {
 		}
 	}
 	
+	/* 특정 게시글의 모든 댓글을 삭제하는 메서드 */
+	public int removeAll(int bid) {
+		
+		String sql = "DELETE FROM REPLY WHERE BID = ?";
+		int result = 0;
+		
+		try {
+			Connection con = DatabaseUtil.getConnection();
+			PreparedStatement ptst = con.prepareStatement(sql);
+						
+			ptst.setInt(1, bid);
+			
+			result = ptst.executeUpdate();
+			log.info("[" + bid +"] 번 게시글의 댓글이 모두 삭제되었습니다.");
+			
+			ptst.close();
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	/* 댓글 목록을 가져오는 메서드 */
 	public List<Reply> getList(int bid, int page) {
 		

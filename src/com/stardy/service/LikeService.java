@@ -129,4 +129,26 @@ public class LikeService {
 		
 		return result;
 	}
+	
+	/* 특정 게시글의 모든 좋아요 삭제 */
+	public void removeAll(int bid) {
+		
+		String sql = "DELETE FROM LIKES WHERE BID = ?";
+		
+		try {
+			Connection con = DatabaseUtil.getConnection();
+			PreparedStatement ptst = con.prepareStatement(sql);
+			
+			ptst.setInt(1, bid);
+			
+			ptst.executeUpdate();
+			log.info("[" + bid + "]번 게시글의 좋아요가 모두 삭제되었습니다.");
+			
+			ptst.close();
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

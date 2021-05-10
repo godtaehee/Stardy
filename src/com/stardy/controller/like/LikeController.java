@@ -10,12 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.stardy.entity.Like;
+import com.stardy.service.BoardService;
 import com.stardy.service.LikeService;
 import com.stardy.util.Logger;
 
 @WebServlet("/likes/*")
 public class LikeController extends HttpServlet{
 
+	BoardService boardService = new BoardService();
 	LikeService likeService = new LikeService();
 	Logger log = new Logger();
 	
@@ -62,6 +64,7 @@ public class LikeController extends HttpServlet{
 		
 		Like like = new Like(bid, (String) request.getSession().getAttribute("email"));
 		
+		boardService.incLike(bid);
 		likeService.register(like);
 	}
 	
@@ -83,6 +86,7 @@ public class LikeController extends HttpServlet{
 		
 		Like like = new Like(bid, (String) request.getSession().getAttribute("email"));
 		
+		boardService.decLike(bid);
 		likeService.cancel(like);
 	}
 }
