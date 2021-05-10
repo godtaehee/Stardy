@@ -3,7 +3,7 @@
     <wb-module deploy-name="Stardy">
                 
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <wb-resource deploy-path="/" source-path="/WebContent"/>
+        <wb-resource deploy-path="/" source-path="/webapp"/>
                 
         <property name="context-root" value="Stardy"/>
                 
