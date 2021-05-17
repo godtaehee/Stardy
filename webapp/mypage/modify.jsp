@@ -1,3 +1,5 @@
+<%@page import="com.stardy.entity.Member"%>
+<%@page import="com.stardy.service.MemberService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -23,6 +25,12 @@
 </head>
 
 <body>
+<%
+String email = (String) request.getSession().getAttribute("email");
+MemberService service = new MemberService();
+
+Member member = service.get(email);
+%>
     <div class="container-only body__container">
         <%@include file="/layout/header.jsp" %>
 
@@ -34,12 +42,12 @@
                         <h1 class="hide">회원 정보 수정 폼</h1>
                         
                         <div class="modify-form-box">
-                            <form action="#" class="modify-form" method="post">
+                            <form action="/mypage/modify" class="modify-form" method="post">
                                 <div class="input-control">내 닉네임</div>
-                                <input class="input-item input-nick input--text" type="text" value="test" name="nick">
+                                <input class="input-item input-nick input--text" type="text" value="<%=member.getNickname() %>" name="nickname">
 
                                 <div class="input-control">내 이메일</div>
-                                <input class="input-item input--text" type="email" value="test@naver.com" name="email" readonly>
+                                <input class="input-item input--text" type="email" value="<%=member.getEmail() %>" name="email" readonly>
 
                                 <div class="input-control">비밀번호 변경</div>
                                 <input class="input-item input-password input--text" type="password" placeholder="******" name="password">
@@ -62,6 +70,9 @@
         
 <%@include file="/layout/footer.jsp" %>
     </div>
-
+<script>
+window.email = '<%=email%>';
+</script>
+<script src="../js/ajax/ajax.js"></script>
 </body>
 </html>

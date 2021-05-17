@@ -18,18 +18,18 @@ public class LikeService {
 		
 		int result = 0;
 		
-		String sql = "INSERT INTO LIKES(EMAIL, BID) VALUES(?, ?)";
+		String sql = "INSERT INTO LIKES(MEMBER_ID, BOARD_ID) VALUES(?, ?)";
 		
 		try {
 			Connection con = DatabaseUtil.getConnection();
 			PreparedStatement ptst = con.prepareStatement(sql);
 			
-			ptst.setString(1, like.getEmail());
-			ptst.setInt(2, like.getBid());
+			ptst.setInt(1, like.getMemberId());
+			ptst.setInt(2, like.getBoardId());
 			
 			result = ptst.executeUpdate();
 			
-			log.info(like.getEmail() + "님이 " + like.getBid() + "번 게시글을 '좋아요' 등록했습니다.");
+			log.info(like.getMemberId() + "님이 " + like.getBoardId() + "번 게시글을 '좋아요' 등록했습니다.");
 			
 			ptst.close();
 			con.close();
@@ -46,18 +46,18 @@ public class LikeService {
 		
 		int result = 0;
 		
-		String sql = "DELETE FROM LIKES WHERE EMAIL = ? AND BID = ?";
+		String sql = "DELETE FROM LIKES WHERE MEMBER_ID = ? AND BOARD_ID = ?";
 		
 		try {
 			Connection con = DatabaseUtil.getConnection();
 			PreparedStatement ptst = con.prepareStatement(sql);
 			
-			ptst.setString(1, like.getEmail());
-			ptst.setInt(2, like.getBid());
+			ptst.setInt(1, like.getMemberId());
+			ptst.setInt(2, like.getBoardId());
 			
 			result = ptst.executeUpdate();
 			
-			log.info(like.getEmail() + "님이 " + like.getBid() + "번 게시글을 '좋아요' 취소했습니다.");
+			log.info(like.getMemberId() + "님이 " + like.getBoardId() + "번 게시글을 '좋아요' 취소했습니다.");
 			
 			ptst.close();
 			con.close();
@@ -70,24 +70,24 @@ public class LikeService {
 	}
 	
 	/* 좋아요 개수 */
-	public int count(int bid) {
+	public int count(int id) {
 		
 		int result = 0;
 		
-		String sql = "SELECT COUNT(LID) CNT FROM LIKES GROUP BY BID HAVING BID = ?";
+		String sql = "SELECT COUNT(MEMBER_ID) CNT FROM LIKES GROUP BY BOARD_ID HAVING BOARD_ID = ?";
 		
 		try {
 			Connection con = DatabaseUtil.getConnection();
 			PreparedStatement ptst = con.prepareStatement(sql);
 			
-			ptst.setInt(1, bid);
+			ptst.setInt(1, id);
 			
 			ResultSet rs = ptst.executeQuery();
 			
 			while(rs.next())
 				result = rs.getInt("CNT");
 			
-			log.info(bid + "번 게시글의 좋아요 개수를 조회했습니다. : " + result + "개");
+			log.info(id + "번 게시글의 좋아요 개수를 조회했습니다. : " + result + "개");
 			
 			ptst.close();
 			con.close();
@@ -104,20 +104,20 @@ public class LikeService {
 		
 		boolean result = false;
 		
-		String sql = "SELECT LID FROM LIKES WHERE EMAIL = ? AND BID = ?";
+		String sql = "SELECT LID FROM LIKES WHERE MEMBER_ID = ? AND BOARD_ID = ?";
 		
 		try {
 			Connection con = DatabaseUtil.getConnection();
 			PreparedStatement ptst = con.prepareStatement(sql);
 			
-			ptst.setString(1, like.getEmail());
-			ptst.setInt(2, like.getBid());
+			ptst.setInt(1, like.getMemberId());
+			ptst.setInt(2, like.getBoardId());
 			
 			ResultSet rs = ptst.executeQuery();
 			
 			while(rs.next()) {
 				result = true;
-				log.info(like.getEmail() + "님은 이미 " + like.getBid() + "번 게시글을 좋아합니다.");
+				log.info(like.getMemberId() + "님은 이미 " + like.getBoardId() + "번 게시글을 좋아합니다.");
 			}
 			
 			ptst.close();
@@ -131,18 +131,18 @@ public class LikeService {
 	}
 	
 	/* 특정 게시글의 모든 좋아요 삭제 */
-	public void removeAll(int bid) {
+	public void removeAll(int id) {
 		
-		String sql = "DELETE FROM LIKES WHERE BID = ?";
+		String sql = "DELETE FROM LIKES WHERE BOARD_ID = ?";
 		
 		try {
 			Connection con = DatabaseUtil.getConnection();
 			PreparedStatement ptst = con.prepareStatement(sql);
 			
-			ptst.setInt(1, bid);
+			ptst.setInt(1, id);
 			
 			ptst.executeUpdate();
-			log.info("[" + bid + "]번 게시글의 좋아요가 모두 삭제되었습니다.");
+			log.info("[" + id + "]번 게시글의 좋아요가 모두 삭제되었습니다.");
 			
 			ptst.close();
 			con.close();

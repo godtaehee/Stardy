@@ -21,7 +21,7 @@ public class LikeController extends HttpServlet{
 	LikeService likeService = new LikeService();
 	Logger log = new Logger();
 	
-	// /likes/{bid}
+	// /likes/{id}
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -33,9 +33,9 @@ public class LikeController extends HttpServlet{
 		for(String path : paths)
 			System.out.println(path);
 		
-		int bid = Integer.parseInt(paths[1]);
+		int id = Integer.parseInt(paths[1]);
 		
-		int count = likeService.count(bid);
+		int count = likeService.count(id);
 		String result = String.valueOf(count);
 		
 		if(count >= 1000) {
@@ -46,7 +46,7 @@ public class LikeController extends HttpServlet{
 		out.println(result);
 	}
 	
-	// /likes/reg/{bid}
+	// /likes/reg/{id}
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -60,15 +60,14 @@ public class LikeController extends HttpServlet{
 		
 		if(!paths[1].equals("reg")) return;
 		
-		int bid = Integer.parseInt(paths[2]);
+		int id = Integer.parseInt(paths[2]);
 		
-		Like like = new Like(bid, (String) request.getSession().getAttribute("email"));
+		Like like = new Like((int) request.getSession().getAttribute("id"), id);
 		
-		boardService.incLike(bid);
 		likeService.register(like);
 	}
 	
-	// /likes/rm/{bid}
+	// /likes/rm/{id}
 	@Override
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -82,11 +81,10 @@ public class LikeController extends HttpServlet{
 		
 		if(!paths[1].equals("rm")) return;
 		
-		int bid = Integer.parseInt(paths[2]);
+		int id = Integer.parseInt(paths[2]);
 		
-		Like like = new Like(bid, (String) request.getSession().getAttribute("email"));
+		Like like = new Like((int) request.getSession().getAttribute("id"), id);
 		
-		boardService.decLike(bid);
 		likeService.cancel(like);
 	}
 }

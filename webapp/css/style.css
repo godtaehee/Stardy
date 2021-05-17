@@ -645,6 +645,7 @@ body {
   }
 
   .container {
+  	width: 1180px;
     display: grid;
     height: 100%;
     grid-template-columns: repeat(12, 1fr);

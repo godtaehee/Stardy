@@ -32,7 +32,7 @@ public class SignupController extends HttpServlet{
 	      String email = request.getParameter("email");
 	      String password = request.getParameter("password");
 	      
-	      boolean result = service.insertMember(new Member(email, password, nickname));
+	      boolean result = service.insertMember(Member.builder().email(email).nickname(nickname).password(password).build());
 
 	      if(result)
 	    	  response.sendRedirect("/login.jsp");

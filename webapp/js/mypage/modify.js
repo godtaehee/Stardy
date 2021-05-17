@@ -11,7 +11,7 @@ window.addEventListener("load", function(){
         var password = document.querySelector("input[name='password']").value;
         var check = document.querySelector("input[name='check']").value;
 
-        if(password === check && password != ''){
+        if(password === check){
             alert("정보수정이 완료되었습니다.");
             actionForm.submit();
         }
@@ -26,6 +26,7 @@ window.addEventListener("load", function(){
         e.preventDefault();
 
         if(confirm('정말 탈퇴하시겠습니까?')){
+			actionForm.action = '/mypage/delete';
             actionForm.submit();
 
             /* 제출 후 메인 페이지로 Redirect */

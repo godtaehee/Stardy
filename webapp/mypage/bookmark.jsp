@@ -1,3 +1,5 @@
+<%@page import="com.stardy.entity.Member"%>
+<%@page import="com.stardy.service.MemberService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -23,11 +25,17 @@
 </head>
 
 <body>
+<%
+String email = (String) request.getSession().getAttribute("email");
+MemberService service = new MemberService();
+
+Member member = service.get(email);
+%>
+
     <div class="container-only body__container">
         <%@include file="/layout/header.jsp" %>
 
         <main class="main-only">
-
             <section class="my-page-box">
                 <%@include file="/layout/mypage/common.jsp" %>
 
@@ -51,158 +59,7 @@
                                 </div>
                             </div>
 
-                            <div class="bookmark-box">
-                                <div class="bookmark-main">
-                                    <div class="content-box text-no-over">
-                                        오늘 스터디 중 유익한 내용 공유합니다.
-                                    </div>
-                                    <span class="icon-bookmark delete-bm"></span>
-                                </div>
-                                <div class="bookmark-sub">
-                                    <div class="writer-box">
-                                        James
-                                    </div>
-                                    <div class="date-box">
-                                        2021-03-27
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="bookmark-box">
-                                <div class="bookmark-main">
-                                    <div class="content-box text-no-over">
-                                        오늘 스터디 중 유익한 내용 공유합니다.
-                                    </div>
-                                    <span class="icon-bookmark delete-bm"></span>
-                                </div>
-                                <div class="bookmark-sub">
-                                    <div class="writer-box">
-                                        James
-                                    </div>
-                                    <div class="date-box">
-                                        2021-03-27
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="bookmark-box">
-                                <div class="bookmark-main">
-                                    <div class="content-box text-no-over">
-                                        오늘 스터디 중 유익한 내용 공유합니다.
-                                    </div>
-                                    <span class="icon-bookmark delete-bm"></span>
-                                </div>
-                                <div class="bookmark-sub">
-                                    <div class="writer-box">
-                                        James
-                                    </div>
-                                    <div class="date-box">
-                                        2021-03-27
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="bookmark-box">
-                                <div class="bookmark-main">
-                                    <div class="content-box text-no-over">
-                                        오늘 스터디 중 유익한 내용 공유합니다.
-                                    </div>
-                                    <span class="icon-bookmark delete-bm"></span>
-                                </div>
-                                <div class="bookmark-sub">
-                                    <div class="writer-box">
-                                        James
-                                    </div>
-                                    <div class="date-box">
-                                        2021-03-27
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="bookmark-box">
-                                <div class="bookmark-main">
-                                    <div class="content-box text-no-over">
-                                        오늘 스터디 중 유익한 내용 공유합니다.
-                                    </div>
-                                    <span class="icon-bookmark delete-bm"></span>
-                                </div>
-                                <div class="bookmark-sub">
-                                    <div class="writer-box">
-                                        James
-                                    </div>
-                                    <div class="date-box">
-                                        2021-03-27
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="bookmark-box">
-                                <div class="bookmark-main">
-                                    <div class="content-box text-no-over">
-                                        오늘 스터디 중 유익한 내용 공유합니다.
-                                    </div>
-                                    <span class="icon-bookmark delete-bm"></span>
-                                </div>
-                                <div class="bookmark-sub">
-                                    <div class="writer-box">
-                                        James
-                                    </div>
-                                    <div class="date-box">
-                                        2021-03-27
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="bookmark-box">
-                                <div class="bookmark-main">
-                                    <div class="content-box text-no-over">
-                                        오늘 스터디 중 유익한 내용 공유합니다.
-                                    </div>
-                                    <span class="icon-bookmark delete-bm"></span>
-                                </div>
-                                <div class="bookmark-sub">
-                                    <div class="writer-box">
-                                        James
-                                    </div>
-                                    <div class="date-box">
-                                        2021-03-27
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="bookmark-box">
-                                <div class="bookmark-main">
-                                    <div class="content-box text-no-over">
-                                        오늘 스터디 중 유익한 내용 공유합니다.
-                                    </div>
-                                    <span class="icon-bookmark delete-bm"></span>
-                                </div>
-                                <div class="bookmark-sub">
-                                    <div class="writer-box">
-                                        James
-                                    </div>
-                                    <div class="date-box">
-                                        2021-03-27
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="bookmark-box">
-                                <div class="bookmark-main">
-                                    <div class="content-box text-no-over">
-                                        오늘 스터디 중 유익한 내용 공유합니다.
-                                    </div>
-                                    <span class="icon-bookmark delete-bm"></span>
-                                </div>
-                                <div class="bookmark-sub">
-                                    <div class="writer-box">
-                                        James
-                                    </div>
-                                    <div class="date-box">
-                                        2021-03-27
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
 
@@ -212,6 +69,9 @@
         
 <%@include file="/layout/footer.jsp" %>
     </div>
-    
+<script>
+	window.email = '${email}';
+</script>
+<script src="../js/ajax/ajax.js"></script>
 </body>
 </html>

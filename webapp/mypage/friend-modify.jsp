@@ -1,3 +1,5 @@
+<%@page import="com.stardy.entity.Member"%>
+<%@page import="com.stardy.service.MemberService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -23,6 +25,12 @@
 </head>
 
 <body>
+<%
+String email = (String) request.getSession().getAttribute("email");
+MemberService service = new MemberService();
+
+Member member = service.get(email);
+%>
     <div class="container-only  body__container">
         <%@include file="/layout/header.jsp" %>
 
@@ -166,6 +174,9 @@
         
 <%@include file="/layout/footer.jsp" %>
     </div>
-
+<script>
+window.email = '<%=email%>';
+</script>    
+<script src="../js/ajax/ajax.js"></script>
 </body>
 </html>

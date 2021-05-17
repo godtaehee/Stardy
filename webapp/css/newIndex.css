@@ -1,4 +1,4 @@
-.flex {
+	.flex {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -62,19 +62,6 @@ body {
     background-size: contain;
 }
 
-.drop-menu {
-    background-image: url("../img/detail/person.png");
-    background-position: center center;
-    background-repeat: no-repeat;
-    position: relative;
-    width: 72px;
-    height: 72px;
-}
-
-.user-menu {
-    display: none;
-}
-
 .drop-menu:hover .drop-list{
     display: block;
 }
@@ -98,7 +85,7 @@ body {
 
 .jumbotron{
 
-    height: 180px;
+    height: 230px;
     background-image: url("../img/Saly.png");
     background-color: rgba(30, 144, 255, 0.5);
     background-position: right;
@@ -109,7 +96,7 @@ body {
 .jumbo-content {
     display: flex;
     flex-direction: column;
-    padding: 2rem;
+    padding: 2rem 0;
     margin-left: 10%;
 }
 
@@ -131,7 +118,7 @@ body {
     display: flex;
     flex-direction: column;
     color: white;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: bold;
 }
 
@@ -346,6 +333,17 @@ body {
         background-position: right center;
     }
 
+	.jumbo-content {
+	   	
+	    padding: 2rem;
+	    
+	}
+
+	.large-content {
+	    
+	    font-size: 1.5rem;
+	    
+	}
     .study-list {
         width: 100%;
     }

@@ -46,8 +46,8 @@
   position: relative;
 }
 .drop-list {
-  display: none;
   position: absolute;
+  right: -15px;
 }
 
 .menu {

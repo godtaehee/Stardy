@@ -1,5 +1,7 @@
 package com.stardy.util;
 
+import com.stardy.entity.Category;
+
 public class CategoryConvert {
 	
     public static String convert(int category) {
@@ -19,5 +21,16 @@ public class CategoryConvert {
         }else {
             return "기타";
         }
+    }
+ 
+    public static String getCategory(int idx) {
+    	
+		Category[] categories = Category.values();
+		
+		for(Category a : categories) 
+			if(a.ordinal() == idx)
+				return a.toString();
+		
+		return null;
     }
 }

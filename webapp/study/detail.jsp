@@ -96,7 +96,7 @@
                             <div class="about-study-content"><%=study.getIntro()%></div>
                             <div class="about-study-info">
                                 <div class="about-member">
-                                    <div class="member-cnt"><%=study.getCrnt()%>></div>
+                                    <div class="member-cnt"><%=study.getCrnt()%></div>
                                     <div class="member-txt">Members</div>
                                 </div>
                                 <div class="about-posts">
@@ -139,7 +139,7 @@
                     <div class="card-content">
                         <div class="profile">
                             <div class="profile-picture"></div>
-                            <div class="profile-name"><%=board.get(i).getWriter()%>></div>
+                            <div class="profile-name"><%=board.get(i).getWriter()%></div>
                             <div class="date">1h 20m ago</div>
                         </div>
                         <div class="title"><%=board.get(i).getTitle()%></div>
@@ -242,10 +242,7 @@
             </div>
         </div>
 
-        <footer class="footer">
-            <h1 class="hide">footer</h1>
-            <!-- <h1>footer</h1> -->
-        </footer>
+        <%@include file="/layout/footer.jsp" %>
     </div>
     <script>
         const write = document.querySelector('.write-section');

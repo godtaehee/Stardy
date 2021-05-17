@@ -23,12 +23,18 @@
                         <div class="user-item">
                             <a class="btn my-page" href="/mypage/friends.jsp">마이페이지</a>
                         </div>
-    
+ 
                         <div class="drop-menu flex">
-                            <div class="drop-list">
+                            <div class="drop-list hide">
                                 <div class="drop-item">
                                     <a href="#" class="btn-logout">로그아웃</a>
                                 </div>
+                                <div class="drop-item">
+		                            <a class="" href="/study/list.jsp">스터디 보기</a>
+		                        </div>
+		                        <div class="drop-item">
+		                            <a class="" href="/mypage/friends.jsp">마이페이지</a>
+		                        </div>
                                 <div class="drop-item">
                                     <a href="#">설정</a>
                                 </div>
@@ -57,5 +63,6 @@
         		
         		var dropList = document.querySelector('.drop-list');
         		dropList.classList.toggle('show');
+        		dropList.classList.toggle('hide');
         	});
         </script>

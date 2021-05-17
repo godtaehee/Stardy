@@ -12,17 +12,20 @@ System.out.println(current);
                     <h1 class="hide">프로필 박스</h1>
                     <div class="dummy-box"></div>
                     <div class="profile-icon-box">
+                    	<div class="upload-box"></div>
                         <img class="profile-icon" src="../img/icon-person-dummy.png" alt="profile icon">
+                        <span class="button-upload hide">+</span>
+                        <input class="hide" type="file" name="uploadFile">
                     </div>
                     <div class="profile-info-box">
                         <div class="profile-nick-box">
-                            <label class="profile-nick">왕밤빵</label>
+                            <label class="profile-nick"><%=member.getNickname() %></label>
                         </div>
                         <div class="profile-status-box">
-                            <input class="profile-status" type="text" value="💻 코딩의 늪" readonly>
+                            <input class="profile-status" type="text" value="<%=member.getStatus() %>" readonly>
                         </div>
                         <div class="profile-modify-box">
-                            <button class="button button-img profile-modify">프로필 수정</button>
+                            <button class="button profile-modify modify-off">프로필 수정</button>
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
+<%@page import="com.stardy.service.StudyService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
-<%@page import="com.stardy.service.StudyService" %>
 <%@ page import="com.stardy.entity.Study" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.stardy.util.CategoryConvert" %>
@@ -186,7 +186,7 @@
                         <ul class="study-list-container">
                             <%for(int i = 0; i < study.size(); i++) {%>
                             <li class="mini-card">
-                                <a href="study/detail.jsp?sid=<%=String.valueOf(study.get(i).getSid())%>">
+                                <a href="study/realStudy.jsp">
                                     <div class="mini-card-container">
                                         <div class="mini-card-img"></div>
                                         <div class="mini-card-title"><%=study.get(i).getTitle()%></div>

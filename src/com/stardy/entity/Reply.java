@@ -3,24 +3,20 @@ package com.stardy.entity;
 import java.util.Date;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
+@Builder
 public class Reply {
 	
-	private int rid;
-	private String writer;
-	private String email;
+	private int id;
+	
 	private Date regDate;
 	private String content;
-	private int bid;
 	
-	public Reply(String email, String writer, String content, int bid) {
-		
-		this.email = email;
-		this.writer = writer;
-		this.content = content;
-		this.bid = bid;
-	}
+	private int memberId;
+	private int boardId;
+	
 }

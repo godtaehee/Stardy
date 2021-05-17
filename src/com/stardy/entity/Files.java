@@ -7,10 +7,12 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class UploadFile {
+public class Files {
 	
-	private int fid;
-	private String fileName;
+	private int id;
+	
+	private String name;
 	private String path;
-	private int bid;
+	
+	private int boardId;
 }
