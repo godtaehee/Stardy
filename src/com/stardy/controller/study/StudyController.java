@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.awt.Desktop;
+import java.io.File;
 import java.io.IOException;
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -120,6 +122,39 @@ public class StudyController extends HttpServlet {
 		else
 			open = 1;
 //		int open = Integer.parseInt(request.getParameter("open"));
+		Date date_now = new Date(System.currentTimeMillis());
+		
+		SimpleDateFormat format_now =  new SimpleDateFormat("yyyyMMddHHmmss");
+		System.out.println();
+		
+		String format_str = format_now.format(date_now);
+		
+		
+		String path = "../upload/" + format_str.substring(0,4) + "/" + format_str.substring(4,6) + "/" + format_str.substring(6,8) + "/" + format_str.substring(8,10) + "/" + format_str.substring(10,12)+"/" + format_str.substring(12); 
+		System.out.println(path);
+		File folder = new File(".");
+		
+		System.out.println(folder.getAbsolutePath());
+	
+		
+		
+		
+		if(folder.mkdirs()) {
+			try {
+				
+				System.out.println("폴더 생성완료");
+			}
+			catch(Exception e) {
+				e.getStackTrace();
+			}
+		}else {
+			System.out.println("이미 폴더가 있습니다.");
+		}
+		
+//		Desktop.getDesktop().open(folder);
+		
+		
+		
 		String duedate_str = request.getParameter("duedate");
 		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
@@ -165,7 +200,7 @@ public class StudyController extends HttpServlet {
 	        
 	        
 	        if(flag == 1)
-	            response.sendRedirect("/study/list.jsp");
+	            response.sendRedirect("/study/list.jsp?" + folder.getAbsolutePath());
 
 
 

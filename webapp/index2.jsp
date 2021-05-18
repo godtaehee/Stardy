@@ -185,7 +185,7 @@
                             <%for(int i = 0; i < study.size(); i++) {%>
                             <li class="mini-card">
                                 <a href="study/detail.jsp?id=<%=String.valueOf(study.get(i).getId())%>">
-                                    <div class="mini-card-container">
+                                    <div class="mini-card-container" >
                                         <div class="mini-card-img"></div>
                                         <div class="mini-card-title"><%=study.get(i).getTitle()%></div>
                                         <div class="mini-card-info">
