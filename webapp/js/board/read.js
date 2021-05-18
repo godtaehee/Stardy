@@ -1,14 +1,14 @@
 window.addEventListener("load", function() {
 
-	var bid = window.bid;
-	var isSub = window.isSub;
-	var isLike = window.isLike;
+	let id = window.id;
+	let isSub = window.isSub;
+	let isLike = window.isLike;
 
-    var replyList = document.querySelector('.reply-list');
-    var moreBox = document.querySelector('.more-box');
-	var btnRegister = document.querySelector(".button-register");
-	var bookmark = document.querySelector('.bookmark');
-	var btnLike = document.querySelector(".button-like");
+    let replyList = document.querySelector('.reply-list');
+    let moreBox = document.querySelector('.more-box');
+	let btnRegister = document.querySelector(".button-register");
+	let bookmark = document.querySelector('.bookmark');
+	let btnLike = document.querySelector(".button-like");
 	
 /*--- 댓글 --- */
 
@@ -20,10 +20,10 @@ window.addEventListener("load", function() {
 	/* 댓글 등록 버튼 Click */
 	btnRegister.addEventListener("click", (e) => {
 		
-		var content = document.querySelector('textarea[name="reply-content"]');
-		var reply = {
+		let content = document.querySelector('textarea[name="reply-content"]');
+		let reply = {
 			content: content.value,
-			bid: bid
+			id: id //board_id
 		};
 		
 		replyModule.addReply(reply);
@@ -32,7 +32,7 @@ window.addEventListener("load", function() {
 	
 	/* 특정 댓글 선택 시 댓글 모달창 show */
     replyList.addEventListener('click', function(e) {        
-        var target = e.target;
+        let target = e.target;
 
 		if(target.className == 'reply-list') return;
 
@@ -55,24 +55,24 @@ window.addEventListener("load", function() {
 	
 		if(!isSub)
 			ajax({
-				url: `/sub/${bid}`,
+				url: `/sub/${id}`,
 				method: 'POST',
 				loadend: () => {
-					console.log(`POST /sub/${bid}`);
+					console.log(`POST /sub/${id}`);
 					/* 즐겨찾기 추가 */
 					isSub = !isSub;
-		        	alert(`${bid}번 게시글 즐겨찾기가 추가되었습니다.`);
+		        	alert(`${id}번 게시글 즐겨찾기가 추가되었습니다.`);
 				}
 			});
 		else
 			ajax({
-				url: `/sub/${bid}`,
+				url: `/sub/${id}`,
 				method: 'DELETE',
 				loadend:() => {
-					console.log(`DELETE /sub/${bid}`);
+					console.log(`DELETE /sub/${id}`);
 				    /* 즐겨찾기 해제 */
 			    	isSub = !isSub;
-					alert(`${bid}번 게시글 즐겨찾기가 취소되었습니다.`);
+					alert(`${id}번 게시글 즐겨찾기가 취소되었습니다.`);
 				}
 			});
 	});
@@ -84,26 +84,26 @@ window.addEventListener("load", function() {
 	
 		if(!isLike)
 			ajax({
-				url: `/likes/reg/${bid}`,
+				url: `/likes/reg/${id}`,
 				method: 'POST',
 				loadend: () => {
-					console.log(`POST /likes/reg/${bid}`);
+					console.log(`POST /likes/reg/${id}`);
 					/* 좋아요 추가 */
 					isLike = !isLike;
-		        	console.log(`${bid}번 게시글을 좋아합니다.`);
+		        	console.log(`${id}번 게시글을 좋아합니다.`);
 
 					getLikes();
 				}
 			});
 		else
 			ajax({
-				url: `/likes/rm/${bid}`,
+				url: `/likes/rm/${id}`,
 				method: 'DELETE',
 				loadend:() => {
-					console.log(`DELETE /likes/rm/${bid}`);
+					console.log(`DELETE /likes/rm/${id}`);
 				    /* 좋아요 해제 */
 					isLike = !isLike;
-					console.log(`${bid}번 게시글의 좋아요를 취소했습니다.`);
+					console.log(`${id}번 게시글의 좋아요를 취소했습니다.`);
 					getLikes();
 				}
 			});
@@ -111,10 +111,10 @@ window.addEventListener("load", function() {
 	/* 좋아요 개수 */
 	function getLikes() {
 		
-		var likes = document.querySelector('.likes');
+		let likes = document.querySelector('.likes');
 		
 		ajax({
-			url: `/likes/${bid}`,
+			url: `/likes/${id}`,
 			method: 'GET',
 			loadend: (count) => {
 				console.log('좋아요 개수 : ' + count);

@@ -1,10 +1,16 @@
 package com.stardy.controller.study;
 
+import com.stardy.entity.Member;
 import com.stardy.entity.Study;
 import com.stardy.util.DatabaseUtil;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,7 +22,7 @@ public class StudyController extends HttpServlet {
 
     public Study getStudy(int id) throws SQLException {
 // SELECT TRUNC(DUEDATE) - TRUNC(REGDATE) FROM STUDY
-        String sql = "SELECT * FROM STUDY WHERE SID=?";
+        String sql = "SELECT * FROM STUDY WHERE ID=?";
         Connection con = null;
         PreparedStatement pstmt = null;
 
@@ -28,34 +34,36 @@ public class StudyController extends HttpServlet {
 
         Study study = new Study();
         while(rs.next()) {
-            int sId = rs.getInt("SID");
-            String title = rs.getString("TITLE");
-            String leader = rs.getString("LEADER");
-            int category = rs.getInt("CATEGORY");
-            int limit = rs.getInt("LIMIT");
-            int open = rs.getInt("OPEN");
-            Date dueDate = rs.getDate("DUEDATE");
-            String intro = rs.getString("INTRO");
-            Date regDate = rs.getDate("REGDATE");
-            Date updateDate = rs.getDate("UPDATEDATE");
-            String bg = rs.getString("BG");
-            String path = rs.getString("PATH");
-            int crnt = rs.getInt("CRNT");
+        	String title = rs.getString("TITLE");
+        	String intro = rs.getString("INTRO");
+        	String open = rs.getString("OPEN");
+        	String limit = rs.getString("LIMIT");
+        	
+        	Date regDate = rs.getDate("REGDATE");
+        	Date updateDate = rs.getDate("UPDATEDATE");
+        	Date dueDate = rs.getDate("DUEDATE");
+        	
+        	String bg = rs.getString("BG");
+        	String path = rs.getString("PATH");
+        	
+        	int memberId = rs.getInt("MEMBERID");
+        	int categoryId = rs.getInt("CATEGORYID");
+       
 
 
-            study.setSid(sId);
+            
+            study.setId(id);
             study.setTitle(title);
-            study.setLeader(leader);
-            study.setCategory(category);
-            study.setLimit(limit);
-            study.setOpen(open);
-            study.setDueDate(dueDate);
             study.setIntro(intro);
+            study.setOpen(open);
+            study.setLimit(limit);
             study.setRegDate(regDate);
             study.setUpdateDate(updateDate);
+            study.setDueDate(dueDate);
             study.setBg(bg);
             study.setPath(path);
-            study.setCrnt(crnt);
+            study.setMemberId(memberId);
+            study.setCategoryId(categoryId);
         }
 
 
@@ -68,7 +76,7 @@ public class StudyController extends HttpServlet {
 
     public int getDuringTime(int id) throws SQLException {
         //
-        String sql = "SELECT TRUNC(DUEDATE) - TRUNC(REGDATE) AS TIMES FROM STUDY WHERE SID=?";
+        String sql = "SELECT TRUNC(DUEDATE) - TRUNC(REGDATE) AS TIMES FROM STUDY WHERE ID=?";
         Connection con = null;
         PreparedStatement pstmt = null;
 
@@ -89,4 +97,24 @@ public class StudyController extends HttpServlet {
         rs.close();
         return time;
     }
+    
+	
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		
+		String title = request.getParameter("title");
+		
+		
+		
+		
+		
+		
+		
+		String limit = request.getParameter("limit");
+		String open = request.getParameter("open");
+		String duedate = request.getParameter("duedate");
+		String intro = request.getParameter("intro");
+
+	}
 }

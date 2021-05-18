@@ -10,7 +10,7 @@ var replyModule = {
 		this.page++;
 		
 		ajax({
-			url: `/replies/${bid}/${p}`,
+			url: `/replies/${id}/${p}`,
 			method: 'GET',
 			loadend: (result) => {
 				//debug
@@ -26,10 +26,10 @@ var replyModule = {
 				
 				var html = '';
 				replies.forEach((reply, idx) => {
-					html += `<div class="replies" data-rid="${reply.rid}" data-email="${reply.email}">
+					html += `<div class="replies" data-id="${reply.id}" data-memberId="${reply.memberId}">
 								<div>
 				                    <p class="reply">${reply.content}</p>
-				                    <span class="span reply-writer">${reply.writer}</span>
+				                    <span class="span reply-writer">${reply.memberId}</span>
 				                    <span class="span">/</span>
 				                    <span class="span regdate">${reply.regDate}</span>
 				                </div>
@@ -90,7 +90,7 @@ var replyModule = {
 			url: `/replies/${rid}`,
 			method: 'DELETE',
 			loadend: (result) => {
-				console.log(rid + '번 댓글을 삭제했습니다.');
+				console.log(id + '번 댓글을 삭제했습니다.');
 				
 				this.getReplyCount();
 				this.initList();
@@ -102,13 +102,13 @@ var replyModule = {
 		console.log(reply);
 		
 		ajax({
-			url: `/replies/${reply.rid}`,
+			url: `/replies/${reply.id}`,
 			method: `PUT`,
 			data: JSON.stringify(reply),
 			loadend: (result) => {
 				
 				//debug
-				console.log(`${reply.rid}번 댓글을 수정했습니다.`);
+				console.log(`${reply.id}번 댓글을 수정했습니다.`);
 				console.log('result : ' + result);
 				
 				this.initList();
@@ -124,7 +124,7 @@ var replyModule = {
 	getReplyCount: () => {
 		
 		ajax({
-			url: `/replies/get/${bid}`,
+			url: `/replies/get/${id}`,
 			method: 'GET',
 			loadend: (count) => {
 				console.log('댓글의 개수 : ' + count);

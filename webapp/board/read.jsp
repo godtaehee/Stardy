@@ -35,20 +35,21 @@
 	BookmarkService bookmarkService = new BookmarkService();
 	LikeService likeService = new LikeService();
 
-	String bid_ = request.getParameter("bid");
-	int bid = 0;
+	String id_ = request.getParameter("id");
+	int id = 0;
 	
-	if(bid_ != null && !bid_.equals(""));
-		bid = Integer.parseInt(bid_);
+	if(id_ != null && !id_.equals(""));
+		id = Integer.parseInt(id_);
 		
-	Board board = boardService.read(bid);
+	Board board = boardService.read(id);
+	int studyId = board.getStudyId();
 	
-	int next = boardService.getNext(bid);
-	int prev = boardService.getPrev(bid);
-	String email = (String) request.getSession().getAttribute("email");
+	int next = boardService.getNext(id, studyId);
+	int prev = boardService.getPrev(id, studyId);
+	Integer loginId = (Integer) request.getSession().getAttribute("id");
 	
-	boolean isSub = bookmarkService.isSub(email, bid);
-	boolean isLike = likeService.isLike(new Like(bid, email));
+	boolean isSub = bookmarkService.isSub(loginId, id);
+	boolean isLike = likeService.isLike(new Like(loginId, id));
 %>
 
     <div class="container-only body__container">
@@ -61,17 +62,17 @@
                 <section class="board-box">
                     <h1 class="hide">게시글 상세</h1>
                     
-                    <input type="hidden" value="bid" name="bid" value="<%=board.getBid() %>">
+                    <input type="hidden" value="id" name="id" value="<%=board.getId() %>">
                     
                     <div class="pager-box">
                         
                             <h1 class="hide">게시글 페이저</h1>
                             <%if(next > 0) {%>
-                            <a href="read.jsp?bid=<%=next %>" class="btn button"><i class="fas fa-2x fa-angle-up"></i><!-- &nbsp다음 글 --></a>
+                            <a href="read.jsp?id=<%=next %>" class="btn button"><i class="fas fa-2x fa-angle-up"></i><!-- &nbsp다음 글 --></a>
                             <%} %>
                             
                             <%if(prev > 0) {%>
-                            <a href="read.jsp?bid=<%=prev %>" class="btn button"><i class="fas fa-2x fa-angle-down"></i><!-- &nbsp이전 글 --></a>
+                            <a href="read.jsp?id=<%=prev %>" class="btn button"><i class="fas fa-2x fa-angle-down"></i><!-- &nbsp이전 글 --></a>
                             <%} %>
                             
                         </div>
@@ -81,7 +82,7 @@
                     </div>
 
                     <div class="input-box span-box">
-                        <span class="span writer"><%=board.getWriter() %></span>
+                        <span class="span writer"><%=board.getMemberId() %></span>
                         <span class="span">/</span>
                         <span class="span regdate"><%=board.getRegDate() %></span>
                     </div>
@@ -99,14 +100,14 @@
 	                    </div>
                         <div class="button-box">
                             <h1 class="hide">버튼 박스</h1>
-                            <a href="/study/detail.jsp?sid=<%=board.getSid() %>" class="btn button button-back">목록</a>
+                            <a href="/study/detail.jsp?id=<%=board.getStudyId() %>" class="btn button button-back">목록</a>
                             
-                            <%if(email.equals(board.getEmail())) {%>
-                            <a href="modify.jsp?bid=<%=board.getBid() %>" class="btn button button-modify">수정하기</a>
+                            <%if(loginId.equals(board.getMemberId())) {%>
+                            <a href="modify.jsp?id=<%=board.getId() %>" class="btn button button-modify">수정하기</a>
                             <%} %>
                             
                             <!-- 사용자 인증을 위한 Email 데이터, Session의 Email과 대조 해서 본인 확인 -->
-                            <input type="hidden" name="email" value="<%=board.getEmail() %>">
+                            <input type="hidden" name="email" value="<%=board.getMemberId() %>">
                         </div>
                     </nav>
                 </section>
@@ -153,7 +154,8 @@
     <div class="modal-main">
         <label class="modal-title">Comment</label>
         <div class="reply-content-box">
-            <input type="text" class="input--text reply" value="">
+        <textarea class="input--text reply" rows="10" cols="5"></textarea>
+            <!-- <input type="text" class="input--text reply" value=""> -->
         </div>
         <div class="reply-info-box">
             <input type="text" class="input--text reply-writer" value="" readonly>
@@ -175,8 +177,8 @@
 
 <!-- Javascript -->
 <script>
-	window.email = '${email}';
-	window.bid = <%=board.getBid() %>;
+	window.loginId = <%=loginId %>;
+	window.id = <%=board.getId() %>;
 	window.isSub = <%=isSub%>;
 	window.isLike = <%=isLike%>;
 </script>

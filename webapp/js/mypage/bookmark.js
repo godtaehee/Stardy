@@ -49,13 +49,13 @@ window.addEventListener("load", function(){
 							<div class="bookmark-box">
                                 <div class="bookmark-main">
                                     <div class="content-box text-no-over">
-                                        <a href="/board/read.jsp?bid=${board.bid}">${board.title}</a>
+                                        <a href="/board/read.jsp?id=${board.id}">${board.title}</a>
                                     </div>
-                                    <span class="icon-bookmark delete-bm" data-bid="${board.bid}"></span>
+                                    <span class="icon-bookmark delete-bm" data-bid="${board.id}"></span>
                                 </div>
                                 <div class="bookmark-sub">
                                     <div class="writer-box">
-                                        ${board.writer}
+                                        ${board.memberId}
                                     </div>
                                     <div class="date-box">
                                         ${board.regDate}

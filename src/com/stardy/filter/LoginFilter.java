@@ -21,10 +21,10 @@ public class LoginFilter implements Filter{
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse resp = (HttpServletResponse) response;
 		
-		String email = (String) req.getSession().getAttribute("email");
+		Integer loginId = (Integer) req.getSession().getAttribute("id");
 		String nickname = (String) req.getSession().getAttribute("nickname");
 		
-		if(email != null && nickname != null)
+		if(loginId != null && nickname != null)
 			isLogin = true;
 		
 		if(isLogin) {

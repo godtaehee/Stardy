@@ -50,7 +50,7 @@ public class ReplyController extends HttpServlet{
 			int boardId = Integer.parseInt(paths[1]);
 			int page = Integer.parseInt(paths[2]);
 			
-			log.info("bid : " + boardId + ", page : " + page);
+			log.info("board_id : " + boardId + ", page : " + page);
 			
 			List<Reply> list = replyService.getList(boardId, page);
 			
@@ -100,8 +100,7 @@ public class ReplyController extends HttpServlet{
 				JSONObject obj = (JSONObject) parser.parse(sb.toString());
 				String content = (String) obj.get("content");
 				int memberId = (int) request.getSession().getAttribute("id");
-				String writer = (String) request.getSession().getAttribute("nickname");
-				int boardId = Integer.parseInt(String.valueOf(obj.get("boardId")));
+				int boardId = Integer.parseInt(String.valueOf(obj.get("id")));
 				
 				Reply reply = Reply.builder().memberId(memberId).content(content).boardId(boardId).build();
 				
@@ -147,9 +146,9 @@ public class ReplyController extends HttpServlet{
 		
 		String[] paths = request.getPathInfo().split("/");
 	
-		int id = Integer.parseInt(paths[1]);
+		int rid = Integer.parseInt(paths[1]);
 		
-		log.info(id + "번 댓글을 삭제했습니다. 요청자 : " + (String) request.getSession().getAttribute("nickname"));
-		replyService.remove(id);
+		replyService.remove(rid);
+		log.info(rid + "번 댓글을 삭제했습니다. 요청자 : " + (String) request.getSession().getAttribute("nickname"));
 	}
 }

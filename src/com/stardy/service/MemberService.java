@@ -14,6 +14,35 @@ public class MemberService {
 	
 	Logger log = new Logger();
 	
+	/* 멤버 닉네임 존재하는지 여부 */
+	public boolean isExistNick(String nickname) {
+		
+		String sql = "SELECT * FROM MEMBER WHERE NICKNAME = ?";
+		boolean exist = false;
+		
+		try {
+			Connection con = DatabaseUtil.getConnection();
+			PreparedStatement ptst = con.prepareStatement(sql);
+			
+			ptst.setString(1, nickname);
+			
+			ResultSet rs = ptst.executeQuery();
+			
+			while(rs.next()) {
+				exist = true;
+			}
+			
+			rs.close();
+			ptst.close();
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return exist;
+	}
+	
 	/* 멤버 정보 조회 */
 	public Member get(int id) {
 		

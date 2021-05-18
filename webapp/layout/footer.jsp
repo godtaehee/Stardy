@@ -8,12 +8,12 @@
     <script>
 		window.addEventListener("load", function(){
 		
-		    var userId = '${email}';
-		    var btnLogout = document.querySelector(".btn-logout");
+		    let loginId = '${id}';
+		    let btnLogout = document.querySelector(".btn-logout");
 		
-			console.log(userId);
+			console.log(loginId);
 		
-		    if(userId != null && userId != undefined && userId != ''){
+		    if(loginId != null && loginId != undefined && loginId != ''){
 		        var onBox = document.querySelector(".on-box");
 		        var outBox = document.querySelector(".out-box");
 		        	

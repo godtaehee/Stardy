@@ -35,20 +35,42 @@ public class ModifyController extends HttpServlet{
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String nickname = request.getParameter("nickname");
 		int id = (int) request.getSession().getAttribute("id");
-		String password = request.getParameter("password");
-		
 		Member member = memberService.get(id);
 		
+		
+		String nickname = request.getParameter("nickname");
+		String password = request.getParameter("password");
+		
+		String msg = "";
+		boolean failure = false;
+		
+		/* 닉네임 변경 시 이미 존재하는지 검증 */
+		if(nickname != null && !nickname.equals("")) {
+			if(!checkNickname(nickname)) { //합격
+				member.setNickname(nickname);				
+			}
+			else { //실패
+				msg = "dupError";
+				failure = true;
+			}
+		}
+					
+		
+		/* Password 변경 시 널 또는 공백인지 검증 */
 		if(!password.equals("") && password != null)
 			member.setPassword(password);
 		
-		member.setNickname(nickname);
-		
-		memberService.modify(member);
-		
-		response.sendRedirect("/mypage/modify.jsp");
+		log.info("failure : " + failure);
+		/* !failure */
+		if(!failure) {
+			memberService.modify(member);
+			response.sendRedirect("/mypage/modify.jsp");
+		}
+		/* failure */
+		else {
+			response.sendRedirect("/mypage/modify.jsp?msg=" + msg);			
+		}
 	}
 	
 	@Override
@@ -73,5 +95,10 @@ public class ModifyController extends HttpServlet{
 		member.setStatus(status);
 		log.info(member.toString());
 		memberService.modify(member);
+	}
+	
+	public boolean checkNickname(String nickname) {
+		
+		return memberService.isExistNick(nickname);
 	}
 }

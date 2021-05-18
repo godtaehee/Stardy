@@ -32,7 +32,7 @@
 <%
 	BoardService boardService = new BoardService();
 
-	String bid_ = request.getParameter("bid");
+	String bid_ = request.getParameter("id");
 	int bid = 0;
 	
 	if(bid_ != null && !bid_.equals(""));
@@ -40,7 +40,7 @@
 		
 	Board board = boardService.read(bid);
 	
-	String email = (String) request.getSession().getAttribute("email");
+	int loginId = (int) request.getSession().getAttribute("id");
 	
 %>
 
@@ -55,7 +55,7 @@
                     <h1 class="hide">게시글 상세</h1>
                     
                     <form action="/board/modify" method="post" id="action-form">
-	                    <input type="hidden" name="bid" value="<%=board.getBid() %>">
+	                    <input type="hidden" name="id" value="<%=board.getId() %>">
 	                    
 	                    <div class="pager-box">
 	                        <h1 class="hide">게시글 페이저</h1>
@@ -66,7 +66,7 @@
 	                    </div>
 	
 	                    <div class="input-box span-box">
-	                        <span class="span writer"><%=board.getWriter() %></span>
+	                        <span class="span writer"><%=board.getMemberId() %></span>
 	                        <span class="span">/</span>
 	                        <span class="span regdate"><%=board.getRegDate() %></span>
 	                    </div>
@@ -79,15 +79,15 @@
 	                        
 	                        <div class="button-box">
 	                            <h1 class="hide">버튼 박스</h1>
-	                            <a href="/board/read?bid=<%=board.getBid() %>" class="btn button button-back">취소</a>
+	                            <a href="/board/read.jsp?id=<%=board.getId() %>" class="btn button button-back">취소</a>
 	                            
-	                            <%if(email.equals(board.getEmail())) {%>
-	                            <button class="btn button button-modify">저장</button>
+	                            <%if(loginId == board.getMemberId()) {%>
+	                            <a class="btn button button-modify">저장</button>
 	                            <a href="#" class="btn button button-delete">삭제</a>
 	                            <%} %>
 	                            
 	                            <!-- 사용자 인증을 위한 Email 데이터, Session의 Email과 대조 해서 본인 확인 -->
-	                            <input type="hidden" name="email" value="<%=board.getEmail() %>">
+	                            <input type="hidden" name="email" value="<%=board.getMemberId() %>">
 	                        </div>
 	                    </nav>
                     </form>
@@ -128,7 +128,7 @@
 <!-- Javascript -->
 <script>
 	window.email = '${email}';
-	window.bid = <%=board.getBid() %>;
+	window.bid = <%=board.getId() %>;
 </script>
 <script src="../js/board/modify.js"></script>
 <script src="../js/ajax/ajax.js"></script>

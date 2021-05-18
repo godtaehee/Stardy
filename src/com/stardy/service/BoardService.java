@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.stardy.entity.Board;
+import com.stardy.entity.Member;
 import com.stardy.util.DatabaseUtil;
 import com.stardy.util.Logger;
 
@@ -106,15 +107,16 @@ public class BoardService {
 	}
 	
 	/* 다음 글 BID 가져오기 */
-	public int getNext(int id) {
+	public int getNext(int id, int studyId) {
 		
-		String sql = "SELECT ID FROM BOARD WHERE ID IN (SELECT MIN(ID) FROM BOARD WHERE ID > ?)";
+		String sql = "SELECT ID FROM BOARD WHERE ID IN (SELECT MIN(ID) FROM BOARD WHERE ID > ?) AND STUDY_ID = ?";
 		int next = -1;
 		try {
 			Connection con = DatabaseUtil.getConnection();
 			PreparedStatement ptst = con.prepareStatement(sql);
 			
 			ptst.setInt(1, id);
+			ptst.setInt(2, studyId);
 			
 			ResultSet rs = ptst.executeQuery();
 			
@@ -134,15 +136,16 @@ public class BoardService {
 	}
 	
 	/* 이전 글 BID 가져오기 */
-	public int getPrev(int id) {
+	public int getPrev(int id, int studyId) {
 		
-		String sql = "SELECT ID FROM BOARD WHERE ID IN (SELECT MAX(ID) FROM BOARD WHERE ID < ?)";
+		String sql = "SELECT ID FROM BOARD WHERE ID IN (SELECT MAX(ID) FROM BOARD WHERE ID < ?) AND STUDY_ID = ?";
 		int prev = -1;
 		try {
 			Connection con = DatabaseUtil.getConnection();
 			PreparedStatement ptst = con.prepareStatement(sql);
 			
 			ptst.setInt(1, id);
+			ptst.setInt(2, studyId);
 			
 			ResultSet rs = ptst.executeQuery();
 			

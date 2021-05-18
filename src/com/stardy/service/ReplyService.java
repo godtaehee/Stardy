@@ -27,7 +27,7 @@ public class ReplyService {
 			
 			ptst.setString(1, reply.getContent());
 			ptst.setInt(2, reply.getMemberId());
-			ptst.setInt(4, reply.getBoardId());
+			ptst.setInt(3, reply.getBoardId());
 			
 			ptst.executeUpdate();
 			log.info("[" + reply.getMemberId() + "] 님이 [" + reply.getBoardId() + "]번 게시글에 댓글을 작성했습니다.");
@@ -41,7 +41,7 @@ public class ReplyService {
 	}
 	
 	/* 댓글을 삭제하는 메서드 */
-	public void remove(int id) {
+	public void remove(int rid) {
 		
 		String sql = "DELETE FROM REPLY WHERE ID = ?";
 		
@@ -49,10 +49,10 @@ public class ReplyService {
 			Connection con = DatabaseUtil.getConnection();
 			PreparedStatement ptst = con.prepareStatement(sql);
 						
-			ptst.setInt(1, id);
+			ptst.setInt(1, rid);
 			
 			ptst.executeUpdate();
-			log.info("[" + id +"] 번 댓글이 삭제되었습니다.");
+			log.info("[" + rid +"] 번 댓글이 삭제되었습니다.");
 			
 			ptst.close();
 			con.close();
@@ -92,7 +92,7 @@ public class ReplyService {
 		List<Reply> list = new ArrayList<>();
 		String sql = "SELECT * FROM ( "
 				+ "    SELECT ROWNUM RN, R.* FROM ( "
-				+ "        SELECT * FROM REPLY WHERE BOARD_ID = ? ORDER BY RID DESC "
+				+ "        SELECT * FROM REPLY WHERE BOARD_ID = ? ORDER BY ID DESC "
 				+ "    ) R "
 				+ ") WHERE RN > ? AND RN <= ?";
 		
@@ -109,7 +109,6 @@ public class ReplyService {
 			while(rs.next()) {
 				String content = rs.getString("CONTENT");
 				int memberId = rs.getInt("MEMBER_ID");
-				String email = rs.getString("EMAIL");
 				Date regDate = rs.getDate("REGDATE");
 				int id = rs.getInt("ID");
 				
@@ -198,7 +197,7 @@ public class ReplyService {
 		
 		int result = 0;
 		
-		String sql = "SELECT COUNT(ID) CNT FROM REPLY GROUP BY BID HAVING BOARD_ID = ?";
+		String sql = "SELECT COUNT(ID) CNT FROM REPLY GROUP BY BOARD_ID HAVING BOARD_ID = ?";
 		
 		try {
 			Connection con = DatabaseUtil.getConnection();

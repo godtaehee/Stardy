@@ -27,10 +27,10 @@
 
 <body>
 <%
-String email = (String) request.getSession().getAttribute("email");
+Integer loginId = (Integer) request.getSession().getAttribute("id");
 MemberService service = new MemberService();
 
-Member member = service.get(email);
+Member member = service.get(loginId);
 %>
     <div class="container-only body__container">
         <%@include file="/layout/header.jsp" %>
@@ -165,8 +165,8 @@ Member member = service.get(email);
 <%@include file="/layout/footer.jsp" %>
     </div>
 <script>
-window.email = '<%=email%>';
-</script>    
+	window.loginId = '${loginId}';
+</script>  
 <script src="../js/ajax/ajax.js"></script>
 </body>
 </html>

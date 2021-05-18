@@ -10,7 +10,8 @@
     var btnDelete = modal.querySelector('.button-delete');
     var btnCancel = modal.querySelector('.button-cancel');
 
-	var currentUser = window.email;
+	var currentUser = window.loginId;
+	console.log('currentUser :' + currentUser);
 
     var screen;
 
@@ -43,29 +44,29 @@
         document.querySelector('body').append(screen);
         /* screen 생성 */
 
-        var reply;
-        var writer;
-        var regDate;
-		var rid;
-		var email;
+        let reply;
+        let writer;
+        let regDate;
+		let rid;
+		let email;
 
         if(target.className === 'replies'){
-            rid = target.dataset['rid'];
-			email = target.dataset['email'];
+            rid = target.dataset['id']; //reply_id
+			memberId = target.dataset['memberid'];
 			
-			console.log(rid + ', ' + email);
+			console.log(rid + ', ' + memberId);
 			
             reply = target.querySelector('.reply').innerText;
             writer = target.querySelector('.reply-writer').innerText;
             regDate = target.querySelector('.regdate').innerText;
         }
         else{
-            var replies = target.parentElement.parentElement;
+            let replies = target.parentElement.parentElement;
 
-			rid = replies.dataset['rid'];
-			email = replies.dataset['email'];
+			rid = replies.dataset['id']; //reply_id
+			memberId = replies.dataset['memberid'];
 			
-			console.log(rid + ', ' + email);
+			console.log(rid + ', ' + memberId);
 			
             reply = replies.querySelector('.reply').innerText;
             writer = replies.querySelector('.reply-writer').innerText;
@@ -73,7 +74,7 @@
         }
 
 		/* 로그인한 사용자 == 댓글 작성자? */
-		if(currentUser !== email){
+		if(currentUser != memberId){
 			console.log('댓글 작성자와 현재 유저 불일치');
 			btnModify.classList.add('hide');
 			btnDelete.classList.add('hide');
@@ -87,9 +88,8 @@
 		}
 
 		modalRid.value = rid;
-		modalEmail.value = email;
         modalReply.value = reply;
-        modalWriter.value = writer;
+        modalWriter.value = memberId;
         modalRegDate.value = regDate;
 
         show();
@@ -122,7 +122,7 @@
     /* 모달창의 삭제 버튼 click */
     btnDelete.addEventListener('click', (e) => {
 
-		var rid = modalRid.value;
+		let rid = modalRid.value; //reply_id
 		
 		replyModule.removeReply(rid);
 		
@@ -132,11 +132,11 @@
     /* 모달창의 수정 버튼 click */
     btnModify.addEventListener('click', (e) => {
 
-		var rid = modalRid.value;
-		var content = modalReply.value;
+		let rid = modalRid.value;
+		let content = modalReply.value;
 		
-		var reply = {
-			rid: rid,
+		let reply = {
+			id: rid,
 			content: content
 		}
 		

@@ -14,6 +14,7 @@ public class StudyService {
 
 
     public List<Study> getList() throws SQLException {
+
         List<Study> list = new ArrayList<>();
 
         String sql = "SELECT * FROM STUDY";
@@ -25,34 +26,39 @@ public class StudyService {
             ResultSet rs = pstmt.executeQuery();
 
             while(rs.next()) {
-                int sId = rs.getInt("SID");
-                String title = rs.getString("TITLE");
-                String leader = rs.getString("LEADER");
-                int category = rs.getInt("CATEGORY");
-                int limit = rs.getInt("LIMIT");
-                int open = rs.getInt("OPEN");
-                Date dueDate = rs.getDate("DUEDATE");
-                String intro = rs.getString("INTRO");
-                Date regDate = rs.getDate("REGDATE");
-                Date updateDate = rs.getDate("UPDATEDATE");
-                String bg = rs.getString("BG");
-                String path = rs.getString("PATH");
-                int crnt = rs.getInt("CRNT");
+            	
+            	int id = rs.getInt("ID");
+            	String title = rs.getString("TITLE");
+            	String intro = rs.getString("INTRO");
+            	String open = rs.getString("OPEN");
+            	String limit = rs.getString("LIMIT");
+            	
+            	Date regDate = rs.getDate("REGDATE");
+            	Date updateDate = rs.getDate("UPDATEDATE");
+            	Date dueDate = rs.getDate("DUEDATE");
+            	
+            	String bg = rs.getString("BG");
+            	String path = rs.getString("PATH");
+            	
+            	int memberId = rs.getInt("MEMBER_ID");
+            	int categoryId = rs.getInt("CATEGORY_ID");
+           
 
                 Study study = new Study();
-                study.setSid(sId);
+                
+                study.setId(id);
                 study.setTitle(title);
-                study.setLeader(leader);
-                study.setCategory(category);
-                study.setLimit(limit);
-                study.setOpen(open);
-                study.setDueDate(dueDate);
                 study.setIntro(intro);
+                study.setOpen(open);
+                study.setLimit(limit);
                 study.setRegDate(regDate);
                 study.setUpdateDate(updateDate);
+                study.setDueDate(dueDate);
                 study.setBg(bg);
                 study.setPath(path);
-                study.setCrnt(crnt);
+                study.setMemberId(memberId);
+                study.setCategoryId(categoryId);
+                
                 list.add(study);
             }
 
@@ -62,4 +68,53 @@ public class StudyService {
         rs.close();
         return list;
     }
+    
+    public int getCrnt(Study study) throws SQLException {
+    	
+    		
+		String sql = "SELECT COUNT(MEMBER_ID) CNT FROM JOINED_STUDY WHERE STUDY_ID=" + study.getId();
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        con = DatabaseUtil.getConnection();
+        pstmt = con.prepareStatement(sql);
+		ResultSet rs = pstmt.executeQuery();
+		
+		rs.next();
+		
+        int cnt = rs.getInt("CNT");
+        
+        pstmt.close();
+        con.close();
+        rs.close();
+    		
+    	
+    	return cnt;
+             
+    }
+    
+    public String getLeader(int id) throws SQLException {
+    	
+		
+		String sql = "SELECT NICNAME FROM STUDY WHERE STUDY_ID=" + id;
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        con = DatabaseUtil.getConnection();
+        pstmt = con.prepareStatement(sql);
+		ResultSet rs = pstmt.executeQuery();
+		
+		rs.next();
+		
+        String nickName = rs.getString("NICNAME");
+        
+        pstmt.close();
+        con.close();
+        rs.close();
+    		
+    	
+    	return nickName;
+             
+    }
+    
+    
+    
 }
