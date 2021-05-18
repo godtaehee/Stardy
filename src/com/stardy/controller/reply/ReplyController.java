@@ -40,19 +40,19 @@ public class ReplyController extends HttpServlet{
 		//댓글의 개수 조회
 		if(paths[1].equals("get")) {
 			
-			int bid = Integer.parseInt(paths[2]);
+			int boardId = Integer.parseInt(paths[2]);
 			
-			int count = replyService.count(bid);
+			int count = replyService.count(boardId);
 			out.println(count);
 		}
 		//게시글의 댓글 조회 (page와 bid)
 		else {
-			int bid = Integer.parseInt(paths[1]);
+			int boardId = Integer.parseInt(paths[1]);
 			int page = Integer.parseInt(paths[2]);
 			
-			log.info("bid : " + bid + ", page : " + page);
+			log.info("bid : " + boardId + ", page : " + page);
 			
-			List<Reply> list = replyService.getList(bid, page);
+			List<Reply> list = replyService.getList(boardId, page);
 			
 //		JSONArray array = new JSONArray();
 //		
@@ -99,11 +99,11 @@ public class ReplyController extends HttpServlet{
 			try {
 				JSONObject obj = (JSONObject) parser.parse(sb.toString());
 				String content = (String) obj.get("content");
-				String email = (String) request.getSession().getAttribute("email");
+				int memberId = (int) request.getSession().getAttribute("id");
 				String writer = (String) request.getSession().getAttribute("nickname");
-				int bid = Integer.parseInt(String.valueOf(obj.get("bid")));
+				int boardId = Integer.parseInt(String.valueOf(obj.get("boardId")));
 				
-				Reply reply = new Reply(email, writer, content, bid);
+				Reply reply = Reply.builder().memberId(memberId).content(content).boardId(boardId).build();
 				
 				replyService.register(reply);
 			} catch (ParseException e) {
@@ -125,15 +125,15 @@ public class ReplyController extends HttpServlet{
 		while( (line = br.readLine()) != null )
 			sb.append(line);
 		
-		System.out.println(sb); //{"rid":"39","content":"ㅎㅇㅎㅇawda"}
+		System.out.println(sb); //{"id":"39","content":"ㅎㅇㅎㅇawda"}
 		
 		try {
 			JSONParser parser = new JSONParser();
 			JSONObject obj = (JSONObject) parser.parse(sb.toString());
 			String content = (String) obj.get("content");
-			int rid = Integer.parseInt(String.valueOf(obj.get("rid")));
+			int id = Integer.parseInt(String.valueOf(obj.get("id")));
 			
-			int result = replyService.modify(rid, content);
+			int result = replyService.modify(id, content);
 			
 			response.getWriter().println(result == 1? "success":"failure");
 			
@@ -147,9 +147,9 @@ public class ReplyController extends HttpServlet{
 		
 		String[] paths = request.getPathInfo().split("/");
 	
-		int rid = Integer.parseInt(paths[1]);
+		int id = Integer.parseInt(paths[1]);
 		
-		log.info(rid + "번 댓글을 삭제했습니다. 요청자 : " + (String) request.getSession().getAttribute("email"));
-		replyService.remove(rid);
+		log.info(id + "번 댓글을 삭제했습니다. 요청자 : " + (String) request.getSession().getAttribute("nickname"));
+		replyService.remove(id);
 	}
 }

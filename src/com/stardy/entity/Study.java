@@ -11,19 +11,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Study {
 
-	private int sid;
-	private String title;
-	private String leader;
-	private String email;
-	private String intro;
-	private int category;
-	private int limit;
-	private int open;
-	private Date dueDate;
-	private Date regDate;
-	private Date updateDate;
-	private String bg;
-	private String path;
-	private int crnt;
-	
+   private int id;
+   private String title;
+   private String intro;
+   private String open;
+   private String limit;
+   
+   private Date regDate;
+   private Date updateDate;
+   private Date dueDate;
+   
+   private String bg;
+   private String path;
+   
+   private int memberId;
+   private int categoryId;
+   
 }

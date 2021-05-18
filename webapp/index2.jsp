@@ -3,12 +3,12 @@
 <%@page import="com.stardy.service.StudyService" %>
 <%@ page import="com.stardy.entity.Study" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.stardy.util.CategoryConvert" %>
+<%@ page import="com.stardy.entity.Category" %>
 
 <%
-
     StudyService list = new StudyService();
     List<Study> study = list.getList();
+    
 
 %>
 <!DOCTYPE html>
@@ -22,8 +22,6 @@
     <link rel="stylesheet" href="css/basic.css">
     <link rel="stylesheet" href="css/header.css">
     <title>Document</title>
-
-
 </head>
 <body>
     <div class="container">
@@ -178,7 +176,7 @@
             <div class="study-list">
                     <div class="study-list-header">
                         <div class="study-title">내 스터디 목록</div>
-                        <a href="study/myStudyList.jsp"><div class="arrow"></div></a>
+                        <a href="study/list.jsp"><div class="arrow"></div></a>
                     </div>
                     <div class="study-list-desc">스터디룸에 입장해보세요</div>
                     <div class="study-list-item">
@@ -186,13 +184,13 @@
                         <ul class="study-list-container">
                             <%for(int i = 0; i < study.size(); i++) {%>
                             <li class="mini-card">
-                                <a href="study/detail.jsp?sid=<%=String.valueOf(study.get(i).getSid())%>">
+                                <a href="study/detail.jsp?id=<%=String.valueOf(study.get(i).getId())%>">
                                     <div class="mini-card-container">
                                         <div class="mini-card-img"></div>
                                         <div class="mini-card-title"><%=study.get(i).getTitle()%></div>
                                         <div class="mini-card-info">
-                                            <div class="mini-card-population">정원 <%=study.get(i).getCrnt()%>/<%=study.get(i).getLimit()%>명</div>
-                                            <div class="mini-card-kind"><%=CategoryConvert.convert(study.get(i).getCategory())%></div>
+                                            <div class="mini-card-population">정원 <%=list.getCrnt(study.get(i))%>/<%=study.get(i).getLimit()%>명</div>
+                                            <div class="mini-card-kind"><%=Category.getCategory(study.get(i).getCategoryId())%></div>
                                         </div>
                                     </div>
                                 </a>

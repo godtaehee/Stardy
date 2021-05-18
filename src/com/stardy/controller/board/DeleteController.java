@@ -25,27 +25,27 @@ public class DeleteController extends HttpServlet{
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		int bid = -1;
-		String bid_ = request.getParameter("bid");
+		int id = -1;
+		String id_ = request.getParameter("id");
 		
-		System.out.println(bid_);
+		System.out.println(id_);
 		
-		if(bid_ != null && !bid_.equals(""))
-			bid = Integer.parseInt(bid_);
+		if(id_ != null && !id_.equals(""))
+			id = Integer.parseInt(id_);
 		
-		Board board = boardService.read(bid);
+		Board board = boardService.read(id);
 		
-		if(bid != -1) {
+		if(id != -1) {
 			/* 좋아요 삭제 */
-			likeService.removeAll(bid);
+			likeService.removeAll(id);
 			/* 즐겨찾기 삭제 */
-			bookmarkService.removeAll(bid);
+			bookmarkService.removeAll(id);
 			/* 댓글 삭제 */
-			replyService.removeAll(bid);
+			replyService.removeAll(id);
 			/* 게시글 삭제 */
-			boardService.delete(bid);
+			boardService.delete(id);
 		}
 		
-		response.sendRedirect("/study/list.jsp?sid=" + board.getSid());
+		response.sendRedirect("/study/list.jsp?sid=" + board.getStudyId());
 	}
 }

@@ -41,8 +41,10 @@ public class LoginController extends HttpServlet{
 		
 		if(result != null) {
 			log.info("로그인 성공");
+			
 			request.getSession().setAttribute("nickname", result.getNickname());
-			request.getSession().setAttribute("email", email);
+			request.getSession().setAttribute("id", result.getId());
+			
 			request.setAttribute("msg", "success");
 			response.sendRedirect("/index2.jsp");
 		}

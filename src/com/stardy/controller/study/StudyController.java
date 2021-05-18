@@ -1,11 +1,19 @@
 package com.stardy.controller.study;
 
+import com.stardy.entity.Category;
+import com.stardy.entity.Member;
 import com.stardy.entity.Study;
 import com.stardy.util.DatabaseUtil;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,10 +21,9 @@ import java.util.List;
 @WebServlet("/study/target")
 public class StudyController extends HttpServlet {
 
-
     public Study getStudy(int id) throws SQLException {
 // SELECT TRUNC(DUEDATE) - TRUNC(REGDATE) FROM STUDY
-        String sql = "SELECT * FROM STUDY WHERE SID=?";
+        String sql = "SELECT * FROM STUDY WHERE ID=?";
         Connection con = null;
         PreparedStatement pstmt = null;
 
@@ -28,34 +35,37 @@ public class StudyController extends HttpServlet {
 
         Study study = new Study();
         while(rs.next()) {
-            int sId = rs.getInt("SID");
-            String title = rs.getString("TITLE");
-            String leader = rs.getString("LEADER");
-            int category = rs.getInt("CATEGORY");
-            int limit = rs.getInt("LIMIT");
-            int open = rs.getInt("OPEN");
-            Date dueDate = rs.getDate("DUEDATE");
-            String intro = rs.getString("INTRO");
-            Date regDate = rs.getDate("REGDATE");
-            Date updateDate = rs.getDate("UPDATEDATE");
-            String bg = rs.getString("BG");
-            String path = rs.getString("PATH");
-            int crnt = rs.getInt("CRNT");
+        	
+        	String title = rs.getString("TITLE");
+        	String intro = rs.getString("INTRO");
+        	String open = rs.getString("OPEN");
+        	String limit = rs.getString("LIMIT");
+        	
+        	Date regDate = rs.getDate("REGDATE");
+        	Date updateDate = rs.getDate("UPDATEDATE");
+        	Date dueDate = rs.getDate("DUEDATE");
+        	
+        	String bg = rs.getString("BG");
+        	String path = rs.getString("PATH");
+        	
+        	int memberId = rs.getInt("MEMBER_ID");
+        	int categoryId = rs.getInt("CATEGORY_ID");
+       
 
 
-            study.setSid(sId);
+            
+            study.setId(id);
             study.setTitle(title);
-            study.setLeader(leader);
-            study.setCategory(category);
-            study.setLimit(limit);
-            study.setOpen(open);
-            study.setDueDate(dueDate);
             study.setIntro(intro);
+            study.setOpen(open);
+            study.setLimit(limit);
             study.setRegDate(regDate);
             study.setUpdateDate(updateDate);
+            study.setDueDate(dueDate);
             study.setBg(bg);
             study.setPath(path);
-            study.setCrnt(crnt);
+            study.setMemberId(memberId);
+            study.setCategoryId(categoryId);
         }
 
 
@@ -68,7 +78,7 @@ public class StudyController extends HttpServlet {
 
     public int getDuringTime(int id) throws SQLException {
         //
-        String sql = "SELECT TRUNC(DUEDATE) - TRUNC(REGDATE) AS TIMES FROM STUDY WHERE SID=?";
+        String sql = "SELECT TRUNC(DUEDATE) - TRUNC(REGDATE) AS TIMES FROM STUDY WHERE ID=?";
         Connection con = null;
         PreparedStatement pstmt = null;
 
@@ -89,4 +99,79 @@ public class StudyController extends HttpServlet {
         rs.close();
         return time;
     }
+    
+	
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub"
+		
+		request.setCharacterEncoding("utf-8");
+		
+		System.out.println(request.getParameter("open"));
+		
+		String title = request.getParameter("title");
+		int memberId = Integer.parseInt(request.getParameter("memberId"));
+		String category_str = request.getParameter("category");
+		int category = Category.valueOf(category_str).ordinal();
+		int limit = Integer.parseInt(request.getParameter("limit")); 
+		int open = 0;
+		if(request.getParameter("open") == null)
+			open = 0;
+		else
+			open = 1;
+//		int open = Integer.parseInt(request.getParameter("open"));
+		String duedate_str = request.getParameter("duedate");
+		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+		
+		String intro = request.getParameter("intro");
+		
+		Date duedate = null;
+		try {
+			duedate = transFormat.parse(duedate_str);
+		} catch (java.text.ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		java.sql.Date sqlDate = new java.sql.Date(duedate.getTime());
+		
+		
+		   String sql = "INSERT INTO STUDY(TITLE, MEMBER_ID, CATEGORY_ID, LIMIT, OPEN, DUEDATE, INTRO) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+
+	
+		   int flag = 0;
+		   
+	        try {
+	            Connection con = DatabaseUtil.getConnection();
+		        PreparedStatement pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, title);
+		        pstmt.setInt(2, memberId);
+		        pstmt.setInt(3, category);
+		        pstmt.setInt(4, limit);
+		        pstmt.setInt(5, open);
+		        pstmt.setDate(6, sqlDate);
+		        pstmt.setString(7, intro);
+		        flag = pstmt.executeUpdate();
+		        pstmt.close();
+		        con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+
+
+	        
+	        
+	        if(flag == 1)
+	            response.sendRedirect("/study/list.jsp");
+
+
+
+
+
+		// title, memberid, categoryid, limit, open, intro, bg, path
+		// title, category, limit, open, duedate, intro
+	}
 }

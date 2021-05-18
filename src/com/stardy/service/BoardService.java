@@ -16,61 +16,91 @@ public class BoardService {
 
 	Logger log = new Logger();
 	
-	/* 게시글의 좋아요 증가 */
-	public int incLike(int bid) {
+public String getWriter(int bid) {
 		
-		String sql = "UPDATE BOARD SET LIKES = LIKES + 1 WHERE BID = ?";
-		int result = 0;
+		Connection con = null;
+		PreparedStatement ptst = null;
+		ResultSet rs = null;
+		String nickName = "";
+		String sql = "SELECT NICNAME FROM MEMBER WHERE ID="+bid;
 		
 		try {
-			Connection con = DatabaseUtil.getConnection();
-			PreparedStatement ptst = con.prepareStatement(sql);
-						
-			ptst.setInt(1, bid);
+			con = DatabaseUtil.getConnection();
+			ptst = con.prepareStatement(sql);
 			
-			result = ptst.executeUpdate();
-			log.info("[" + bid +"] 번 게시글에 좋아요가 증가되었습니다.");
+			rs = ptst.executeQuery();
+			
+			rs.next();
+			
+			nickName = rs.getString("NICKNAME");
 			
 			ptst.close();
 			con.close();
+			rs.close();
+			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return result;
+		return nickName;
+
 	}
 	
+	/* 게시글의 좋아요 증가 */
+//	public int incLike(int bid) {
+//		
+//		String sql = "UPDATE BOARD SET LIKES = LIKES + 1 WHERE BID = ?";
+//		int result = 0;
+//		
+//		try {
+//			Connection con = DatabaseUtil.getConnection();
+//			PreparedStatement ptst = con.prepareStatement(sql);
+//						
+//			ptst.setInt(1, bid);
+//			
+//			result = ptst.executeUpdate();
+//			log.info("[" + bid +"] 번 게시글에 좋아요가 증가되었습니다.");
+//			
+//			ptst.close();
+//			con.close();
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		return result;
+//	}
+	
 	/* 게시글의 좋아요 감소 */
-	public int decLike(int bid) {
-		
-		String sql = "UPDATE BOARD SET LIKES = LIKES - 1 WHERE BID = ?";
-		int result = 0;
-		
-		try {
-			Connection con = DatabaseUtil.getConnection();
-			PreparedStatement ptst = con.prepareStatement(sql);
-						
-			ptst.setInt(1, bid);
-			
-			result = ptst.executeUpdate();
-			log.info("[" + bid +"] 번 게시글에 좋아요가 감소되었습니다.");
-			
-			ptst.close();
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return result;
-	}
+//	public int decLike(int bid) {
+//		
+//		String sql = "UPDATE BOARD SET LIKES = LIKES - 1 WHERE BID = ?";
+//		int result = 0;
+//		
+//		try {
+//			Connection con = DatabaseUtil.getConnection();
+//			PreparedStatement ptst = con.prepareStatement(sql);
+//						
+//			ptst.setInt(1, bid);
+//			
+//			result = ptst.executeUpdate();
+//			log.info("[" + bid +"] 번 게시글에 좋아요가 감소되었습니다.");
+//			
+//			ptst.close();
+//			con.close();
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		return result;
+//	}
 	
 	/* 특정 스터디의 게시글 목록 */
 	public List<Board> getList(int sid) {
 		
 		List<Board> list = new ArrayList<Board>();
-		String sql = "SELECT * FROM BOARD WHERE SID = ?";
+		String sql = "SELECT * FROM BOARD WHERE ID = ?";
 		
 		try {
 			Connection con = DatabaseUtil.getConnection();
@@ -81,17 +111,18 @@ public class BoardService {
 			ResultSet rs = ptst.executeQuery();
 			
 			while(rs.next()) {
-				int bid = rs.getInt("BID");
+				int bid = rs.getInt("ID");
 				String title = rs.getString("TITLE");
-				String writer = rs.getString("WRITER");
-				String email = rs.getString("EMAIL");
+				String writer = rs.getString("CONTENT");
+			
 				Date regDate = rs.getDate("REGDATE");
 				Date updateDate = rs.getDate("UPDATEDATE");
-				int likes = rs.getInt("LIKES");
+				int memberId = rs.getInt("MEMBER_ID");
+				int studyId = rs.getInt("STUDY_ID");
 				
 				
-				Board board = new Board(bid, title, null, writer, email, regDate, updateDate, likes, sid, 0);
-				list.add(board);
+				//Board board = new Board(bid, title, null, writer, email, regDate, updateDate, likes, sid, 0);
+				//list.add(board);
 			}
 			
 			rs.close();
@@ -106,20 +137,20 @@ public class BoardService {
 	}
 	
 	/* 다음 글 BID 가져오기 */
-	public int getNext(int bid) {
+	public int getNext(int id) {
 		
-		String sql = "SELECT BID FROM BOARD WHERE BID IN (SELECT MIN(BID) FROM BOARD WHERE BID > ?)";
+		String sql = "SELECT ID FROM BOARD WHERE ID IN (SELECT MIN(ID) FROM BOARD WHERE ID > ?)";
 		int next = -1;
 		try {
 			Connection con = DatabaseUtil.getConnection();
 			PreparedStatement ptst = con.prepareStatement(sql);
 			
-			ptst.setInt(1, bid);
+			ptst.setInt(1, id);
 			
 			ResultSet rs = ptst.executeQuery();
 			
 			while(rs.next()) {
-				next = rs.getInt("BID");
+				next = rs.getInt("ID");
 			}
 			
 			rs.close();
@@ -134,20 +165,20 @@ public class BoardService {
 	}
 	
 	/* 이전 글 BID 가져오기 */
-	public int getPrev(int bid) {
+	public int getPrev(int id) {
 		
-		String sql = "SELECT BID FROM BOARD WHERE BID IN (SELECT MAX(BID) FROM BOARD WHERE BID < ?)";
+		String sql = "SELECT ID FROM BOARD WHERE ID IN (SELECT MAX(ID) FROM BOARD WHERE ID < ?)";
 		int prev = -1;
 		try {
 			Connection con = DatabaseUtil.getConnection();
 			PreparedStatement ptst = con.prepareStatement(sql);
 			
-			ptst.setInt(1, bid);
+			ptst.setInt(1, id);
 			
 			ResultSet rs = ptst.executeQuery();
 			
 			while(rs.next()) {
-				prev = rs.getInt("BID");
+				prev = rs.getInt("ID");
 			}
 			
 			rs.close();
@@ -162,31 +193,38 @@ public class BoardService {
 	}
 	
 	/* 게시글 조회 */
-	public Board read(int bid) {
+	public Board read(int id) {
 		
 		Board board = null;
 		
-		String sql = "SELECT * FROM BOARD WHERE BID = ?";
+		String sql = "SELECT * FROM BOARD WHERE ID = ?";
 		
 		try {
 			Connection con = DatabaseUtil.getConnection();
 			PreparedStatement ptst = con.prepareStatement(sql);
 			
-			ptst.setInt(1, bid);
+			ptst.setInt(1, id);
 			
 			ResultSet rs = ptst.executeQuery();
 			
 			while(rs.next()) {
+				int memberId = rs.getInt("MEMBER_ID");
+				int studyId = rs.getInt("STUDY_ID");
+				
 				String title = rs.getString("TITLE");
 				String content = rs.getString("CONTENT");
-				String email = rs.getString("EMAIL");
-				String writer = rs.getString("WRITER");
+				
 				Date regDate = rs.getDate("REGDATE");
 				Date updateDate = rs.getDate("UPDATEDATE");
-				int likes = rs.getInt("LIKES");
-				int sid = rs.getInt("SID");
 				
-				board = new Board(bid, title, content, writer, email, regDate, updateDate, likes, sid, 0);
+				board = Board.builder()
+						.content(content)
+						.title(title)
+						.id(id)
+						.studyId(studyId)
+						.memberId(memberId)
+						.regDate(regDate)
+						.updateDate(updateDate).build();
 				//파일은 추후
 			}
 			System.out.println(board);
@@ -205,7 +243,7 @@ public class BoardService {
 	/* 게시글 수정 */
 	public int modify(Board board) {
 		
-		String sql = "UPDATE BOARD SET TITLE = ?, CONTENT = ? WHERE BID = ?";
+		String sql = "UPDATE BOARD SET TITLE = ?, CONTENT = ? WHERE ID = ?";
 		int result = 0;
 		
 		try {
@@ -214,10 +252,10 @@ public class BoardService {
 						
 			ptst.setString(1, board.getTitle());
 			ptst.setString(2, board.getContent());
-			ptst.setInt(3, board.getBid());
+			ptst.setInt(3, board.getId());
 			
 			result = ptst.executeUpdate();
-			log.info("[" + board.getBid() +"] 번 게시글이 수정되었습니다.");
+			log.info("[" + board.getId() +"] 번 게시글이 수정되었습니다.");
 			
 			ptst.close();
 			con.close();
@@ -230,19 +268,19 @@ public class BoardService {
 	}
 	
 	/* 게시글 삭제 */
-	public int delete(int bid) {
+	public int delete(int id) {
 		
-		String sql = "DELETE FROM BOARD WHERE BID = ?";
+		String sql = "DELETE FROM BOARD WHERE ID = ?";
 		int result = 0;
 		
 		try {
 			Connection con = DatabaseUtil.getConnection();
 			PreparedStatement ptst = con.prepareStatement(sql);
 						
-			ptst.setInt(1, bid);
+			ptst.setInt(1, id);
 			
 			result = ptst.executeUpdate();
-			log.info("[" + bid +"] 번 게시글이 삭제되었습니다.");
+			log.info("[" + id +"] 번 게시글이 삭제되었습니다.");
 			
 			ptst.close();
 			con.close();

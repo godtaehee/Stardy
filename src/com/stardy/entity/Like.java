@@ -9,13 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Like {
 
-	private int lid;
-	private int bid;
-	private String email;
-	
-	public Like(int bid, String email) {
-		this.bid = bid;
-		this.email = email;
-	}
+	private int memberId;
+	private int boardId;
+
 	
 }
