@@ -12,6 +12,19 @@
   justify-content: space-between;
 }
 
+.footer {
+	color:#515151;
+  	display: flex;
+  	font-size: 16px !important;
+  	justify-content:space-around;
+  	border-top: 1px solid black;
+  	align-items:center;
+  	font-weight: bold;
+  	font-family: "Noto Sans KR", "Roboto" !important;
+  height: 100px;
+}
+
+
 #search-form {
   display: none;
 }

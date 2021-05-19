@@ -4,6 +4,12 @@
     <footer class="footer">
         <h1 class="hide">footer</h1>
         
+       <div>김지호 - jiho519@naver.com</div>
+       <div>김태희 - wonderfulhuman@naver.com</div>
+       <div>임수영 - oowooo@naver.com</div>
+       <div>정다겸 - infiniibanque@gmail.com</div>
+        
+        
     </footer>
     <script>
       window.addEventListener("load", function(){

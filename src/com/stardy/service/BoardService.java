@@ -22,7 +22,7 @@ public String getWriter(int bid) {
 		PreparedStatement ptst = null;
 		ResultSet rs = null;
 		String nickName = "";
-		String sql = "SELECT NICNAME FROM MEMBER WHERE ID="+bid;
+		String sql = "SELECT NICKNAME FROM MEMBER WHERE ID="+bid;
 		
 		try {
 			con = DatabaseUtil.getConnection();
@@ -30,9 +30,8 @@ public String getWriter(int bid) {
 			
 			rs = ptst.executeQuery();
 			
-			rs.next();
-			
-			nickName = rs.getString("NICKNAME");
+			if(rs.next())
+				nickName = rs.getString("NICKNAME");
 			
 			ptst.close();
 			con.close();
@@ -100,9 +99,11 @@ public String getWriter(int bid) {
 	public List<Board> getList(int sid) {
 		
 		List<Board> list = new ArrayList<Board>();
-		String sql = "SELECT * FROM BOARD WHERE ID = ?";
+		
+		String sql = "SELECT * FROM BOARD WHERE STUDY_ID = ?";
 		
 		try {
+			
 			Connection con = DatabaseUtil.getConnection();
 			PreparedStatement ptst = con.prepareStatement(sql);
 			
@@ -113,16 +114,15 @@ public String getWriter(int bid) {
 			while(rs.next()) {
 				int bid = rs.getInt("ID");
 				String title = rs.getString("TITLE");
-				String writer = rs.getString("CONTENT");
-			
+				String content = rs.getString("CONTENT");
 				Date regDate = rs.getDate("REGDATE");
 				Date updateDate = rs.getDate("UPDATEDATE");
-				int memberId = rs.getInt("MEMBER_ID");
 				int studyId = rs.getInt("STUDY_ID");
+				int memberId = rs.getInt("MEMBER_ID");
 				
-				
-				//Board board = new Board(bid, title, null, writer, email, regDate, updateDate, likes, sid, 0);
-				//list.add(board);
+				Board board = new Board(bid, title, content, regDate, updateDate, studyId, memberId);
+				System.out.println(board);
+				list.add(board);
 			}
 			
 			rs.close();

@@ -15,22 +15,28 @@
     Study study = null;
     StudyController studyController = null;
     StudyService studyService = null;
+    
     BoardService boardService = null;
     List<Board> board = null;
+    
     LikeService likeService = null;
     int id= 0;
     String writer = "";
+    int memberId = (int) request.getSession().getAttribute("id");
+    boolean flag = false;
 
     try {
         id = Integer.parseInt(request.getParameter("id"));
        	System.out.println(id);
        	writer = request.getParameter("writer");
+       	System.out.println(writer);
         studyController = new StudyController();
         boardService = new BoardService();
         likeService = new LikeService();
         study = studyController.getStudy(id);
         board = boardService.getList(id);
         studyService = new StudyService();
+        flag = studyService.isLeader(memberId, id);
 
     } catch (SQLException throwables) {
         throwables.printStackTrace();
@@ -148,7 +154,7 @@
                     <div class="card-content">
                         <div class="profile">
                             <div class="profile-picture"></div>
-                            <div class="profile-name"><%=boardService.getWriter(board.get(i).getId())%></div>
+                            <div class="profile-name"><%=boardService.getWriter(board.get(i).getMemberId())%></div>
                             <div class="date">1h 20m ago</div>
                         </div>
                         <div class="title"><%=board.get(i).getTitle()%></div>
@@ -254,9 +260,21 @@
         <%@include file="/layout/footer.jsp" %>
     </div>
     <script>
-    	const upBtn = document.querySelector('.up');
+    
+    	
+
+    
+    	
         const write = document.querySelector('.write-section');
         const modal = document.querySelector('.modal');
+        const jumboMenu = document.querySelector('.jumbo-menu');
+        
+        const flag = <%=flag%>;
+        if(!flag) {
+        	jumboMenu.style.display = 'none';
+        }
+        
+        
         write.addEventListener('click', () =>{
             if(modal.classList.contains('hide')){
                 modal.classList.remove('hide');
@@ -264,9 +282,6 @@
             }
         });
         
-        upBtn.addEventListener('click', (e) => {
-        	console.log(e);
-        })
 
         modal.addEventListener('click', (e) => {
            if(e.target.classList.contains('modal') || e.target.classList.contains('cancelBtn')){

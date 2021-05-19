@@ -11,13 +11,20 @@ import java.util.Date;
 import java.util.List;
 
 public class StudyService {
+	
 
-
-    public List<Study> getList() throws SQLException {
+    public List<Study> getList(boolean flag, int memberId) throws SQLException {
 
         List<Study> list = new ArrayList<>();
+        
+        // 내가 가입한 스터디 목록 true , 내가 가입하지 않은 스터디 목록 false
 
-        String sql = "SELECT * FROM STUDY";
+        String sql = "";
+        if(flag) {
+        	sql = "SELECT * FROM STUDY S, (SELECT STUDY_ID FROM JOINED_STUDY WHERE MEMBER_ID="+memberId+") J WHERE  S.ID = J.STUDY_ID";
+        }else
+        	sql = "SELECT * FROM STUDY S, ((SELECT STUDY_ID FROM JOINED_STUDY GROUP BY STUDY_ID) MINUS (SELECT STUDY_ID FROM JOINED_STUDY WHERE MEMBER_ID="+memberId+" GROUP BY STUDY_ID)) J WHERE S.ID = J.STUDY_ID";
+        		
         Connection con = null;
         PreparedStatement pstmt = null;
 
@@ -40,7 +47,7 @@ public class StudyService {
             	String bg = rs.getString("BG");
             	String path = rs.getString("PATH");
             	
-            	int memberId = rs.getInt("MEMBER_ID");
+            	int member_Id = rs.getInt("MEMBER_ID");
             	int categoryId = rs.getInt("CATEGORY_ID");
            
 
@@ -56,7 +63,7 @@ public class StudyService {
                 study.setDueDate(dueDate);
                 study.setBg(bg);
                 study.setPath(path);
-                study.setMemberId(memberId);
+                study.setMemberId(member_Id);
                 study.setCategoryId(categoryId);
                 
                 list.add(study);
@@ -114,7 +121,28 @@ public class StudyService {
              
     }
     
-    
+    public boolean isLeader(int memberId, int studyId) throws SQLException {
+		
+  		String sql = "SELECT * FROM STUDY WHERE MEMBER_ID=" + memberId + " AND ID=" + studyId;
+          Connection con = null;
+          PreparedStatement pstmt = null;
+          con = DatabaseUtil.getConnection();
+          pstmt = con.prepareStatement(sql);
+  		ResultSet rs = pstmt.executeQuery();
+  		
+  		boolean flag = false;
+  		if(rs.next()) {
+  			flag = true;
+  		}
+  		
+          pstmt.close();
+          con.close();
+          rs.close();
+      		
+      	
+      	return flag;
+               
+      }
     
 }
 	
