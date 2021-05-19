@@ -13,10 +13,38 @@ import com.stardy.entity.Member;
 import com.stardy.util.DatabaseUtil;
 import com.stardy.util.Logger;
 
-public class BoardService {
+	public class BoardService {
 
 	Logger log = new Logger();
 	
+	public String getWriter(int bid) {
+		
+		Connection con = null;
+		PreparedStatement ptst = null;
+		ResultSet rs = null;
+		String nickName = "";
+		String sql = "SELECT NICKNAME FROM MEMBER WHERE ID="+bid;
+		
+		try {
+			con = DatabaseUtil.getConnection();
+			ptst = con.prepareStatement(sql);
+			
+			rs = ptst.executeQuery();
+			
+			if(rs.next())
+				nickName = rs.getString("NICKNAME");
+			
+			ptst.close();
+			con.close();
+			rs.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return nickName;
+
+	}
 	/* 게시글의 좋아요 증가 */
 //	public int incLike(int bid) {
 //		
@@ -71,9 +99,11 @@ public class BoardService {
 	public List<Board> getList(int sid) {
 		
 		List<Board> list = new ArrayList<Board>();
-		String sql = "SELECT * FROM BOARD WHERE SID = ?";
+		
+		String sql = "SELECT * FROM BOARD WHERE STUDY_ID = ?";
 		
 		try {
+			
 			Connection con = DatabaseUtil.getConnection();
 			PreparedStatement ptst = con.prepareStatement(sql);
 			
@@ -82,17 +112,17 @@ public class BoardService {
 			ResultSet rs = ptst.executeQuery();
 			
 			while(rs.next()) {
-				int bid = rs.getInt("BID");
+				int bid = rs.getInt("ID");
 				String title = rs.getString("TITLE");
-				String writer = rs.getString("WRITER");
-				String email = rs.getString("EMAIL");
+				String content = rs.getString("CONTENT");
 				Date regDate = rs.getDate("REGDATE");
 				Date updateDate = rs.getDate("UPDATEDATE");
-				int likes = rs.getInt("LIKES");
+				int studyId = rs.getInt("STUDY_ID");
+				int memberId = rs.getInt("MEMBER_ID");
 				
-				
-				//Board board = new Board(bid, title, null, writer, email, regDate, updateDate, likes, sid, 0);
-				//list.add(board);
+				Board board = new Board(bid, title, content, regDate, updateDate, studyId, memberId);
+				System.out.println(board);
+				list.add(board);
 			}
 			
 			rs.close();

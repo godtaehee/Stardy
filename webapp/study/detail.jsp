@@ -5,23 +5,38 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.stardy.util.CategoryConvert" %>
 <%@ page import="com.stardy.controller.study.StudyController" %>
+<%@ page import="com.stardy.service.StudyService" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="com.stardy.service.BoardService" %>
+<%@ page import="com.stardy.service.LikeService" %>
 <%@ page import="com.stardy.entity.Board" %>
 
 <%
     Study study = null;
     StudyController studyController = null;
+    StudyService studyService = null;
+    
     BoardService boardService = null;
     List<Board> board = null;
+    
+    LikeService likeService = null;
     int id= 0;
+    String writer = "";
+    int memberId = (int) request.getSession().getAttribute("id");
+    boolean flag = false;
 
     try {
-        id = Integer.parseInt(request.getParameter("sid"));
+        id = Integer.parseInt(request.getParameter("id"));
+       	System.out.println(id);
+       	writer = request.getParameter("writer");
+       	System.out.println(writer);
         studyController = new StudyController();
         boardService = new BoardService();
+        likeService = new LikeService();
         study = studyController.getStudy(id);
         board = boardService.getList(id);
+        studyService = new StudyService();
+        flag = studyService.isLeader(memberId, id);
 
     } catch (SQLException throwables) {
         throwables.printStackTrace();
@@ -96,7 +111,7 @@
                             <div class="about-study-content"><%=study.getIntro()%></div>
                             <div class="about-study-info">
                                 <div class="about-member">
-                                    <div class="member-cnt"><%=study.getCrnt()%></div>
+                                    <div class="member-cnt"><%=studyService.getCrnt(study)%></div>
                                     <div class="member-txt">Members</div>
                                 </div>
                                 <div class="about-posts">
@@ -132,14 +147,14 @@
                 <% for(int i = 0; i < board.size(); i++) {%>
                 <li class="card">
                     <div class="up-and-down">
-                        <div class="up"></div>
-                        <div class="recommend-cnt"><%=board.get(i).getLikes()%></div>
-                        <div class="down"></div>
+                        <div class="up"><input type="button" style="border:0; background-color:transparent"></div>
+                        <div class="recommend-cnt"><%=likeService.count(board.get(i).getId())%></div>
+                        <div class="down"><input type="button"></div>
                     </div>
                     <div class="card-content">
                         <div class="profile">
                             <div class="profile-picture"></div>
-                            <div class="profile-name"><%=board.get(i).getWriter()%></div>
+                            <div class="profile-name"><%=boardService.getWriter(board.get(i).getMemberId())%></div>
                             <div class="date">1h 20m ago</div>
                         </div>
                         <div class="title"><%=board.get(i).getTitle()%></div>
@@ -167,7 +182,7 @@
                     <div class="about-study-content"><%=study.getIntro()%></div>
                     <div class="about-study-info">
                         <div class="about-member">
-                            <div class="member-cnt"><%=study.getCrnt()%></div>
+                            <div class="member-cnt"><%=studyService.getCrnt(study)%></div>
                             <div class="member-txt">Members</div>
                         </div>
                         <div class="about-posts">
@@ -188,7 +203,7 @@
                             <div class="master-img"></div>
                             <div class="master-txt">스터디 개설자</div>
                         </div>
-                        <div class="master-name"><%=study.getLeader()%></div>
+                        <div class="master-name"><%=studyService.getLeader(study.getMemberId())%></div>
                     </div>
                 </div>
             </div>
@@ -229,7 +244,8 @@
                         <div class="write-hand"></div>
                         <div class="write-content">글을 작성해주세요.</div>
                     </div>
-                    <form class="modal-body" action="../study/write" method="post">
+                    <form class="modal-body" action="/study/write" method="post">
+                    	<input type="hidden" name="id" value=<%=id%>>
                         <input class="modal-title" type="text" name="title" placeholder="제목을 입력하세요">
                         <textarea class="modal-content" cols="30" rows="10" name="content"></textarea>
                         <div class="modal-footer">
@@ -241,18 +257,31 @@
                 </div>
             </div>
         </div>
-
         <%@include file="/layout/footer.jsp" %>
     </div>
     <script>
+    
+    	
+
+    
+    	
         const write = document.querySelector('.write-section');
         const modal = document.querySelector('.modal');
+        const jumboMenu = document.querySelector('.jumbo-menu');
+        
+        const flag = <%=flag%>;
+        if(!flag) {
+        	jumboMenu.style.display = 'none';
+        }
+        
+        
         write.addEventListener('click', () =>{
             if(modal.classList.contains('hide')){
                 modal.classList.remove('hide');
                 modal.classList.add('flex-show');
             }
         });
+        
 
         modal.addEventListener('click', (e) => {
            if(e.target.classList.contains('modal') || e.target.classList.contains('cancelBtn')){

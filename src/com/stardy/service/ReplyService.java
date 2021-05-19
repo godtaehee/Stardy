@@ -27,7 +27,11 @@ public class ReplyService {
 			
 			ptst.setString(1, reply.getContent());
 			ptst.setInt(2, reply.getMemberId());
+<<<<<<< HEAD
 			ptst.setInt(3, reply.getBoardId());
+=======
+			ptst.setInt(4, reply.getBoardId());
+>>>>>>> aac66bdadb62d318e1bb2cd61c7d993a7513846a
 			
 			ptst.executeUpdate();
 			log.info("[" + reply.getMemberId() + "] 님이 [" + reply.getBoardId() + "]번 게시글에 댓글을 작성했습니다.");
@@ -41,7 +45,7 @@ public class ReplyService {
 	}
 	
 	/* 댓글을 삭제하는 메서드 */
-	public void remove(int rid) {
+	public void remove(int id) {
 		
 		String sql = "DELETE FROM REPLY WHERE ID = ?";
 		
@@ -49,10 +53,10 @@ public class ReplyService {
 			Connection con = DatabaseUtil.getConnection();
 			PreparedStatement ptst = con.prepareStatement(sql);
 						
-			ptst.setInt(1, rid);
+			ptst.setInt(1, id);
 			
 			ptst.executeUpdate();
-			log.info("[" + rid +"] 번 댓글이 삭제되었습니다.");
+			log.info("[" + id +"] 번 댓글이 삭제되었습니다.");
 			
 			ptst.close();
 			con.close();
@@ -92,7 +96,11 @@ public class ReplyService {
 		List<Reply> list = new ArrayList<>();
 		String sql = "SELECT * FROM ( "
 				+ "    SELECT ROWNUM RN, R.* FROM ( "
+<<<<<<< HEAD
 				+ "        SELECT * FROM REPLY WHERE BOARD_ID = ? ORDER BY ID DESC "
+=======
+				+ "        SELECT * FROM REPLY WHERE BOARD_ID = ? ORDER BY RID DESC "
+>>>>>>> aac66bdadb62d318e1bb2cd61c7d993a7513846a
 				+ "    ) R "
 				+ ") WHERE RN > ? AND RN <= ?";
 		
@@ -109,6 +117,10 @@ public class ReplyService {
 			while(rs.next()) {
 				String content = rs.getString("CONTENT");
 				int memberId = rs.getInt("MEMBER_ID");
+<<<<<<< HEAD
+=======
+				String email = rs.getString("EMAIL");
+>>>>>>> aac66bdadb62d318e1bb2cd61c7d993a7513846a
 				Date regDate = rs.getDate("REGDATE");
 				int id = rs.getInt("ID");
 				
@@ -197,7 +209,11 @@ public class ReplyService {
 		
 		int result = 0;
 		
+<<<<<<< HEAD
 		String sql = "SELECT COUNT(ID) CNT FROM REPLY GROUP BY BOARD_ID HAVING BOARD_ID = ?";
+=======
+		String sql = "SELECT COUNT(ID) CNT FROM REPLY GROUP BY BID HAVING BOARD_ID = ?";
+>>>>>>> aac66bdadb62d318e1bb2cd61c7d993a7513846a
 		
 		try {
 			Connection con = DatabaseUtil.getConnection();

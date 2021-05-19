@@ -5,9 +5,18 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.stardy.entity.Category" %>
 
+
 <%
+	int memberId = -1;
+
+	if(request.getSession().getAttribute("id") == null)
+		memberId = -1;
+	else 
+		memberId = (int) request.getSession().getAttribute("id");
+	
     StudyService list = new StudyService();
-    List<Study> study = list.getList();
+    List<Study> myStudy = list.getList(true, memberId);
+    List<Study> notInStudy = list.getList(false, memberId);
     
 
 %>
@@ -182,15 +191,15 @@
                     <div class="study-list-item">
                         <div class="prev-btn"></div>
                         <ul class="study-list-container">
-                            <%for(int i = 0; i < study.size(); i++) {%>
+                            <%for(int i = 0; i < myStudy.size(); i++) {%>
                             <li class="mini-card">
-                                <a href="study/detail.jsp?id=<%=String.valueOf(study.get(i).getId())%>">
+                                <a href="study/detail.jsp?id=<%=String.valueOf(myStudy.get(i).getId())%>">
                                     <div class="mini-card-container" >
                                         <div class="mini-card-img"></div>
-                                        <div class="mini-card-title"><%=study.get(i).getTitle()%></div>
+                                        <div class="mini-card-title"><%=myStudy.get(i).getTitle()%></div>
                                         <div class="mini-card-info">
-                                            <div class="mini-card-population">정원 <%=list.getCrnt(study.get(i))%>/<%=study.get(i).getLimit()%>명</div>
-                                            <div class="mini-card-kind"><%=Category.getCategory(study.get(i).getCategoryId())%></div>
+                                            <div class="mini-card-population">정원 <%=list.getCrnt(myStudy.get(i))%>/<%=myStudy.get(i).getLimit()%>명</div>
+                                            <div class="mini-card-kind"><%=Category.getCategory(myStudy.get(i).getCategoryId())%></div>
                                         </div>
                                     </div>
                                 </a>
@@ -209,106 +218,20 @@
                 <div class="study-list-item">
                     <div class="prev-btn"></div>
                     <ul class="study-list-container">
-                        <li class="mini-card">
-                            <div class="mini-card-container">
-                                <div class="mini-card-img"></div>
-                                <div class="mini-card-title">토익 만점을 향하여</div>
-                                <div class="mini-card-info">
-                                    <div class="mini-card-population">정원 15/30명</div>
-                                    <div class="mini-card-kind">어학</div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="mini-card">
-                            <div class="mini-card-container">
-                                <div class="mini-card-img"></div>
-                                <div class="mini-card-title">오픽을 준비하는 대학생 모임</div>
-                                <div class="mini-card-info">
-                                    <div class="mini-card-population">정원 15/30명</div>
-                                    <div class="mini-card-kind">어학</div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="mini-card">
-                            <div class="mini-card-container">
-                                <div class="mini-card-img"></div>
-                                <div class="mini-card-title">오픽을 준비하는 대학생 모임</div>
-                                <div class="mini-card-info">
-                                    <div class="mini-card-population">정원 15/30명</div>
-                                    <div class="mini-card-kind">어학</div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="mini-card">
-                            <div class="mini-card-container">
-                                <div class="mini-card-img"></div>
-                                <div class="mini-card-title">오픽을 준비하는 대학생 모임</div>
-                                <div class="mini-card-info">
-                                    <div class="mini-card-population">정원 15/30명</div>
-                                    <div class="mini-card-kind">어학</div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="mini-card">
-                            <div class="mini-card-container">
-                                <div class="mini-card-img"></div>
-                                <div class="mini-card-title">오픽을 준비하는 대학생 모임</div>
-                                <div class="mini-card-info">
-                                    <div class="mini-card-population">정원 15/30명</div>
-                                    <div class="mini-card-kind">어학</div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="mini-card">
-                            <div class="mini-card-container">
-                                <div class="mini-card-img"></div>
-                                <div class="mini-card-title">오픽을 준비하는 대학생 모임</div>
-                                <div class="mini-card-info">
-                                    <div class="mini-card-population">정원 15/30명</div>
-                                    <div class="mini-card-kind">어학</div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="mini-card">
-                            <div class="mini-card-container">
-                                <div class="mini-card-img"></div>
-                                <div class="mini-card-title">오픽을 준비하는 대학생 모임</div>
-                                <div class="mini-card-info">
-                                    <div class="mini-card-population">정원 15/30명</div>
-                                    <div class="mini-card-kind">어학</div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="mini-card">
-                            <div class="mini-card-container">
-                                <div class="mini-card-img"></div>
-                                <div class="mini-card-title">오픽을 준비하는 대학생 모임</div>
-                                <div class="mini-card-info">
-                                    <div class="mini-card-population">정원 15/30명</div>
-                                    <div class="mini-card-kind">어학</div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="mini-card">
-                            <div class="mini-card-container">
-                                <div class="mini-card-img"></div>
-                                <div class="mini-card-title">오픽을 준비하는 대학생 모임</div>
-                                <div class="mini-card-info">
-                                    <div class="mini-card-population">정원 15/30명</div>
-                                    <div class="mini-card-kind">어학</div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="mini-card">
-                            <div class="mini-card-container">
-                                <div class="mini-card-img"></div>
-                                <div class="mini-card-title">30일만에 탑싯 뽀개기</div>
-                                <div class="mini-card-info">
-                                    <div class="mini-card-population">정원 15/30명</div>
-                                    <div class="mini-card-kind">어학</div>
-                                </div>
-                            </div>
-                        </li>
+                       <%for(int i = 0; i < notInStudy.size(); i++) {%>
+                            <li class="mini-card">
+                                <a href="study/detail.jsp?id=<%=String.valueOf(notInStudy.get(i).getId())%>">
+                                    <div class="mini-card-container">
+                                        <div class="mini-card-img"></div>
+                                        <div class="mini-card-title"><%=notInStudy.get(i).getTitle()%></div>
+                                        <div class="mini-card-info">
+                                            <div class="mini-card-population">정원 <%=list.getCrnt(notInStudy.get(i))%>/<%=notInStudy.get(i).getLimit()%>명</div>
+                                            <div class="mini-card-kind"><%=Category.getCategory(notInStudy.get(i).getCategoryId())%></div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                       <%}%>
                     </ul>
                     <div class="after-btn"></div>
                 </div>

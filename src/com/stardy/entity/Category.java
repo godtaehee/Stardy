@@ -9,6 +9,7 @@ public enum Category {
    취미,  //4
    기타;   //5
    
+   
    public static String getCategory(int idx) {
        
 	      Category[] categories = Category.values();
@@ -18,5 +19,5 @@ public enum Category {
 	            return a.toString();
 	      
 	      return null;
-   }
+    }
 }

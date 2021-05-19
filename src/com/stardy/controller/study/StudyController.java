@@ -101,10 +101,71 @@ public class StudyController extends HttpServlet {
         rs.close();
         return time;
     }
+
+    
+    public int getStudyId(int memberId, String title) {
+    	
+    	   String sql = "SELECT ID FROM STUDY WHERE MEMBER_ID=" + memberId +" AND TITLE='"+title+"'";
+
+
+    	   int id = 0;
+           
+
+		   
+	        try {
+	            Connection con = DatabaseUtil.getConnection();
+		        PreparedStatement pstmt = con.prepareStatement(sql);
+		        ResultSet rs = pstmt.executeQuery();
+		        
+		        if(rs.next()) {
+		        	id = rs.getInt("ID");
+		        }
+		        
+		        pstmt.close();
+		        con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+
+    	
+    	return id;
+    }
+    
+    
+    public void insertJoinedStudy(int memberId, String title) {
+    	
+    		int studyId =  getStudyId(memberId, title);
+    		System.out.println("스터디 아이디 " + studyId);
+    	
+    	   String sql = "INSERT INTO JOINED_STUDY(STUDY_ID, MEMBER_ID) VALUES (?, ?)";
+
+
+    		
+		   int flag = 0;
+		   
+	        try {
+	            Connection con = DatabaseUtil.getConnection();
+		        PreparedStatement pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, studyId);
+		        pstmt.setInt(2, memberId);
+		        flag = pstmt.executeUpdate();
+		        pstmt.close();
+		        con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+
+    	
+    }
     
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		// TODO Auto-generated method stub"
 		
 		request.setCharacterEncoding("utf-8");
@@ -128,7 +189,7 @@ public class StudyController extends HttpServlet {
 		Date date_now = new Date(System.currentTimeMillis());
 		
 		SimpleDateFormat format_now =  new SimpleDateFormat("yyyy/MM/ddHHmmss");
-		System.out.println();
+
 		
 
 		
@@ -137,12 +198,8 @@ public class StudyController extends HttpServlet {
 
 		
 		String path = "../upload/" + format_str.substring(0,4) + "/" + format_str.substring(4,6) + "/" + format_str.substring(6,8) + "/" + format_str.substring(8,10) + "/" + format_str.substring(10,12)+"/" + format_str.substring(12); 
-		System.out.println(path);
-		File folder = new File(".");
-		
-		System.out.println(folder.getAbsolutePath());
 	
-		
+		File folder = new File(".");
 		
 		
 		if(folder.mkdirs()) {
@@ -203,17 +260,49 @@ public class StudyController extends HttpServlet {
 			}
 
 
+	        insertJoinedStudy(memberId,title);
 
 	        
 	        
 	        if(flag == 1)
 	            response.sendRedirect("/study/list.jsp");
-
-
-
-
-
-		// title, memberid, categoryid, limit, open, intro, bg, path
-		// title, category, limit, open, duedate, intro
 	}
+	
+	boolean isMember(int memberId, int studyId) {
+		
+ 	   String sql = "SELECT * FROM JOINED_STUDYID ";
+
+
+ 	   int id = 0;
+        
+
+		   
+	        try {
+	            Connection con = DatabaseUtil.getConnection();
+		        PreparedStatement pstmt = con.prepareStatement(sql);
+		        ResultSet rs = pstmt.executeQuery();
+		        
+		        if(rs.next()) {
+		        	id = rs.getInt("ID");
+		        }
+		        
+		        pstmt.close();
+		        con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+
+		
+		return true;
+	}
+	
+	
+	
+	
+	
+	
+	
 }
+
