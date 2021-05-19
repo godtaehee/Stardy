@@ -20,4 +20,5 @@ public class Board {
 	private int memberId;
 	private int studyId;
 	private Date updateDate;
+	
 }

@@ -1,5 +1,6 @@
 package com.stardy.controller.root;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -33,6 +34,17 @@ public class LoginController extends HttpServlet{
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		//http://apis.data.go.kr/B490007/qualExamSchd/getQualExamSchdList?dataFormat=xml&serviceKey=Dd0KvyVNEovbfedeANo%2FSUGBakb8v66k8qm8YZDl9Q2rg3HGjl7n7wjAkeIUVdA2N0ax84WGHiyfYY7LfkIKqQ%3D%3D&implYy=2020&numOfRows=10&pageNo=1
+		//test
+		/*
+		 * String folder = "/upload/";
+		 * 
+		 * File file = new File(folder, "2020/05/18");
+		 * 
+		 * if(!file.exists()) { file.mkdirs(); file.createNewFile(); }
+		 * System.out.println(file.getAbsolutePath().toString());
+		 */
+		//test
 		
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");

@@ -1,3 +1,6 @@
+<%@page import="com.stardy.entity.Friend"%>
+<%@page import="java.util.List"%>
+<%@page import="com.stardy.service.FriendService"%>
 <%@page import="com.stardy.entity.Member"%>
 <%@page import="com.stardy.service.MemberService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -21,7 +24,6 @@
 
     <!-- Javascript -->
     <script src="../js/mypage/mypage.js"></script>
-    <script src="../js/mypage/friends.js"></script>
     <title>Document</title>
 </head>
 
@@ -31,6 +33,7 @@ Integer loginId = (Integer) request.getSession().getAttribute("id");
 MemberService service = new MemberService();
 
 Member member = service.get(loginId);
+
 %>
     <div class="container-only body__container">
         <%@include file="/layout/header.jsp" %>
@@ -43,19 +46,21 @@ Member member = service.get(loginId);
                     <div class="content-form-box">
                         <form action="#" class="content-form form">
                             <div>
-                                <input type="text" name="friend" class="input-friend input--text" placeholder="친구 검색">
-                                <button class="btn button button-img button-search">친구 검색</button>
+                                <input type="text" name="nickname" class="input-friend input--text" placeholder="친구 검색">
+                                <button class="btn button button-img button-search">팔로잉 검색</button>
                             </div>
                         </form>
+                        <a href="follower.jsp" class="btn">팔로워</a>
                     </div>
 
                     <div class="content-list-box">
                         <div>
-                            <label class="content-list-title">내 친구 목록</label>
-                            <a href="friend-modify"><button class="btn button friend-modify">수정</button></a>
+                            <label class="content-list-title">팔로잉 목록</label>
+                            <a href="friend-modify.jsp"><button class="btn button friend-modify">수정</button></a>
                             
                         </div>
                         <div class="content-list">
+                        
                             <div class="friend-profile-box">
                                 <div class="friend-profile-main">
                                     <img class="friend-icon" src="../img/11.png" alt="친구 프로필 아이콘">
@@ -65,95 +70,6 @@ Member member = service.get(loginId);
                                 </div>
                             </div>
                             
-                            <div class="friend-profile-box">
-                                <div class="friend-profile-main">
-                                    <img class="friend-icon" src="../img/11.png" alt="친구 프로필 아이콘">
-                                </div>
-                                <div class="friend-profile-sub">
-                                    <p class="friend-name">정다겸</p>
-                                </div>
-                            </div>
-                            
-                            <div class="friend-profile-box">
-                                <div class="friend-profile-main">
-                                    <img class="friend-icon" src="../img/11.png" alt="친구 프로필 아이콘">
-                                </div>
-                                <div class="friend-profile-sub">
-                                    <p class="friend-name">정다겸</p>
-                                </div>
-                            </div>
-                            
-                            <div class="friend-profile-box">
-                                <div class="friend-profile-main">
-                                    <img class="friend-icon" src="../img/11.png" alt="친구 프로필 아이콘">
-                                </div>
-                                <div class="friend-profile-sub">
-                                    <p class="friend-name">정다겸</p>
-                                </div>
-                            </div>
-                            
-                            <div class="friend-profile-box">
-                                <div class="friend-profile-main">
-                                    <img class="friend-icon" src="../img/11.png" alt="친구 프로필 아이콘">
-                                </div>
-                                <div class="friend-profile-sub">
-                                    <p class="friend-name">정다겸</p>
-                                </div>
-                            </div>
-                            
-                            <div class="friend-profile-box">
-                                <div class="friend-profile-main">
-                                    <img class="friend-icon" src="../img/11.png" alt="친구 프로필 아이콘">
-                                </div>
-                                <div class="friend-profile-sub">
-                                    <p class="friend-name">정다겸</p>
-                                </div>
-                            </div>
-                            
-                            <div class="friend-profile-box">
-                                <div class="friend-profile-main">
-                                    <img class="friend-icon" src="../img/11.png" alt="친구 프로필 아이콘">
-                                </div>
-                                <div class="friend-profile-sub">
-                                    <p class="friend-name">정다겸</p>
-                                </div>
-                            </div>
-                            
-                            <div class="friend-profile-box">
-                                <div class="friend-profile-main">
-                                    <img class="friend-icon" src="../img/11.png" alt="친구 프로필 아이콘">
-                                </div>
-                                <div class="friend-profile-sub">
-                                    <p class="friend-name">정다겸</p>
-                                </div>
-                            </div>
-                            
-                            <div class="friend-profile-box">
-                                <div class="friend-profile-main">
-                                    <img class="friend-icon" src="../img/11.png" alt="친구 프로필 아이콘">
-                                </div>
-                                <div class="friend-profile-sub">
-                                    <p class="friend-name">정다겸</p>
-                                </div>
-                            </div>
-                            
-                            <div class="friend-profile-box">
-                                <div class="friend-profile-main">
-                                    <img class="friend-icon" src="../img/11.png" alt="친구 프로필 아이콘">
-                                </div>
-                                <div class="friend-profile-sub">
-                                    <p class="friend-name">정다겸</p>
-                                </div>
-                            </div>
-                            
-                            <div class="friend-profile-box">
-                                <div class="friend-profile-main">
-                                    <img class="friend-icon" src="../img/11.png" alt="친구 프로필 아이콘">
-                                </div>
-                                <div class="friend-profile-sub">
-                                    <p class="friend-name">정다겸</p>
-                                </div>
-                            </div>
 
                         </div>
                     </div>
@@ -165,8 +81,11 @@ Member member = service.get(loginId);
 <%@include file="/layout/footer.jsp" %>
     </div>
 <script>
-	window.loginId = '${loginId}';
+	window.loginId = '<%=loginId %>';
+	window.status = false;
 </script>  
 <script src="../js/ajax/ajax.js"></script>
+<script src="../js/mypage/friends.js"></script>
+<script src="../js/friendModule.js"></script>
 </body>
 </html>

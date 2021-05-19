@@ -108,6 +108,19 @@
             font-family: "Noto Sans KR", "Roboto" !important;
             font-size: 14px;
         }
+        .limit{
+        	display: flex;
+        	justify-content: flex-end;
+        	
+        	font-size: 12px;
+        	color: #797979;
+            font-family: "Noto Sans KR", "Roboto" !important;
+            
+            margin-top: 5px;
+        }
+        .limit > .text-limit{
+        
+        }
         .board-box > .util-box{
             display: flex;
             
@@ -161,6 +174,8 @@
                 .replies .reply{
                     margin-bottom: 5px;
                     font-size: 16px;
+                    
+                    word-break: break-all;
                 }
         
         .more-box{

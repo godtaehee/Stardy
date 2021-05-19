@@ -5,6 +5,7 @@
 <%@page import="com.stardy.service.MemberService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +24,6 @@
 
     <!-- Javascript -->
     <script src="../js/mypage/mypage.js"></script>
-    
     <title>Document</title>
 </head>
 
@@ -33,8 +33,9 @@ Integer loginId = (Integer) request.getSession().getAttribute("id");
 MemberService service = new MemberService();
 
 Member member = service.get(loginId);
+
 %>
-    <div class="container-only  body__container">
+    <div class="container-only body__container">
         <%@include file="/layout/header.jsp" %>
 
         <main class="main-only">
@@ -46,28 +47,28 @@ Member member = service.get(loginId);
                         <form action="#" class="content-form form">
                             <div>
                                 <input type="text" name="nickname" class="input-friend input--text" placeholder="친구 검색">
-                                <button class="button-img button-search">팔로잉 검색</button>
+                                <button class="btn button button-img button-search">팔로워 검색</button>
                             </div>
                         </form>
+                        <a href="friends.jsp" class="btn">팔로워</a>
                     </div>
 
                     <div class="content-list-box">
                         <div>
-                            <label class="content-list-title">내 팔로잉 목록</label>
-                            <a href="friends.jsp"><button class="btn button friend-modify">확인</button></a>
+                            <label class="content-list-title">팔로워 목록</label>                            
                         </div>
                         <div class="content-list">
                         
-                 			<div class="friend-profile-box">
+                            <div class="friend-profile-box">
                                 <div class="friend-profile-main">
-                                	<button class="button delete-friend button-delete button-img"></button>
                                     <img class="friend-icon" src="../img/11.png" alt="친구 프로필 아이콘">
                                 </div>
                                 <div class="friend-profile-sub">
                                     <p class="friend-name">정다겸</p>
                                 </div>
                             </div>
-                 			
+                            
+
                         </div>
                     </div>
                 </div>
@@ -79,10 +80,10 @@ Member member = service.get(loginId);
     </div>
 <script>
 	window.loginId = '<%=loginId %>';
-	window.status = true;
-</script>   
+	window.status = false;
+</script>  
 <script src="../js/ajax/ajax.js"></script>
-<script src="../js/mypage/friends.js"></script>
+<script src="../js/mypage/follower.js"></script>
 <script src="../js/friendModule.js"></script>
 </body>
 </html>

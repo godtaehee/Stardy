@@ -142,6 +142,7 @@
 .content-form-box {
 }
 .content-form {
+	display: inline-block;
 }
 .input-friend {
   height: 35px;

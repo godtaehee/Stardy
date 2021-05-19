@@ -117,7 +117,12 @@
 
                     <section class="reply-add-box">
                         <h1 class="hide">댓글 작성 창</h1>
-                        <textarea class="input-item input--text" name="reply-content" rows="5" placeholder="여러분의 소중한 댓글을 작성해주세요."></textarea>
+                        <textarea class="input-item input--text" name="reply-content" rows="5" maxlength="100" placeholder="여러분의 소중한 댓글을 작성해주세요."></textarea>
+                        <div class="limit">
+                            <span>(</span>
+                            <span class="text-limit">0</span>
+                            <span >/100)</span>
+                        </div>
                         <button class="btn button button-register">등록</button>
                     </section>
 

@@ -42,12 +42,28 @@
             color: #515151;
         }
         .profile-status{
+        	flex-grow: 1;
+        	padding: 0;
             font-size: 13px;
+            width: 100%;
             
             color: #797979;
+            resize: none;
+            font-family: "Noto Sans KR", "Roboto" !important;
 
             border: none;
             outline: none;
+        }
+        .limit{
+        	display: flex;
+        	justify-content: flex-end;
+        	
+        	font-size: 9px;
+        	color: #797979;
+            font-family: "Noto Sans KR", "Roboto" !important;
+        }
+        .limit > .text-limit{
+        
         }
         .profile-modify{
             width: 145px;
@@ -166,7 +182,7 @@
              
         }
             .profile-info-box > *{
-                margin-top: 40px;
+                margin-top: 30px;
             }
             /* Profile Nickname */
             .profile-nick{
@@ -175,7 +191,6 @@
             /* Profile Status */
             .profile-status{
                 font-size: 19px;
-                text-align: center;
             }
             /* Profile Icon */
             .profile-icon{

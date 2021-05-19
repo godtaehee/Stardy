@@ -22,7 +22,13 @@ System.out.println(current);
                             <label class="profile-nick"><%=member.getNickname() %></label>
                         </div>
                         <div class="profile-status-box">
-                            <input class="profile-status" type="text" value="<%=member.getStatus() %>" readonly>
+                            <textarea class="profile-status" rows="2" cols="20" maxlength="20" readonly><%=member.getStatus() %></textarea>
+                            
+                            <div class="limit hide">
+	                            <span>(</span>
+	                            <span class="text-limit">0</span>
+	                            <span >/20)</span>
+                            </div>
                         </div>
                         <div class="profile-modify-box">
                             <button class="button profile-modify modify-off">프로필 수정</button>
@@ -35,7 +41,7 @@ System.out.println(current);
                     <nav class="content-menu">
                         <ul>
                             <li class="nav-item <%= (current.equals("friends") || current.equals("friend-modify"))? "menu-underline":"" %>">
-                                <a href="friends.jsp" class="<%= (current.equals("friends") || current.equals("friend-modify"))? "friends-list-on":"friends-list" %>">친구목록</a>
+                                <a href="friends.jsp" class="<%= (current.equals("friends") || current.equals("friend-modify"))? "friends-list-on":"friends-list" %>">팔로잉</a>
                             </li>
                             <li class="nav-item <%= current.equals("bookmark")? "menu-underline":"" %>">
                                 <a href="bookmark.jsp" class="<%= current.equals("bookmark")? "my-bookmark-on":"my-bookmark" %>">즐겨찾기</a>

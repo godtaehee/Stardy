@@ -2,19 +2,30 @@ window.addEventListener("load", function(){
 
 	let email = window.email;
     let profileModify = document.querySelector(".profile-modify");
+	let limitBox = document.querySelector('.limit');
     let uploadBox = document.querySelector('.upload-box');
     let btnUpload = document.querySelector('.button-upload');
     let inputFile = document.querySelector('input[type="file"]');
+	let profileStatus = document.querySelector('.profile-status');
+	let textLimit = limitBox.querySelector('.text-limit');
     let isModify = false;
 
-    profileModify.addEventListener("click", (e) => {
-        let profileStatus = document.querySelector(".profile-status");
+	profileStatus.addEventListener('keypress', function(e) {
+		
+		let len = profileStatus.value.length;
+		textLimit.innerText = len > 0? len-1 : len;
+	});
 
+    profileModify.addEventListener("click", (e) => {
+			
         if(!isModify){
+			textLimit.innerText = profileStatus.value.length;
+	
 			profileModify.innerText = '저장';			
             isModify = true;
             profileStatus.readOnly = false;
             btnUpload.classList.toggle('hide');
+			limitBox.classList.toggle('hide');
             /* 프로필 수정 이미지를 변경 */
             
         }
@@ -23,6 +34,7 @@ window.addEventListener("load", function(){
             isModify = false;
             profileStatus.readOnly = true;
             btnUpload.classList.toggle('hide');
+			limitBox.classList.toggle('hide');
             /* 프로필 수정 이미지를 변경 */
 
             /* ajax post 요청 -> 이미지 , 상태명 변경 */

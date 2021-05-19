@@ -4,11 +4,20 @@ window.addEventListener("load", function() {
 	let isSub = window.isSub;
 	let isLike = window.isLike;
 
-    let replyList = document.querySelector('.reply-list');
+    let replyList = document.querySelector('.reply-list');		
     let moreBox = document.querySelector('.more-box');
 	let btnRegister = document.querySelector(".button-register");
 	let bookmark = document.querySelector('.bookmark');
 	let btnLike = document.querySelector(".button-like");
+	let replyContent = document.querySelector('textarea[name="reply-content"]');
+	let limitBox = document.querySelector('.limit');
+	let textLimit = limitBox.querySelector('.text-limit');
+	
+	/* 댓글 새로 작성 시 글자제한 */
+	replyContent.addEventListener('keypress', (e) => {
+		textLimit.innerText = replyContent.value.length;
+	});
+	
 	
 /*--- 댓글 --- */
 

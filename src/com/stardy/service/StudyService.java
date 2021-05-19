@@ -93,9 +93,8 @@ public class StudyService {
     }
     
     public String getLeader(int id) throws SQLException {
-    	
 		
-		String sql = "SELECT NICNAME FROM STUDY WHERE STUDY_ID=" + id;
+		String sql = "SELECT NICKNAME FROM MEMBER WHERE ID=" + id;
         Connection con = null;
         PreparedStatement pstmt = null;
         con = DatabaseUtil.getConnection();
@@ -104,7 +103,7 @@ public class StudyService {
 		
 		rs.next();
 		
-        String nickName = rs.getString("NICNAME");
+        String nickName = rs.getString("NICKNAME");
         
         pstmt.close();
         con.close();
