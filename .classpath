@@ -1,27 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-<<<<<<< HEAD
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11">
-=======
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
->>>>>>> aac66bdadb62d318e1bb2cd61c7d993a7513846a
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-<<<<<<< HEAD
 	<classpathentry kind="lib" path="D:/tools/jstl-1.2.jar"/>
 	<classpathentry kind="lib" path="D:/tools/lombok.jar"/>
 	<classpathentry kind="lib" path="D:/tools/ojdbc8.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v9.0"/>
-=======
-	<classpathentry kind="lib" path="/Users/imone/Desktop/jarFile/gson-2.8.6.jar"/>
-	<classpathentry kind="lib" path="/Users/imone/Desktop/jarFile/jstl-1.2.jar"/>
-	<classpathentry kind="lib" path="/Users/imone/Desktop/jarFile/lombok.jar"/>
-	<classpathentry kind="lib" path="/Users/imone/Desktop/jarFile/ojdbc8.jar"/>
->>>>>>> aac66bdadb62d318e1bb2cd61c7d993a7513846a
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

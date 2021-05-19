@@ -50,11 +50,7 @@ public class ReplyController extends HttpServlet{
 			int boardId = Integer.parseInt(paths[1]);
 			int page = Integer.parseInt(paths[2]);
 			
-<<<<<<< HEAD
 			log.info("board_id : " + boardId + ", page : " + page);
-=======
-			log.info("bid : " + boardId + ", page : " + page);
->>>>>>> aac66bdadb62d318e1bb2cd61c7d993a7513846a
 			
 			List<Reply> list = replyService.getList(boardId, page);
 			
@@ -104,12 +100,7 @@ public class ReplyController extends HttpServlet{
 				JSONObject obj = (JSONObject) parser.parse(sb.toString());
 				String content = (String) obj.get("content");
 				int memberId = (int) request.getSession().getAttribute("id");
-<<<<<<< HEAD
 				int boardId = Integer.parseInt(String.valueOf(obj.get("id")));
-=======
-				String writer = (String) request.getSession().getAttribute("nickname");
-				int boardId = Integer.parseInt(String.valueOf(obj.get("boardId")));
->>>>>>> aac66bdadb62d318e1bb2cd61c7d993a7513846a
 				
 				Reply reply = Reply.builder().memberId(memberId).content(content).boardId(boardId).build();
 				
@@ -155,14 +146,10 @@ public class ReplyController extends HttpServlet{
 		
 		String[] paths = request.getPathInfo().split("/");
 	
-		int id = Integer.parseInt(paths[1]);
+		int rid = Integer.parseInt(paths[1]);
 		
-<<<<<<< HEAD
 		replyService.remove(rid);
 		log.info(rid + "번 댓글을 삭제했습니다. 요청자 : " + (String) request.getSession().getAttribute("nickname"));
-=======
-		log.info(id + "번 댓글을 삭제했습니다. 요청자 : " + (String) request.getSession().getAttribute("nickname"));
-		replyService.remove(id);
->>>>>>> aac66bdadb62d318e1bb2cd61c7d993a7513846a
+
 	}
 }

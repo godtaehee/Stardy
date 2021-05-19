@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Study {
 
-<<<<<<< HEAD
 	   private int id;
 	   private String title;
 	   private String intro;
@@ -27,23 +26,4 @@ public class Study {
 	   
 	   private int memberId;
 	   private int categoryId;
-	   
-=======
-   private int id;
-   private String title;
-   private String intro;
-   private String open;
-   private String limit;
-   
-   private Date regDate;
-   private Date updateDate;
-   private Date dueDate;
-   
-   private String bg;
-   private String path;
-   
-   private int memberId;
-   private int categoryId;
-   
->>>>>>> aac66bdadb62d318e1bb2cd61c7d993a7513846a
 }

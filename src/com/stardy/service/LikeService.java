@@ -104,11 +104,8 @@ public class LikeService {
 		
 		boolean result = false;
 		
-<<<<<<< HEAD
 		String sql = "SELECT MEMBER_ID FROM LIKES WHERE MEMBER_ID = ? AND BOARD_ID = ?";
-=======
-		String sql = "SELECT LID FROM LIKES WHERE MEMBER_ID = ? AND BOARD_ID = ?";
->>>>>>> aac66bdadb62d318e1bb2cd61c7d993a7513846a
+
 		
 		try {
 			Connection con = DatabaseUtil.getConnection();

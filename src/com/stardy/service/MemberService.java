@@ -14,7 +14,6 @@ public class MemberService {
 	
 	Logger log = new Logger();
 	
-<<<<<<< HEAD
 	/* 멤버 닉네임 존재하는지 여부 */
 	public boolean isExistNick(String nickname) {
 		
@@ -46,12 +45,7 @@ public class MemberService {
 	
 	/* 멤버 정보 조회 */
 	public Member get(int id) {
-		
-=======
-	/* 멤버 정보 조회 */
-	public Member get(int id) {
-		
->>>>>>> aac66bdadb62d318e1bb2cd61c7d993a7513846a
+
 		String sql = "SELECT * FROM MEMBER WHERE ID = ?";
 		Member member = null;
 		

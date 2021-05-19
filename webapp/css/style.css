@@ -4,10 +4,6 @@
   align-items: center;
 }
 
-.footer {
-  background-color: black;
-  height: 50px;
-}
 html {
   width: 100%;
   height: 100%;
@@ -224,10 +220,11 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 70px;
-  height: 30px;
+  width: 3.5rem;
+  height: 2rem;
   margin: 5px;
   background: gray;
+  
   border-radius: 5px;
 }
 
@@ -285,7 +282,7 @@ body {
 .pencil {
   width: 50px;
   height: 41px;
-  background: url("../img/detail/pencil.jpeg") center center no-repeat;
+  background: url("../img/detail/pencil.png") center center no-repeat;
   background-size: contain;
 }
 
@@ -616,7 +613,7 @@ body {
   margin-top: 10px;
 }
 
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 1190px) {
   /* Header */
 
   .my-page {
@@ -645,7 +642,6 @@ body {
   }
 
   .container {
-  	width: 1180px;
     display: grid;
     height: 100%;
     grid-template-columns: repeat(12, 1fr);
@@ -725,11 +721,6 @@ body {
   }
   .about-study {
     width: 100%;
-  }
-
-  .footer {
-    height: 100px;
-    background: black;
   }
 
   .top-content .card {

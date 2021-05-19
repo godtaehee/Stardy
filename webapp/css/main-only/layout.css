@@ -24,10 +24,7 @@ body, html{
 
     overflow: visible;
 }
-.footer {
-    background-color: black;
-    min-height: 50px;
-}
+
 /* layout */
 
 @media screen and (min-width: 800px){
