@@ -44,7 +44,7 @@
                         <li class="btn">고시/공무원</li>
                         <li class="btn">취미/교양</li>
                         <li class="btn">기타</li>
-                        <a href="studyCreate.html">
+                        <a href="create.jsp">
                             <li class="btn btn--primary">스터디 개설하기</li>
                         </a>
                     </ul>

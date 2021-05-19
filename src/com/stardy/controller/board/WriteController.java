@@ -28,17 +28,16 @@ public class WriteController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 
+    	req.setCharacterEncoding("utf-8");
         String title = req.getParameter("title");
         String content = req.getParameter("content");
-        String email = (String) req.getSession().getAttribute("email");
+        int id = (int) req.getSession().getAttribute("id");
         String nickname = (String) req.getSession().getAttribute("nickname");
-//        int sid = Integer.parseInt(req.getParameter("sid"));
-        int sid = 5;
+      
+        int sid = Integer.parseInt(req.getParameter("id"));
+    
 
-
-
-
-        String sql = "INSERT INTO BOARD(TITLE, CONTENT, WRITER, SID, EMAIL) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO BOARD(TITLE, CONTENT, MEMBER_ID, STUDY_ID) VALUES (?, ?, ?, ?)";
 
 
         Connection con = DatabaseUtil.getConnection();
@@ -46,15 +45,15 @@ public class WriteController extends HttpServlet {
 
         pstmt.setString(1, title);
         pstmt.setString(2, content);
-        pstmt.setString(3, nickname);
+        pstmt.setInt(3, id);
         pstmt.setInt(4, sid);
-        pstmt.setString(5, email);
+
 
         int flag = pstmt.executeUpdate();
 
         System.out.println(flag);
         if(flag == 1)
-            resp.sendRedirect("/study/detail.jsp?sid=" + sid);
+            resp.sendRedirect("/study/detail.jsp?id=" + sid);
 
 
 
