@@ -21,3 +21,4 @@ public class Logger {
 		System.out.println("[" + LocalDateTime.now().format(getFormat()) + "] [" + className + "] : " + s);
 	}
 }
+//hello world

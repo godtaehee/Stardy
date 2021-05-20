@@ -26,7 +26,7 @@
 
 <body>
 <%
-String msg = request.getParameter("msg");
+	String msg = request.getParameter("msg");
 
 Integer loginId = (Integer) request.getSession().getAttribute("id");
 MemberServiceImpl service = new MemberServiceImpl();

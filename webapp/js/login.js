@@ -1,6 +1,13 @@
 window.onload = (function(){
 		
-    var msg = '<%=request.getParameter("msg")%>';
+    const msg = window.msg;
+	const modal = document.querySelector('.modal');
+	const btnLogin = document.querySelector(".button-login");
+    const email = document.querySelector("input[name='email']");
+    const actionForm = document.querySelector("form");
+	const btnConfirm = modal.querySelector('.button-confirm');
+	let screen;
+	
     //var msg = "${msg}";
     console.log(msg);
     
@@ -8,10 +15,19 @@ window.onload = (function(){
         document.querySelector(".login-error").className = 'login-error show';
         document.querySelector("input[name='password']").className = 'input-item input-password input--text';
     }
+	else if(msg === 'success'){
+		cover();
+		modal.classList.toggle('hide');
+		modal.classList.toggle('show');
+	}
+	
+	btnConfirm.addEventListener('click', (e) => {
+		discover();
+		modal.classList.toggle('hide');
+		modal.classList.toggle('show');
+	});
     
-    const btnLogin = document.querySelector(".button-login");
-    const email = document.querySelector("input[name='email']");
-    const actionForm = document.querySelector("form");
+    
     
     email.addEventListener("change", (e) => {
         
@@ -28,4 +44,34 @@ window.onload = (function(){
         return regExp.test(asValue); // 형식에 맞는 경우 true 리턴	
 
     }
+
+	function cover() {
+		screen = document.createElement('div');
+		
+		screen.classList.add('screen');
+		
+		screen.style.opacity = '0.7';
+		screen.style.height = '100%';
+		screen.style.width = '100%';
+		screen.style.background = '#e9e9e9';
+		screen.style.position = 'absolute';
+		screen.style.top = '0';
+		screen.style.zIndex = '90';
+	
+		screen.addEventListener('click', (e) => {
+			discover();
+			modal.classList.toggle('hide');
+			modal.classList.toggle('show');
+		});
+	
+		document.querySelector('body').append(screen);
+	}
+	
+	function discover() {
+		
+		screen.remove();
+	}
 });
+
+
+

@@ -24,12 +24,12 @@ public class StudyServiceImpl implements StudyService {
         	sql = "SELECT * FROM STUDY S, (SELECT STUDY_ID FROM JOINED_STUDY WHERE MEMBER_ID="+memberId+") J WHERE  S.ID = J.STUDY_ID";
         }else
         	sql = "SELECT * FROM STUDY S, ((SELECT STUDY_ID FROM JOINED_STUDY GROUP BY STUDY_ID) MINUS (SELECT STUDY_ID FROM JOINED_STUDY WHERE MEMBER_ID="+memberId+" GROUP BY STUDY_ID)) J WHERE S.ID = J.STUDY_ID";
-        		
+
         if(!flag && memberId.equals("")) {
         	sql = "SELECT * FROM STUDY";
         }
         System.out.println(sql);
-        
+
         Connection con = null;
         PreparedStatement pstmt = null;
 
@@ -148,8 +148,7 @@ public class StudyServiceImpl implements StudyService {
       	return flag;
                
       }
-    
-    
+
     
     public boolean getMyStudyCount(String memberId) throws SQLException {
     	
@@ -201,6 +200,6 @@ public class StudyServiceImpl implements StudyService {
         	return flag;
     	
     }
-    
+   
 }
 	

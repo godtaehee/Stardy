@@ -1,5 +1,6 @@
 package com.stardy.service;
 
+
 import com.stardy.entity.Like;
 
 public interface LikeService {
@@ -8,5 +9,6 @@ public interface LikeService {
 	int count(int id);
 	boolean isLike(Like like);
 	void removeAll(int id);
+
 }
 

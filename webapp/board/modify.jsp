@@ -30,7 +30,9 @@
 <body>
 
 <%
-BoardServiceImpl boardService = new BoardServiceImpl();
+
+	BoardServiceImpl boardService = new BoardServiceImpl();
+
 
 	String bid_ = request.getParameter("id");
 	int bid = 0;

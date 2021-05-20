@@ -29,7 +29,9 @@
 
 <body>
 <%
-Integer loginId = (Integer) request.getSession().getAttribute("id");
+
+	Integer loginId = (Integer) request.getSession().getAttribute("id");
+
 MemberServiceImpl service = new MemberServiceImpl();
 
 Member member = service.get(loginId);

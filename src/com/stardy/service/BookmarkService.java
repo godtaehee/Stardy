@@ -11,4 +11,5 @@ public interface BookmarkService {
 	void removeAll(int id);
 	List<Board> getSubs(int loginId);
 
+
 }

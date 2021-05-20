@@ -31,7 +31,9 @@
 <body>
 
 <%
-BoardServiceImpl boardService = new BoardServiceImpl();
+
+	BoardServiceImpl boardService = new BoardServiceImpl();
+
 	BookmarkServiceImpl bookmarkService = new BookmarkServiceImpl();
 	LikeServiceImpl likeService = new LikeServiceImpl();
 

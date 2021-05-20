@@ -14,14 +14,16 @@
     <link rel="stylesheet" href="../css/main-only/layout.css">
     <link rel="stylesheet" href="../css/main-only/element.css">
     <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/loginModal.css">
 
-    <!-- Javascript -->
-    <script src="../js/login.js"></script>
-    <script src="../js/common.js"></script>
+
     <title>Document</title>
 </head>
 
 <body>
+<%
+String msg = request.getParameter("msg");
+%>
     <div class="container-only body__container">
     
 	<%@include file="/layout/header.jsp" %>
@@ -57,5 +59,26 @@
         
 <%@include file="/layout/footer.jsp" %>
     </div>
+    
+    
+<!-- Modal -->
+<div class="modal hide">
+    <div class="modal-main">
+        <div class="modal-title">회원 가입 완료</div>
+        <img class="congratz" src="../img/congratz.png">
+    </div>
+    <div class="modal-footer">
+        <div class="modal-button-box">
+            <button class="button button-confirm">확인</button>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+    
+  	<script>
+  		window.msg = '<%=msg%>';
+  	</script>
+    <!-- Javascript -->
+    <script src="../js/login.js"></script>
 </body>
 </html>

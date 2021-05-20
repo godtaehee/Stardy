@@ -18,9 +18,11 @@ String memberId = "";
 	if(request.getSession().getAttribute("id") != null)
    		myStudy = list.getList(true, memberId);
 	
+
     List<Study> notInStudy = list.getList(false, memberId);
     
     boolean haveStudy = list.getMyStudyCount(memberId);
+
 %>
 <!DOCTYPE html>
 <html lang="en">

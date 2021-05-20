@@ -28,7 +28,6 @@ public class LikeServiceImpl implements LikeService{
 			ptst.setInt(2, like.getBoardId());
 			
 			result = ptst.executeUpdate();
-			
 			ptst.close();
 			con.close();
 		} catch (SQLException e) {
@@ -54,7 +53,7 @@ public class LikeServiceImpl implements LikeService{
 			ptst.setInt(2, like.getBoardId());
 			
 			result = ptst.executeUpdate();
-			
+
 			ptst.close();
 			con.close();
 		} catch (SQLException e) {
@@ -82,7 +81,9 @@ public class LikeServiceImpl implements LikeService{
 			
 			while(rs.next())
 				result = rs.getInt("CNT");
-			
+
+			log.info(id + "번 게시글의 좋아요 개수를 조회했습니다. : " + result + "개");
+
 			ptst.close();
 			con.close();
 		} catch (SQLException e) {
@@ -112,7 +113,7 @@ public class LikeServiceImpl implements LikeService{
 			
 			while(rs.next()) {
 				result = true;
-				
+
 			}
 			
 			ptst.close();

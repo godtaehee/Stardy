@@ -12,7 +12,9 @@
 <%@ page import="com.stardy.entity.Board" %>
 
 <%
+
 Study study = null;
+
     StudyController studyController = null;
     StudyServiceImpl studyService = null;
     

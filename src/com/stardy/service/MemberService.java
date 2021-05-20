@@ -1,5 +1,6 @@
 package com.stardy.service;
 
+
 import com.stardy.entity.Member;
 
 public interface MemberService {
@@ -9,4 +10,5 @@ public interface MemberService {
 	boolean insertMember(Member user);
 	void modify(Member member);
 	void deleteUser(int id);
+
 }

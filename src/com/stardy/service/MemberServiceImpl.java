@@ -127,6 +127,7 @@ public class MemberServiceImpl implements MemberService{
 	   System.out.println(user);
 	   
       String sql ="INSERT INTO MEMBER(EMAIL, PASSWORD, NICKNAME) values (?, ?, ?)";
+
       Connection con=null;
       PreparedStatement ptst = null;
       boolean flag=false;
@@ -137,6 +138,7 @@ public class MemberServiceImpl implements MemberService{
          ptst.setString(1, user.getEmail());
          ptst.setString(2, user.getPassword());
          ptst.setString(3, user.getNickname());
+
          
          
          if(ptst.executeUpdate()==1)
