@@ -12,7 +12,7 @@ import com.stardy.entity.Board;
 import com.stardy.util.DatabaseUtil;
 import com.stardy.util.Logger;
 
-public class BookmarkServiceImpl {
+public class BookmarkServiceImpl implements BookmarkService{
 
 	Logger log = new  Logger();
 	

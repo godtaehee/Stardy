@@ -13,7 +13,7 @@ import com.stardy.entity.Member;
 import com.stardy.util.DatabaseUtil;
 import com.stardy.util.Logger;
 
-	public class BoardServiceImpl {
+	public class BoardServiceImpl implements BoardService{
 
 	Logger log = new Logger();
 	
