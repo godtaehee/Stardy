@@ -18,7 +18,7 @@ import org.json.simple.parser.ParseException;
 
 import com.google.gson.Gson;
 import com.stardy.entity.Reply;
-import com.stardy.service.ReplyService;
+import com.stardy.service.ReplyServiceImpl;
 import com.stardy.util.Logger;
 
 import lombok.extern.log4j.Log4j;
@@ -26,7 +26,7 @@ import lombok.extern.log4j.Log4j;
 @WebServlet("/replies/*")
 public class ReplyController extends HttpServlet{
 
-	ReplyService replyService = new ReplyService();
+	ReplyServiceImpl replyService = new ReplyServiceImpl();
 	Logger log = new Logger();
 	
 	@Override

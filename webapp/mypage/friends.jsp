@@ -1,8 +1,8 @@
 <%@page import="com.stardy.entity.Friend"%>
 <%@page import="java.util.List"%>
-<%@page import="com.stardy.service.FriendService"%>
+<%@page import="com.stardy.service.FriendServiceImpl"%>
 <%@page import="com.stardy.entity.Member"%>
-<%@page import="com.stardy.service.MemberService"%>
+<%@page import="com.stardy.service.MemberServiceImpl"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -29,11 +29,10 @@
 
 <body>
 <%
-Integer loginId = (Integer) request.getSession().getAttribute("id");
-MemberService service = new MemberService();
+	Integer loginId = (Integer) request.getSession().getAttribute("id");
+MemberServiceImpl service = new MemberServiceImpl();
 
 Member member = service.get(loginId);
-
 %>
     <div class="container-only body__container">
         <%@include file="/layout/header.jsp" %>

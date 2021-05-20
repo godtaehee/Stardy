@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
-<%@page import="com.stardy.service.StudyService" %>
+<%@page import="com.stardy.service.StudyServiceImpl" %>
 <%@ page import="com.stardy.entity.Study" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.stardy.entity.Category" %>
@@ -14,11 +14,9 @@
 	else 
 		memberId = (int) request.getSession().getAttribute("id");
 	
-    StudyService list = new StudyService();
+    StudyServiceImpl list = new StudyServiceImpl();
     List<Study> myStudy = list.getList(true, memberId);
     List<Study> notInStudy = list.getList(false, memberId);
-    
-
 %>
 <!DOCTYPE html>
 <html lang="en">

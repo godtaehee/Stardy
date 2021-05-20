@@ -12,12 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.stardy.entity.Board;
-import com.stardy.service.BookmarkService;
+import com.stardy.service.BookmarkServiceImpl;
 
 @WebServlet("/sub/*")
 public class SubController extends HttpServlet{
 
-	static BookmarkService service = new BookmarkService();
+	static BookmarkServiceImpl service = new BookmarkServiceImpl();
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

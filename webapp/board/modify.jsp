@@ -1,7 +1,7 @@
 <%@page import="com.stardy.entity.Like"%>
-<%@page import="com.stardy.service.LikeService"%>
-<%@page import="com.stardy.service.BookmarkService"%>
-<%@page import="com.stardy.service.BoardService"%>
+<%@page import="com.stardy.service.LikeServiceImpl"%>
+<%@page import="com.stardy.service.BookmarkServiceImpl"%>
+<%@page import="com.stardy.service.BoardServiceImpl"%>
 <%@page import="com.stardy.entity.Board"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -30,7 +30,7 @@
 <body>
 
 <%
-	BoardService boardService = new BoardService();
+	BoardServiceImpl boardService = new BoardServiceImpl();
 
 	String bid_ = request.getParameter("id");
 	int bid = 0;
@@ -41,7 +41,6 @@
 	Board board = boardService.read(bid);
 	
 	int loginId = (int) request.getSession().getAttribute("id");
-	
 %>
 
     <div class="container-only body__container">

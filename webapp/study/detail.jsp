@@ -1,25 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
-<%@page import="com.stardy.service.StudyService" %>
+<%@page import="com.stardy.service.StudyServiceImpl" %>
 <%@ page import="com.stardy.entity.Study" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.stardy.util.CategoryConvert" %>
 <%@ page import="com.stardy.controller.study.StudyController" %>
-<%@ page import="com.stardy.service.StudyService" %>
+<%@ page import="com.stardy.service.StudyServiceImpl" %>
 <%@ page import="java.sql.SQLException" %>
-<%@ page import="com.stardy.service.BoardService" %>
-<%@ page import="com.stardy.service.LikeService" %>
+<%@ page import="com.stardy.service.BoardServiceImpl" %>
+<%@ page import="com.stardy.service.LikeServiceImpl" %>
 <%@ page import="com.stardy.entity.Board" %>
 
 <%
-    Study study = null;
+	Study study = null;
     StudyController studyController = null;
-    StudyService studyService = null;
+    StudyServiceImpl studyService = null;
     
-    BoardService boardService = null;
+    BoardServiceImpl boardService = null;
     List<Board> board = null;
     
-    LikeService likeService = null;
+    LikeServiceImpl likeService = null;
     int id= 0;
     String writer = "";
     int memberId = (int) request.getSession().getAttribute("id");
@@ -31,18 +31,16 @@
        	writer = request.getParameter("writer");
        	System.out.println(writer);
         studyController = new StudyController();
-        boardService = new BoardService();
-        likeService = new LikeService();
+        boardService = new BoardServiceImpl();
+        likeService = new LikeServiceImpl();
         study = studyController.getStudy(id);
         board = boardService.getList(id);
-        studyService = new StudyService();
+        studyService = new StudyServiceImpl();
         flag = studyService.isLeader(memberId, id);
 
     } catch (SQLException throwables) {
         throwables.printStackTrace();
     }
-
-
 %>
 
 <!DOCTYPE html>

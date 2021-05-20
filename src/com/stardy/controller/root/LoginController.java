@@ -10,13 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.stardy.entity.Member;
-import com.stardy.service.MemberService;
+import com.stardy.service.MemberServiceImpl;
 import com.stardy.util.Logger;
 
 @WebServlet("/login")
 public class LoginController extends HttpServlet{
 	
-	static MemberService service = new MemberService();
+	static MemberServiceImpl service = new MemberServiceImpl();
 	static Logger log = new Logger();
 	
 	@Override
