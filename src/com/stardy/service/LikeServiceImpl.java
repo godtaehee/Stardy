@@ -9,7 +9,7 @@ import com.stardy.entity.Like;
 import com.stardy.util.DatabaseUtil;
 import com.stardy.util.Logger;
 
-public class LikeServiceImpl {
+public class LikeServiceImpl implements LikeService{
 
 	Logger log = new Logger();
 	

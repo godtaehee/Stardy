@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class StudyServiceImpl {
+public class StudyServiceImpl implements StudyService{
 	
 
     public List<Study> getList(boolean flag, int memberId) throws SQLException {

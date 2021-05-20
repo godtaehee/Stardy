@@ -12,7 +12,7 @@ import com.stardy.entity.Reply;
 import com.stardy.util.DatabaseUtil;
 import com.stardy.util.Logger;
 
-public class ReplyServiceImpl {
+public class ReplyServiceImpl implements ReplyService{
 
 	Logger log = new Logger();
 	

@@ -12,7 +12,7 @@ import com.stardy.entity.Like;
 import com.stardy.util.DatabaseUtil;
 import com.stardy.util.Logger;
 
-public class FriendServiceImpl {
+public class FriendServiceImpl implements FriendService{
 
 	Logger log = new Logger();
 	

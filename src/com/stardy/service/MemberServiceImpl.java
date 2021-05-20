@@ -10,7 +10,7 @@ import com.stardy.entity.Member;
 import com.stardy.util.DatabaseUtil;
 import com.stardy.util.Logger;
 
-public class MemberServiceImpl {
+public class MemberServiceImpl implements MemberService{
 	
 	Logger log = new Logger();
 	
