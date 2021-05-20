@@ -17,13 +17,13 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.stardy.entity.Member;
-import com.stardy.service.MemberService;
+import com.stardy.service.MemberServiceImpl;
 import com.stardy.util.Logger;
 
 @WebServlet("/mypage/modify")
 public class ModifyController extends HttpServlet{
 
-	MemberService memberService = new MemberService();
+	MemberServiceImpl memberService = new MemberServiceImpl();
 	Logger log = new Logger();
 	
 	@Override

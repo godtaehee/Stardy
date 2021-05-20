@@ -13,13 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.stardy.entity.Friend;
-import com.stardy.service.FriendService;
+import com.stardy.service.FriendServiceImpl;
 import com.stardy.util.Logger;
 
 @WebServlet("/mypage/friend-modify")
 public class FriendsModifyController extends HttpServlet{
 
-	FriendService service = new FriendService();
+	FriendServiceImpl service = new FriendServiceImpl();
 	Logger log = new Logger();
 	
 	@Override

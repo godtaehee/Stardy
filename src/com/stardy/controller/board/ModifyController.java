@@ -9,12 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.stardy.entity.Board;
-import com.stardy.service.BoardService;
+import com.stardy.service.BoardServiceImpl;
 
 @WebServlet("/board/modify")
 public class ModifyController extends HttpServlet{
 
-	BoardService boardService = new BoardService();
+	BoardServiceImpl boardService = new BoardServiceImpl();
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

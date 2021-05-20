@@ -1,7 +1,7 @@
 <%@page import="com.stardy.entity.Like"%>
-<%@page import="com.stardy.service.LikeService"%>
-<%@page import="com.stardy.service.BookmarkService"%>
-<%@page import="com.stardy.service.BoardService"%>
+<%@page import="com.stardy.service.LikeServiceImpl"%>
+<%@page import="com.stardy.service.BookmarkServiceImpl"%>
+<%@page import="com.stardy.service.BoardServiceImpl"%>
 <%@page import="com.stardy.entity.Board"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -31,9 +31,9 @@
 <body>
 
 <%
-	BoardService boardService = new BoardService();
-	BookmarkService bookmarkService = new BookmarkService();
-	LikeService likeService = new LikeService();
+BoardServiceImpl boardService = new BoardServiceImpl();
+	BookmarkServiceImpl bookmarkService = new BookmarkServiceImpl();
+	LikeServiceImpl likeService = new LikeServiceImpl();
 
 	String id_ = request.getParameter("id");
 	int id = 0;

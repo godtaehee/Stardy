@@ -1,29 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
-<%@page import="com.stardy.service.StudyService" %>
+<%@page import="com.stardy.service.StudyServiceImpl" %>
 <%@ page import="com.stardy.entity.Study" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.stardy.util.CategoryConvert" %>
 <%@ page import="com.stardy.controller.study.StudyController" %>
-<%@ page import="com.stardy.service.StudyService" %>
+<%@ page import="com.stardy.service.StudyServiceImpl" %>
 <%@ page import="java.sql.SQLException" %>
-<%@ page import="com.stardy.service.BoardService" %>
-<%@ page import="com.stardy.service.LikeService" %>
+<%@ page import="com.stardy.service.BoardServiceImpl" %>
+<%@ page import="com.stardy.service.LikeServiceImpl" %>
 <%@ page import="com.stardy.entity.Board" %>
 
 <%
-    Study study = null;
+Study study = null;
     StudyController studyController = null;
-    StudyService studyService = null;
+    StudyServiceImpl studyService = null;
     
-    BoardService boardService = null;
+    BoardServiceImpl boardService = null;
     List<Board> board = null;
     
-    LikeService likeService = null;
+    LikeServiceImpl likeService = null;
     int id= 0;
     String writer = "";
     int memberId = (int) request.getSession().getAttribute("id");
     boolean flag = false;
+    boolean isMember = false;
 
     try {
         id = Integer.parseInt(request.getParameter("id"));
@@ -31,18 +32,18 @@
        	writer = request.getParameter("writer");
        	System.out.println(writer);
         studyController = new StudyController();
-        boardService = new BoardService();
-        likeService = new LikeService();
+        boardService = new BoardServiceImpl();
+        likeService = new LikeServiceImpl();
         study = studyController.getStudy(id);
         board = boardService.getList(id);
-        studyService = new StudyService();
+        studyService = new StudyServiceImpl();
         flag = studyService.isLeader(memberId, id);
+        isMember = studyService.isMember(memberId, id);
+        System.out.println("isTrue? " + isMember);
 
     } catch (SQLException throwables) {
         throwables.printStackTrace();
     }
-
-
 %>
 
 <!DOCTYPE html>
@@ -149,7 +150,7 @@
                     <div class="up-and-down">
                         <div class="up"><input type="button" style="border:0; background-color:transparent"></div>
                         <div class="recommend-cnt"><%=likeService.count(board.get(i).getId())%></div>
-                        <div class="down"><input type="button"></div>
+                        <div class="down"><input type="button" style="border:0; background-color:transparent"></div>
                     </div>
                     <div class="card-content">
                         <div class="profile">
@@ -176,6 +177,12 @@
         </main>
 
         <aside class="aside">
+        
+     		<%if(!isMember){ %>
+           <div class="join-study" style="background-color:#3ca0bf; height:50px; display:flex; justify-content:center; align-items:center; cursor:pointer; margin-bottom:10px">
+                   <a class="" style="color:white">스터디 가입하기</a>
+           </div>
+           <%} %>
             <div class="about-study">
                 <div class="about-study-header">About Study</div>
                 <div class="about-main">

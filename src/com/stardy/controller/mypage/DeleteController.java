@@ -8,12 +8,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.stardy.service.MemberService;
+import com.stardy.service.MemberServiceImpl;
 
 @WebServlet("/mypage/delete")
 public class DeleteController extends HttpServlet{
 
-	MemberService service = new MemberService();
+	MemberServiceImpl service = new MemberServiceImpl();
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

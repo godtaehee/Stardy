@@ -214,10 +214,8 @@ public class StudyController extends HttpServlet {
 			System.out.println("이미 폴더가 있습니다.");
 		}
 		
-		Desktop.getDesktop().open(folder);
+//		Desktop.getDesktop().open(folder);
 		
-		
-		request.getRealPath(path);
 		
 		String duedate_str = request.getParameter("duedate");
 		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -265,7 +263,7 @@ public class StudyController extends HttpServlet {
 	        
 	        
 	        if(flag == 1)
-	            response.sendRedirect("/study/list.jsp");
+	            response.sendRedirect("/study/list.jsp?success=1");
 	}
 	
 	boolean isMember(int memberId, int studyId) {

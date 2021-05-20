@@ -1,24 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
-<%@page import="com.stardy.service.StudyService" %>
+<%@page import="com.stardy.service.StudyServiceImpl" %>
 <%@ page import="com.stardy.entity.Study" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.stardy.entity.Category" %>
 
 
 <%
-	int memberId = -1;
+String memberId = "";
 
-	if(request.getSession().getAttribute("id") == null)
-		memberId = -1;
-	else 
-		memberId = (int) request.getSession().getAttribute("id");
+	if(request.getSession().getAttribute("id") != null)
+		memberId = String.valueOf(request.getSession().getAttribute("id"));
+
+    StudyServiceImpl list = new StudyServiceImpl();
+    
+    List<Study> myStudy = null;
+	if(request.getSession().getAttribute("id") != null)
+   		myStudy = list.getList(true, memberId);
 	
-    StudyService list = new StudyService();
-    List<Study> myStudy = list.getList(true, memberId);
     List<Study> notInStudy = list.getList(false, memberId);
     
-
+    boolean haveStudy = list.getMyStudyCount(memberId);
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -191,6 +193,13 @@
                     <div class="study-list-item">
                         <div class="prev-btn"></div>
                         <ul class="study-list-container">
+                        <%if(request.getSession().getAttribute("id") == null || !haveStudy) {%>
+                        	<li class="notMember">
+                        		<span>아직 가입한 스터디가 없습니다!</span>
+                        	</li>
+                        	<%} else { %>
+                        
+                        
                             <%for(int i = 0; i < myStudy.size(); i++) {%>
                             <li class="mini-card">
                                 <a href="study/detail.jsp?id=<%=String.valueOf(myStudy.get(i).getId())%>">
@@ -204,7 +213,9 @@
                                     </div>
                                 </a>
                             </li>
-                            <%}%>
+                            <%}
+                            }%>
+                   
                         </ul>
                         <div class="after-btn"></div>
                     </div>
@@ -217,7 +228,7 @@
                 <div class="study-list-desc">곧 모집이 마감되는 스터디에요! 개설된 스터디는 '스터디 보기' 메뉴에서 조회할 수있어요</div>
                 <div class="study-list-item">
                     <div class="prev-btn"></div>
-                    <ul class="study-list-container">
+                    <ul class="study-list-container">               
                        <%for(int i = 0; i < notInStudy.size(); i++) {%>
                             <li class="mini-card">
                                 <a href="study/detail.jsp?id=<%=String.valueOf(notInStudy.get(i).getId())%>">
@@ -248,6 +259,7 @@
              const examInfo = document.querySelector('.exam-info-item');
              const card = document.querySelectorAll('.exam-card');
              const prev = document.querySelector('.exam-info-main .prev-btn');
+             console.log(prev);
              const after = document.querySelector('.exam-info-main .after-btn');
              const container = document.querySelector('.container');
              let start = 0;
@@ -267,12 +279,18 @@
              });
 
              after.addEventListener('click', () => {
+   
                  if(start <= -1000) return;
+                 
+                 
 
                  for(let i = 0; i < card.length; i++){
+         
                      card[i].style.transform = `translateX(${start - dx}px)`;
+                     console.log(start-dx);
                  }
                  start-=dx;
+          
              });
 
              window.addEventListener("load", function(){

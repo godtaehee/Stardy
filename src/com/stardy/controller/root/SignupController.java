@@ -18,12 +18,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.stardy.entity.Member;
-import com.stardy.service.MemberService;
+import com.stardy.service.MemberServiceImpl;
 
 @WebServlet("/signup")
 public class SignupController extends HttpServlet{
 
-	   static MemberService service = new MemberService();
+	   static MemberServiceImpl service = new MemberServiceImpl();
 	   
 	   @Override
 	   protected void doPost(HttpServletRequest request,HttpServletResponse response)throws ServletException,IOException{

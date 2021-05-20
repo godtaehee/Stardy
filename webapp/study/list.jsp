@@ -1,5 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+    
+    
+    
+    
+<%
+
+	String success = request.getParameter("success");
+	if(success == null)
+		success = "0";
+
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,8 +26,19 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <title>StudyList</title>
 </head>
+
 <body>
 <div class="body__container">
+
+<div class="complete-make-study" 
+style="display:<%if(success.equals("0")){%>none<%}else{%>flex<%}%>">
+	<div class="complete-content">
+			<div class="cancel-btn"></div>
+			<div class="congratz-img"></div>
+			<div class="congratz-say">스터디가 정상적으로 만들어졌습니다 축하드립니다 !</div>
+	</div>
+</div>
+
 
     <%@include file="/layout/header.jsp" %>
 
@@ -248,6 +271,26 @@
     </main>
 
 <%@include file="/layout/footer.jsp" %>
+
+
+<script>
+
+	
+	(() => {
+		
+		const completeBox = document.querySelector('.complete-make-study');
+
+		completeBox.addEventListener('click', (e) => {
+			
+			if(e.target.className==='complete-make-study' || e.target.className==='cancel-btn')
+				completeBox.remove();
+		
+		}); 
+		
+	})();
+	
+
+</script>
 </div>
 </body>
 </html>

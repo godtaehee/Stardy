@@ -16,6 +16,7 @@ public class DatabaseUtil {
 	      }catch (Exception e) {
 	         e.printStackTrace();
 	      }
+	      System.out.println("DB연결 안됨 ?");
 	      return null;
 	   }
 

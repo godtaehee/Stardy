@@ -1,5 +1,5 @@
 <%@page import="com.stardy.entity.Member"%>
-<%@page import="com.stardy.service.MemberService"%>
+<%@page import="com.stardy.service.MemberServiceImpl"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -29,7 +29,7 @@
 String msg = request.getParameter("msg");
 
 Integer loginId = (Integer) request.getSession().getAttribute("id");
-MemberService service = new MemberService();
+MemberServiceImpl service = new MemberServiceImpl();
 
 Member member = service.get(loginId);
 %>

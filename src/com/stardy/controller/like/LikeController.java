@@ -10,15 +10,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.stardy.entity.Like;
-import com.stardy.service.BoardService;
-import com.stardy.service.LikeService;
+import com.stardy.service.BoardServiceImpl;
+import com.stardy.service.LikeServiceImpl;
 import com.stardy.util.Logger;
 
 @WebServlet("/likes/*")
 public class LikeController extends HttpServlet{
 
-	BoardService boardService = new BoardService();
-	LikeService likeService = new LikeService();
+	BoardServiceImpl boardService = new BoardServiceImpl();
+	LikeServiceImpl likeService = new LikeServiceImpl();
 	Logger log = new Logger();
 	
 	// /likes/{id}

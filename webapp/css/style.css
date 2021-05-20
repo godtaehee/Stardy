@@ -134,6 +134,57 @@ body {
   margin: 20px;
 }
 
+
+
+/* Complete Make Study */
+
+.complete-make-study {
+   		position: fixed;
+   		width:100vw;
+   		height:100vh;
+   		background-color:rgba(0,0,0,0.7);
+   		z-index: 10000;
+   		display:flex;
+   		justify-content: center;
+   		align-items:center;
+   	}
+   	
+   	.complete-content {
+   		position:relative;
+   		width: 50vw;
+   		height: 70vh;
+   		background-color: white;
+   		padding: 1rem;
+   	}
+   	
+   	.cancel-btn {
+   		width:30px;
+   		height:30px;
+   		position:absolute;
+   		right:0;
+   		top:0;
+   		background: url("../img/xBtn.png") no-repeat;
+   		background-size: 100% 100%;
+   	}
+   	
+   	.congratz-img {
+   		width: 100%;
+   		height: 75%;
+   		background: url("../img/congratz.png") no-repeat center center;
+   		background-size: 80% 50%;
+   	}
+   	.congratz-say {
+   		width: 100%;
+   		height: 30%;
+   		display:flex;
+		justify-content: center;
+   		align-items:flex-start;
+   		font-size: 1rem;
+   		font-weight: bold;
+   	}
+
+
+
 /* Jumbotron */
 
 .jumbotron {
@@ -678,6 +729,33 @@ body {
     padding: 5%;
     margin-top: 7%;
   }
+  
+  
+   	.cancel-btn {
+   		width:60px;
+   		height:60px;
+   		position:absolute;
+   		right:0;
+   		top:0;
+   		background: url("../img/xBtn.png") no-repeat;
+   		background-size: 100% 100%;
+   	}
+   	
+   	.congratz-img {
+   		width: 100%;
+   		height: 75%;
+   		background: url("../img/congratz.png") no-repeat center center;
+   		background-size: 80% 80%;
+   	}
+   	.congratz-say {
+   		width: 100%;
+   		height: 30%;
+   		display:flex;
+		justify-content: center;
+   		align-items:center;
+   		font-size: 1.7rem;
+   		font-weight: bold;
+   	}
 
   .main {
     grid-column: 1 / span 9;

@@ -9,18 +9,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.stardy.entity.Board;
-import com.stardy.service.BoardService;
-import com.stardy.service.BookmarkService;
-import com.stardy.service.LikeService;
-import com.stardy.service.ReplyService;
+import com.stardy.service.BoardServiceImpl;
+import com.stardy.service.BookmarkServiceImpl;
+import com.stardy.service.LikeServiceImpl;
+import com.stardy.service.ReplyServiceImpl;
 
 @WebServlet("/board/delete")
 public class DeleteController extends HttpServlet{
 
-	BoardService boardService = new BoardService();
-	ReplyService replyService = new ReplyService();
-	BookmarkService bookmarkService = new BookmarkService();
-	LikeService likeService = new LikeService();
+	BoardServiceImpl boardService = new BoardServiceImpl();
+	ReplyServiceImpl replyService = new ReplyServiceImpl();
+	BookmarkServiceImpl bookmarkService = new BookmarkServiceImpl();
+	LikeServiceImpl likeService = new LikeServiceImpl();
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

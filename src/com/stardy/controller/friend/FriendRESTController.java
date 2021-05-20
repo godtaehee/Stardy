@@ -12,14 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.stardy.entity.Friend;
-import com.stardy.service.FriendService;
+import com.stardy.service.FriendServiceImpl;
 import com.stardy.util.Logger;
 
 @WebServlet("/friends/*")
 public class FriendRESTController extends HttpServlet{
 
 	Logger log = new Logger();
-	FriendService service = new FriendService();
+	FriendServiceImpl service = new FriendServiceImpl();
 	
 	// friend/fr/{originId}
 	// friend/fo/{originId}
