@@ -3,7 +3,7 @@
     height: 100%;
 
     display: inline-block;
-    width: 526px;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
 
@@ -51,9 +51,9 @@
         }
 
         .button-signup{
-            margin: 49px 0 39.2px 0;
+            margin: 39px 0;
             background: rgb(43, 152, 186, 0.93);
-            width: 485px;
+            width: 98%;
             height: 66.9px;
 
 			font-size: 24px;
@@ -97,3 +97,46 @@
 }
 
 /* ani */
+@media screen and (min-width: 800px) {
+
+    .signup-container{
+    height: 100%;
+
+    display: inline-block;
+    width: 526px;
+    margin-left: auto;
+    margin-right: auto;
+
+    font-size: 21px;
+	}
+	.form-login > *{
+        margin-left: 21px;
+    }
+      .button-signup{
+         margin: 49px 0 39.2px 0;
+         background: rgb(43, 152, 186, 0.93);
+         width: 485px;
+         height: 66.9px;
+
+		font-size: 24px;
+		
+		line-height: 66.9px;
+		
+		color: #fff;
+         cursor: pointer;
+         
+         display: inline-flex;
+         justify-content: center;
+     }
+	.login-help > .find-password{
+        margin: 39.2px 20px 125.1px 109.2px;
+        font-weight: bold;
+    }
+    .login-help > .signup{
+        margin: 39.2px 109.2px 125.1px 23px;
+        font-weight: bold;
+    }
+    .login-help > .between-border{
+        top: 35px;
+    }
+}

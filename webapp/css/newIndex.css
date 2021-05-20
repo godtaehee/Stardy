@@ -67,9 +67,6 @@ body {
     height: 72px;
 }
 
-.user-menu {
-    display: none;
-}
 
 .drop-menu:hover .drop-list{
     display: block;

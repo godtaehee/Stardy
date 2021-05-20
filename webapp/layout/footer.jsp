@@ -4,10 +4,26 @@
     <footer class="footer">
         <h1 class="hide">footer</h1>
         
-       <div>김지호 - jiho519@naver.com</div>
-       <div>김태희 - wonderfulhuman@naver.com</div>
-       <div>임수영 - oowooo@naver.com</div>
-       <div>정다겸 - infiniibanque@gmail.com</div>
+       <div class="block"> 
+	       <div>김지호</div>
+	       <div class="dash">&nbsp;-&nbsp;</div>
+	       <div class="email">jiho519@naver.com</div>
+       </div>
+       <div class="block"> 
+	       <div>김태희</div>
+	       <div class="dash">&nbsp;-&nbsp;</div>
+	       <div class="email">wonderfulhuman@naver.com</div>
+       </div>
+       <div class="block"> 
+	       <div>임수영</div>
+	       <div class="dash">&nbsp;-&nbsp;</div>
+	       <div class="email">oowooo@naver.com</div>
+       </div>
+       <div class="block"> 
+	       <div>정다겸</div>
+	       <div class="dash">&nbsp;-&nbsp;</div>
+	       <div class="email">infiniibanque@gmail.com</div>
+       </div>
         
         
     </footer>

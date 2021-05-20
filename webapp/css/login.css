@@ -3,7 +3,7 @@
     height: 100%;
 
     display: inline-block;
-    width: 526px;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
 
@@ -39,7 +39,7 @@
         height: 66.9px;
     }
     .form-login > *{
-        margin-left: 21px;
+        margin-left: 10px;
     }
     .form-login > div:last-child{
         margin-left: 0;
@@ -57,8 +57,8 @@
 
         .button-login{
             background: url("../img/button-login.png") no-repeat center;
-            margin: 59.3px 0 39.2px;
-            width: 485px;
+            margin: 39px 0;
+            width: 98%;
             height: 66.9px;
 
             cursor: pointer;
@@ -67,20 +67,22 @@
         .login-help{
             font-size: 19px;
             position: relative;
+            
+            display: flex;
+   			justify-content: center;
         }
             .login-help > .between-border{
                 display: inline-block;
                 object-fit: contain;
                 position: absolute;
-                top: -5px;
             }
             
             .login-help > .find-password{
-                margin: 39.2px 20px 125.1px 109.2px;
+                margin: auto;
                 font-weight: bold;
             }
             .login-help > .signup{
-                margin: 39.2px 109.2px 125.1px 23px;
+                margin: auto;
                 font-weight: bold;
             }
             .login-help > .find-password:hover,
@@ -98,3 +100,35 @@
         position: absolute;
     }
 /* style - login */
+
+@media screen and (min-width: 800px) {
+
+    .login-container{
+    height: 100%;
+
+    display: inline-block;
+    width: 526px;
+    margin-left: auto;
+    margin-right: auto;
+
+    font-size: 21px;
+	}
+	.form-login > *{
+        margin-left: 21px;
+    }
+	.button-login{
+		margin: 59.3px 0 39.2px;
+        width: 485px;
+    }
+	.login-help > .find-password{
+        margin: 39.2px 20px 125.1px 109.2px;
+        font-weight: bold;
+    }
+    .login-help > .signup{
+        margin: 39.2px 109.2px 125.1px 23px;
+        font-weight: bold;
+    }
+    .login-help > .between-border{
+        top: 35px;
+    }
+}
