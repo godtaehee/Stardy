@@ -4,24 +4,32 @@
 <%@ page import="com.stardy.entity.Study" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.stardy.entity.Category" %>
+<%@ page import="com.stardy.entity.view.StudyView" %>
+<%@ page import="com.stardy.service.*" %>
 
 
 <%
-String memberId = "";
+	int memberId = 0;
 
 	if(request.getSession().getAttribute("id") != null)
-		memberId = String.valueOf(request.getSession().getAttribute("id"));
+		memberId = (int) request.getSession().getAttribute("id");
 
-    StudyServiceImpl list = new StudyServiceImpl();
+    IndexService indexService = new IndexServiceImpl();
     
-    List<Study> myStudy = null;
-	if(request.getSession().getAttribute("id") != null)
-   		myStudy = list.getList(true, memberId);
+    List<StudyView> myStudy = null;
+    List<StudyView> notInStudy = null;
+    boolean haveStudy = false;
+    
+	if(memberId != 0){
+		myStudy = indexService.getMyStudyList(memberId);
+		notInStudy = indexService.getStudyListNotMember(memberId);
+		haveStudy = (myStudy.size() == 0) ? false : true;
+	}
 	
-
-    List<Study> notInStudy = list.getList(false, memberId);
-    
-    boolean haveStudy = list.getMyStudyCount(memberId);
+	if(memberId == 0) {
+		haveStudy = false;
+		notInStudy = indexService.getStudyList();
+	}
 
 %>
 <!DOCTYPE html>
@@ -189,7 +197,7 @@ String memberId = "";
             <div class="study-list">
                     <div class="study-list-header">
                         <div class="study-title">내 스터디 목록</div>
-                        <a href="study/list.jsp"><div class="arrow"></div></a>
+                        <a href="study/board/list.jsp"><div class="arrow"></div></a>
                     </div>
                     <div class="study-list-desc">스터디룸에 입장해보세요</div>
                     <div class="study-list-item">
@@ -200,17 +208,16 @@ String memberId = "";
                         		<span>아직 가입한 스터디가 없습니다!</span>
                         	</li>
                         	<%} else { %>
-                        
-                        
+
                             <%for(int i = 0; i < myStudy.size(); i++) {%>
                             <li class="mini-card">
-                                <a href="study/detail.jsp?id=<%=String.valueOf(myStudy.get(i).getId())%>">
+                                <a href="study/board/detail.jsp?id=<%=String.valueOf(myStudy.get(i).getId())%>">
                                     <div class="mini-card-container" >
                                         <div class="mini-card-img"></div>
                                         <div class="mini-card-title"><%=myStudy.get(i).getTitle()%></div>
                                         <div class="mini-card-info">
-                                            <div class="mini-card-population">정원 <%=list.getCrnt(myStudy.get(i))%>/<%=myStudy.get(i).getLimit()%>명</div>
-                                            <div class="mini-card-kind"><%=Category.getCategory(myStudy.get(i).getCategoryId())%></div>
+                                            <div class="mini-card-population">정원 <%=myStudy.get(i).getCnt()%>/<%=myStudy.get(i).getLimit()%>명</div>
+                                            <div class="mini-card-kind"><%=myStudy.get(i).getName()%></div>
                                         </div>
                                     </div>
                                 </a>
@@ -233,13 +240,13 @@ String memberId = "";
                     <ul class="study-list-container">               
                        <%for(int i = 0; i < notInStudy.size(); i++) {%>
                             <li class="mini-card">
-                                <a href="study/detail.jsp?id=<%=String.valueOf(notInStudy.get(i).getId())%>">
+                                <a href="study/board/detail.jsp?id=<%=String.valueOf(notInStudy.get(i).getId())%>">
                                     <div class="mini-card-container">
                                         <div class="mini-card-img"></div>
                                         <div class="mini-card-title"><%=notInStudy.get(i).getTitle()%></div>
                                         <div class="mini-card-info">
-                                            <div class="mini-card-population">정원 <%=list.getCrnt(notInStudy.get(i))%>/<%=notInStudy.get(i).getLimit()%>명</div>
-                                            <div class="mini-card-kind"><%=Category.getCategory(notInStudy.get(i).getCategoryId())%></div>
+                                            <div class="mini-card-population">정원 <%=notInStudy.get(i).getCnt()%>/<%=notInStudy.get(i).getLimit()%>명</div>
+                                            <div class="mini-card-kind"><%=notInStudy.get(i).getName()%></div>
                                         </div>
                                     </div>
                                 </a>

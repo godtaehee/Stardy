@@ -14,13 +14,13 @@
 
     <!-- CSS -->
     
-    <link rel="stylesheet" href="../css/basic.css">
-    <link rel="stylesheet" href="../css/header.css">
-    <link rel="stylesheet" href="../css/main-only/layout.css">
-    <link rel="stylesheet" href="../css/main-only/element.css">
-    <link rel="stylesheet" href="../css/board/read.css">
-    <link rel="stylesheet" href="../css/reset.css">
-    <link rel="stylesheet" href="../css/modal.css">
+    <link rel="stylesheet" href="../../css/basic.css">
+    <link rel="stylesheet" href="../../css/header.css">
+    <link rel="stylesheet" href="../../css/main-only/layout.css">
+    <link rel="stylesheet" href="../../css/main-only/element.css">
+    <link rel="stylesheet" href="../../css/board/read.css">
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/modal.css">
 
     <!-- CDN -->
     <script src="https://kit.fontawesome.com/a93ae2d5d1.js" crossorigin="anonymous"></script>
@@ -189,9 +189,9 @@
 	window.isSub = <%=isSub%>;
 	window.isLike = <%=isLike%>;
 </script>
-<script src="../js/mymodal/modal.js"></script>
-<script src="../js/board/read.js"></script>
-<script src="../js/board/replyModule.js"></script>
-<script src="../js/ajax/ajax.js"></script>
+<script src="../../js/mymodal/modal.js"></script>
+<script src="../../js/board/read.js"></script>
+<script src="../../js/board/replyModule.js"></script>
+<script src="../../js/ajax/ajax.js"></script>
 </body>
 </html>

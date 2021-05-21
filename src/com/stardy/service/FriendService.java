@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.stardy.entity.Friend;
 
- interface FriendService {
+public interface FriendService {
 	 List<Friend> getFriends(int memberId);
 	 List<Friend> getFollowers(int memberId);
 	 int unfollow(int originId, int targetId);

@@ -1,3 +1,16 @@
+@keyframes pump {
+	
+	from {
+		transform: scale(1);
+	}
+	
+	to {
+		transform: scale(1.2);
+	}
+	
+}
+
+
 .flex {
     display: flex;
     justify-content: center;
@@ -328,8 +341,15 @@ body {
     padding: 4px;
     border-radius: 5px;
 }
+
 .mini-card-container {
     width: 100%;
+	
+
+}
+
+.mini-card:hover {
+	animation: linear 1s infinite;
 }
 
 /* Footer */

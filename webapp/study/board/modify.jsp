@@ -14,12 +14,12 @@
 
     <!-- CSS -->
     
-    <link rel="stylesheet" href="../css/basic.css">
-    <link rel="stylesheet" href="../css/header.css">
-    <link rel="stylesheet" href="../css/main-only/layout.css">
-    <link rel="stylesheet" href="../css/main-only/element.css">
-    <link rel="stylesheet" href="../css/board/read.css">
-    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../../css/basic.css">
+    <link rel="stylesheet" href="../../css/header.css">
+    <link rel="stylesheet" href="../../css/main-only/layout.css">
+    <link rel="stylesheet" href="../../css/main-only/element.css">
+    <link rel="stylesheet" href="../../css/board/read.css">
+    <link rel="stylesheet" href="../../css/reset.css">
 
     <!-- CDN -->
     <script src="https://kit.fontawesome.com/a93ae2d5d1.js" crossorigin="anonymous"></script>
@@ -131,7 +131,7 @@
 	window.email = '${email}';
 	window.bid = <%=board.getId() %>;
 </script>
-<script src="../js/board/modify.js"></script>
-<script src="../js/ajax/ajax.js"></script>
+<script src="../../js/board/modify.js"></script>
+<script src="../../js/ajax/ajax.js"></script>
 </body>
 </html>

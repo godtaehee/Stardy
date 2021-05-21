@@ -5,7 +5,7 @@ import com.stardy.util.DatabaseUtil;
 import com.stardy.util.Logger;
 import java.util.List;
 
- interface ReplyService {
+public interface ReplyService {
 
 	/* 댓글을 등록하는 메서드 */
 	 void register(Reply reply);

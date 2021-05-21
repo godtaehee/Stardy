@@ -18,11 +18,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/studyList.css" type="text/css" rel="style.css">
-    <link rel="stylesheet" href="../css/reset.css" type="text/css" rel="style.css">
-    <link rel="stylesheet" href="../css/basic.css" type="text/css" rel="style.css">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/header.css" type="text/css" rel="style.css">
+    <link rel="stylesheet" href="../../css/studyList.css" type="text/css" rel="style.css">
+    <link rel="stylesheet" href="../../css/reset.css" type="text/css" rel="style.css">
+    <link rel="stylesheet" href="../../css/basic.css" type="text/css" rel="style.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/header.css" type="text/css" rel="style.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <title>StudyList</title>
 </head>
@@ -67,7 +67,7 @@ style="display:<%if(success.equals("0")){%>none<%}else{%>flex<%}%>">
                         <li class="btn">고시/공무원</li>
                         <li class="btn">취미/교양</li>
                         <li class="btn">기타</li>
-                        <a href="create.jsp">
+                        <a href="../create.jsp">
                             <li class="btn btn--primary">스터디 개설하기</li>
                         </a>
                     </ul>
@@ -82,7 +82,7 @@ style="display:<%if(success.equals("0")){%>none<%}else{%>flex<%}%>">
 
         <div class="inner">
             <div class="study_img">
-                <img src="../img/study_img.png" alt="">
+                <img src="../../img/study_img.png" alt="">
             </div>
 
             <div class="desc">
@@ -118,7 +118,7 @@ style="display:<%if(success.equals("0")){%>none<%}else{%>flex<%}%>">
         <a href="realStudy.html">
         <div class="inner">
             <div class="study_img">
-                <img src="../img/study_img.png" alt="">
+                <img src="../../img/study_img.png" alt="">
             </div>
 
                 <div class="desc">
@@ -154,7 +154,7 @@ style="display:<%if(success.equals("0")){%>none<%}else{%>flex<%}%>">
 
         <div class="inner">
             <div class="study_img">
-                <img src="../img/study_img.png" alt="">
+                <img src="../../img/study_img.png" alt="">
             </div>
 
             <div class="desc">
@@ -188,7 +188,7 @@ style="display:<%if(success.equals("0")){%>none<%}else{%>flex<%}%>">
         </div>
         <div class="inner">
             <div class="study_img">
-                <img src="../img/study_img.png" alt="">
+                <img src="../../img/study_img.png" alt="">
             </div>
 
             <div class="desc">
@@ -222,7 +222,7 @@ style="display:<%if(success.equals("0")){%>none<%}else{%>flex<%}%>">
         </div>
         <div class="inner">
             <div class="study_img">
-                <img src="../img/study_img.png" alt="">
+                <img src="../../img/study_img.png" alt="">
             </div>
 
             <div class="desc">

@@ -1,19 +1,12 @@
 package com.stardy.service;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.stardy.entity.Study;
-import com.stardy.util.DatabaseUtil;
+import com.stardy.entity.view.StudyView;
 
- interface StudyService {
-	
-
+public interface StudyService {
      List<Study> getList(boolean flag, String memberId) throws SQLException;
     
      int getCrnt(Study study) throws SQLException;
@@ -21,5 +14,11 @@ import com.stardy.util.DatabaseUtil;
      String getLeader(int id) throws SQLException;
     
      boolean isLeader(int memberId, int studyId) throws SQLException;
+
+     boolean isMember(int memberId, int studyId) throws SQLException;
+
+     StudyView getStudy(int id) throws SQLException;
+
+     int getDuringTime(int id) throws SQLException;
 
 }

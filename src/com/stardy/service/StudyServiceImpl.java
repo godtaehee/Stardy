@@ -1,6 +1,7 @@
 package com.stardy.service;
 
 import com.stardy.entity.Study;
+import com.stardy.entity.view.StudyView;
 import com.stardy.util.DatabaseUtil;
 
 import javax.servlet.annotation.WebServlet;
@@ -21,9 +22,10 @@ public class StudyServiceImpl implements StudyService {
 
         String sql = "";
         if(flag) {
-        	sql = "SELECT * FROM STUDY S, (SELECT STUDY_ID FROM JOINED_STUDY WHERE MEMBER_ID="+memberId+") J WHERE  S.ID = J.STUDY_ID";
+        	sql = "SELECT * FROM STUDY_LIST WHERE MEMBER_ID="+memberId + " AND ROWNUM <= 10";
+
         }else
-        	sql = "SELECT * FROM STUDY S, ((SELECT STUDY_ID FROM JOINED_STUDY GROUP BY STUDY_ID) MINUS (SELECT STUDY_ID FROM JOINED_STUDY WHERE MEMBER_ID="+memberId+" GROUP BY STUDY_ID)) J WHERE S.ID = J.STUDY_ID";
+        	sql = "SELECT * FROM STUDY_LIST WHERE NOT MEMBER_ID IN " + memberId + " AND ROWNUM <= 10";
 
         if(!flag && memberId.equals("")) {
         	sql = "SELECT * FROM STUDY";
@@ -83,6 +85,8 @@ public class StudyServiceImpl implements StudyService {
     
     public int getCrnt(Study study) throws SQLException {
     	
+    	
+    
     		
 		String sql = "SELECT COUNT(MEMBER_ID) CNT FROM JOINED_STUDY WHERE STUDY_ID=" + study.getId();
         Connection con = null;
@@ -148,51 +152,25 @@ public class StudyServiceImpl implements StudyService {
       	return flag;
                
       }
-
-    
-    public boolean getMyStudyCount(String memberId) throws SQLException {
-    	
-    	if(memberId.equals("")) {
-    		return false;
-    	}
-    	String sql = "SELECT * FROM JOINED_STUDY WHERE MEMBER_ID="+memberId;
-  		
-      Connection con = null;
-      PreparedStatement pstmt = null;
-      con = DatabaseUtil.getConnection();
-      pstmt = con.prepareStatement(sql);
-  		ResultSet rs = pstmt.executeQuery();
-  		
-  		boolean flag = false;
-  		if(rs.next()) {
-  			flag = true;
-  		}
-  		
-          pstmt.close();
-          con.close();
-          rs.close();
-      		
-      	
-      	return flag;
-   
-    }
     
     public boolean isMember(int memberId, int studyId) throws SQLException {
     	
     	String sql = "SELECT * FROM JOINED_STUDY WHERE MEMBER_ID="+memberId+" AND STUDY_ID="+studyId;
+    	System.out.println(sql);
   		System.out.println("스터디아이디 멤버아이디 " +memberId + " " + studyId);
         Connection con = null;
-        PreparedStatement pstmt = null;
+        Statement st = null;
         con = DatabaseUtil.getConnection();
-        pstmt = con.prepareStatement(sql);
-    		ResultSet rs = pstmt.executeQuery();
+        st = con.createStatement();
+    		ResultSet rs = st.executeQuery(sql);
     		
     		boolean flag = false;
     		if(rs.next()) {
+    			System.out.println("됬냐안됬");
     			flag = true;
     		}
     		
-            pstmt.close();
+            st.close();
             con.close();
             rs.close();
         		
@@ -200,6 +178,73 @@ public class StudyServiceImpl implements StudyService {
         	return flag;
     	
     }
-   
+
+
+    public StudyView getStudy(int id) throws SQLException {
+        String sql = "SELECT * FROM STUDY_LIST WHERE ID=?";
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+
+        con = DatabaseUtil.getConnection();
+        pstmt = con.prepareStatement(sql);
+        pstmt.setInt(1, id);
+        ResultSet rs = pstmt.executeQuery();
+
+        if(rs.next()) {
+            String title = rs.getString("TITLE");
+            String intro = rs.getString("INTRO");
+            String open = rs.getString("OPEN");
+            String limit = rs.getString("LIMIT");
+            Date regDate = rs.getDate("REGDATE");
+            Date updateDate = rs.getDate("UPDATEDATE");
+            Date dueDate = rs.getDate("DUEDATE");
+            String bg = rs.getString("BG");
+            String path = rs.getString("PATH");
+            int member_Id = rs.getInt("MEMBER_ID");
+            int categoryId = rs.getInt("CATEGORY_ID");
+            int cnt = rs.getInt("CNT");
+            String name = rs.getString("NAME");
+
+            StudyView studyList = new StudyView(id,title,intro,open,limit,regDate,updateDate,dueDate,bg,path,member_Id,categoryId,cnt,name);
+
+            pstmt.close();
+            con.close();
+            rs.close();
+
+            return studyList;
+        }
+
+        return null;
+
+    }
+
+
+    public int getDuringTime(int id) throws SQLException {
+        //
+        String sql = "SELECT TRUNC(DUEDATE) - TRUNC(REGDATE) AS TIMES FROM STUDY WHERE ID=?";
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+
+        con = DatabaseUtil.getConnection();
+        pstmt = con.prepareStatement(sql);
+        pstmt.setInt(1, id);
+        ResultSet rs = pstmt.executeQuery();
+
+        int time = 0;
+
+        if(rs.next()) {
+            time = Integer.parseInt(rs.getString("TIMES"));
+        }
+
+        pstmt.close();
+        con.close();
+        rs.close();
+
+        return time;
+    }
+
+
 }
 	

@@ -3,14 +3,15 @@ package com.stardy.service;
 import java.util.List;
 
 import com.stardy.entity.Board;
+import com.stardy.entity.view.BoardListContent;
 import com.stardy.util.DatabaseUtil;
 import com.stardy.util.Logger;
 
- interface BoardService {
+public interface BoardService {
 	
-	String getWriter(int bid);
+	String getWriters(int bid);
 	/* 특정 스터디의 게시글 목록 */
-	List<Board> getList(int sid);
+	List<BoardListContent> getList(int sid);
 	
 	/* 다음 글 BID 가져오기 */
 	 int getNext(int id, int studyId);

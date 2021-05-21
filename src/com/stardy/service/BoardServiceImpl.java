@@ -9,20 +9,21 @@ import java.util.Date;
 import java.util.List;
 
 import com.stardy.entity.Board;
-import com.stardy.entity.Member;
+import com.stardy.entity.view.BoardListContent;
 import com.stardy.util.DatabaseUtil;
 import com.stardy.util.Logger;
 
-	public class BoardServiceImpl implements BoardService{
+public class BoardServiceImpl implements BoardService{
 
 	Logger log = new Logger();
 	
-	public String getWriter(int bid) {
+	public String getWriters(int bid) {
 		
 		Connection con = null;
 		PreparedStatement ptst = null;
 		ResultSet rs = null;
 		String nickName = "";
+
 		String sql = "SELECT NICKNAME FROM MEMBER WHERE ID="+bid;
 		
 		try {
@@ -96,11 +97,11 @@ import com.stardy.util.Logger;
 //	}
 	
 	/* 특정 스터디의 게시글 목록 */
-	public List<Board> getList(int sid) {
+	public List<BoardListContent> getList(int sid) {
 		
-		List<Board> list = new ArrayList<Board>();
+		List<BoardListContent> list = new ArrayList<BoardListContent>();
 		
-		String sql = "SELECT * FROM BOARD WHERE STUDY_ID = ?";
+		String sql = "SELECT * FROM BOARD_LIST_CONTENT WHERE STUDY_ID = ?";
 		
 		try {
 			
@@ -112,16 +113,19 @@ import com.stardy.util.Logger;
 			ResultSet rs = ptst.executeQuery();
 			
 			while(rs.next()) {
-				int bid = rs.getInt("ID");
+				int id = rs.getInt("ID");
 				String title = rs.getString("TITLE");
 				String content = rs.getString("CONTENT");
 				Date regDate = rs.getDate("REGDATE");
-				Date updateDate = rs.getDate("UPDATEDATE");
-				int studyId = rs.getInt("STUDY_ID");
 				int memberId = rs.getInt("MEMBER_ID");
-				
-				Board board = new Board(bid, title, content, regDate, updateDate, studyId, memberId);
-				System.out.println(board);
+				int studyId = rs.getInt("STUDY_ID");
+				Date updateDate = rs.getDate("UPDATEDATE");
+				int likes = rs.getInt("LIKES");
+				String name = rs.getString("NAME");
+				int replyCnt = rs.getInt("REPLYCNT");
+
+
+				BoardListContent board = new BoardListContent(id, title, content, regDate, memberId, studyId, updateDate, likes, name, replyCnt);
 				list.add(board);
 			}
 			

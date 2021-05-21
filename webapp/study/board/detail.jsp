@@ -1,51 +1,36 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
-<%@page import="com.stardy.service.StudyServiceImpl" %>
-<%@ page import="com.stardy.entity.Study" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.stardy.util.CategoryConvert" %>
 <%@ page import="com.stardy.controller.study.StudyController" %>
-<%@ page import="com.stardy.service.StudyServiceImpl" %>
-<%@ page import="java.sql.SQLException" %>
 <%@ page import="com.stardy.service.BoardServiceImpl" %>
-<%@ page import="com.stardy.service.LikeServiceImpl" %>
-<%@ page import="com.stardy.entity.Board" %>
+<%@ page import="com.stardy.entity.view.StudyList" %>
+<%@ page import="com.stardy.service.*" %>
+<%@ page import="com.stardy.entity.view.BoardListContent" %>
+
 
 <%
 
-Study study = null;
 
-    StudyController studyController = null;
-    StudyServiceImpl studyService = null;
-    
-    BoardServiceImpl boardService = null;
-    List<Board> board = null;
-    
-    LikeServiceImpl likeService = null;
-    int id= 0;
-    String writer = "";
+
+    int id = Integer.parseInt(request.getParameter("id"));
+	
+
     int memberId = (int) request.getSession().getAttribute("id");
-    boolean flag = false;
+
+
+    StudyService studyService = new StudyServiceImpl();
+
+    StudyList study = studyService.getStudy(id);
     boolean isMember = false;
+    boolean isRegistred = false;
+    isRegistred = studyService.isLeader(memberId, id);
+    isMember = studyService.isMember(memberId, id);
 
-    try {
-        id = Integer.parseInt(request.getParameter("id"));
-       	System.out.println(id);
-       	writer = request.getParameter("writer");
-       	System.out.println(writer);
-        studyController = new StudyController();
-        boardService = new BoardServiceImpl();
-        likeService = new LikeServiceImpl();
-        study = studyController.getStudy(id);
-        board = boardService.getList(id);
-        studyService = new StudyServiceImpl();
-        flag = studyService.isLeader(memberId, id);
-        isMember = studyService.isMember(memberId, id);
-        System.out.println("isTrue? " + isMember);
+    BoardService boardService = new BoardServiceImpl();
 
-    } catch (SQLException throwables) {
-        throwables.printStackTrace();
-    }
+    List<BoardListContent> board = boardService.getList(id);
+
+
 %>
 
 <!DOCTYPE html>
@@ -54,17 +39,46 @@ Study study = null;
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/reset.css">
-    <link rel="stylesheet" href="../css/layout.css">
-    <link rel="stylesheet" href="../css/basic.css">
-    <link rel="stylesheet" href="../css/header.css">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/layout.css">
+    <link rel="stylesheet" href="../../css/basic.css">
+    <link rel="stylesheet" href="../../css/header.css">
+    <link rel="stylesheet" href="../../css/style.css">
 
 
     <title>Document</title>
+
+    <style>
+        .offer-study {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+        }
+    </style>
 </head>
+
+
 <body>
+    <div class="complete-make-study" style="display:none">
+        <div class="complete-content">
+                <div class="cancel-btn"></div>
+                <div class="congratz-img" style="background: url('../../img/studying.jpeg') no-repeat center center;"></div>
+                <div class="congratz-say"><%=study.getTitle()%>에 가입하시겠습니까 ?</div>
+
+            <form action="/study/join" method="post">
+                <input type="hidden" name="studyId" value="<%=id%>">
+                <input type="hidden" name="memberId" value="<%=memberId%>">
+                <input type="submit" style="width: 100%; height: 2rem; background-color: #2b98ba; color: white" value="가입하기">
+            </form>
+
+        </div>
+    </div>
     <div class="container">
+
+
+
 
         <%@include file="/layout/header.jsp" %>
 
@@ -81,7 +95,7 @@ Study study = null;
                     <div class="jumbo-title"><%=study.getTitle()%></div>
                     <div class="jumbo-study-date">
                         <div class="jumbo-icon"></div>
-                        <div class="jumbo-date-text"> <%= studyController.getDuringTime(id) %> 일째 스터디 중</div>
+                        <div class="jumbo-date-text"> <%= studyService.getDuringTime(id) %> 일째 스터디 중</div>
                     </div>
                 </div>
                 <div class="jumbo-menu">
@@ -114,7 +128,7 @@ Study study = null;
                             <div class="about-study-content"><%=study.getIntro()%></div>
                             <div class="about-study-info">
                                 <div class="about-member">
-                                    <div class="member-cnt"><%=studyService.getCrnt(study)%></div>
+                                    <div class="member-cnt"><%=study.getCnt()%></div>
                                     <div class="member-txt">Members</div>
                                 </div>
                                 <div class="about-posts">
@@ -151,13 +165,13 @@ Study study = null;
                 <li class="card">
                     <div class="up-and-down">
                         <div class="up"><input type="button" style="border:0; background-color:transparent"></div>
-                        <div class="recommend-cnt"><%=likeService.count(board.get(i).getId())%></div>
+                        <div class="recommend-cnt"><%=board.get(i).getLikes()%></div>
                         <div class="down"><input type="button" style="border:0; background-color:transparent"></div>
                     </div>
                     <div class="card-content">
                         <div class="profile">
                             <div class="profile-picture"></div>
-                            <div class="profile-name"><%=boardService.getWriter(board.get(i).getMemberId())%></div>
+                            <div class="profile-name"><%=board.get(i).getName()%></div>
                             <div class="date">1h 20m ago</div>
                         </div>
                         <div class="title"><%=board.get(i).getTitle()%></div>
@@ -165,7 +179,7 @@ Study study = null;
                         <div class="etc">
                             <div class="comment">
                                 <div class="comment-img"></div>
-                                <div class="comment-cnt">2 comments</div>
+                                <div class="comment-cnt"><%= board.get(i).getReplyCnt()%> comments</div>
                             </div>
                             <div class="save">
                                 <div class="save-img"></div>
@@ -191,7 +205,7 @@ Study study = null;
                     <div class="about-study-content"><%=study.getIntro()%></div>
                     <div class="about-study-info">
                         <div class="about-member">
-                            <div class="member-cnt"><%=studyService.getCrnt(study)%></div>
+                            <div class="member-cnt"><%=study.getCnt()%></div>
                             <div class="member-txt">Members</div>
                         </div>
                         <div class="about-posts">
@@ -269,16 +283,30 @@ Study study = null;
         <%@include file="/layout/footer.jsp" %>
     </div>
     <script>
-    
-    	
-
-    
     	
         const write = document.querySelector('.write-section');
         const modal = document.querySelector('.modal');
         const jumboMenu = document.querySelector('.jumbo-menu');
+        const joinStudy = document.querySelector('.join-study');
+        const completeMakeStudy = document.querySelector('.complete-make-study');
+  
         
-        const flag = <%=flag%>;
+        
+        joinStudy.addEventListener('click', () => {
+        	completeMakeStudy.classList.toggle('show');
+        });
+        
+        
+
+        completeMakeStudy.addEventListener('click', (e) => {
+			
+			if(e.target.className==='complete-make-study' || e.target.className==='cancel-btn')
+				completeMakeStudy.remove();
+		
+		}); 
+        
+        
+        const flag = <%=isRegistred%>;
         if(!flag) {
         	jumboMenu.style.display = 'none';
         }
@@ -298,6 +326,10 @@ Study study = null;
                modal.classList.remove('flex-show');
            }
         });
+        
+		
+
+		
         window.addEventListener("load", () =>{
             const button = document.querySelector(".btn-show");
             var flag = true;
